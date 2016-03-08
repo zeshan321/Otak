@@ -1,30 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/main.css" rel="stylesheet">
-  <link href='css/gFont.css' rel='stylesheet' type='text/css'>
-  
+    <meta charset="utf-8">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/notification.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href='css/gFont.css' rel='stylesheet' type='text/css'>
+
 </head>
 
 <body>
 
-    <div class="jumbotron">
-		<div class="container">
-			<div class="caption">
-				<h1>Welcome to <span>Otak</span></h1>
-				<p>Smart - Easy - Quick - Secure</p>
-				<a class="btn btn-start" href="#services">Start now</a>
-          </div>
-		</div>
-	</div>
+    <!-- Notifications start -->
+    <div class="container">
+        <div class="row">
+            <div class="com-md-12">
+                <div class="notification invalid-ip">
+                    You entered a invaild IP!
+                </div>
+                <div class="notification unable-ip">
+                    Unable to connect to IP!
+                </div>
+                <div class="notification notification-success loading">
+                    Connecting...
+                </div>
+                <div class="notification notification-success connected">
+                    Successfully connected!
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Notifications end -->
 
-  <script type="text/javascript" src="js/jquery.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
+    <!-- Welcome start -->
+    <div class="container welcome-text">
+        <div class="caption">
+            <h1 id="welcome_header">Welcome to <span>Otak</span></h1>
+            <p id="welcome_desc">Smart - Easy - Quick - Secure</p>
+			
+            <div id="div_ip" class="container" hidden>
+                <div class="row clearfix">
+                    <div class="col-md-6 col-md-offset-3 column">
+                        <div class="form-group">
+                            <input id="input_ip" type="text" class="form-control transparent-input">
+                        </div>
+                    </div>
+                </div>
+			</div>
+			
+            <a class="btn btn-start" id="btn_start">Start now</a>
+			<a class="btn btn-start" id="btn_ip">Connect</a>
+            </div>
+        </div>
+        <!-- Welcome end -->
 
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/notification.js"></script>
+
+        <script>
+		$('#btn_ip').hide();
+        $('#btn_start').click(function() {
+				$('#btn_start').hide();
+				$('#btn_ip').show();
+				document.getElementById("welcome_desc").innerHTML = "Enter a valid Otak Server IP:";
+				$('#div_ip').fadeIn();
+        });
+        </script>
 </body>
+
 </html>
