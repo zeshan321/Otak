@@ -10,8 +10,6 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 
-import com.google.common.net.InetAddresses;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -20,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import requests.HTTPGet;
 import utils.ResponsiveWeb;
 
 public class MainController implements Initializable {
@@ -50,7 +49,7 @@ public class MainController implements Initializable {
 						public void handleEvent(Event event) {
 							HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_ip");
 
-							if (input.getValue() == null || !InetAddresses.isInetAddress(input.getValue()) && !input.getValue().contains("localhost")) {
+							if (input.getValue() == null) {
 								webView.getEngine().executeScript("addNotification('invalid-ip');");
 								return;
 							}
@@ -59,7 +58,26 @@ public class MainController implements Initializable {
 
 							// Add logic to check if able to connect
 							String ipInput = input.getValue();
-							webView.getEngine().executeScript("addNotification('connected');");
+							if (!ipInput.startsWith("https://") || !ipInput.startsWith("HTTPS://")) {
+								ipInput = "https://" + ipInput;
+							}
+
+							System.out.println(ipInput);
+							HTTPGet httpGet = new HTTPGet(ipInput);
+							String getResponse = httpGet.sendGet();
+
+							System.out.println(getResponse);
+							if (getResponse == null) {
+								webView.getEngine().executeScript("addNotification('unable-ip');");
+							} else {
+								if (getResponse.equals("Welcome to Otak")) {
+									System.out.println("1");
+									webView.getEngine().executeScript("addNotification('connected');");
+								} else {
+									System.out.println("2");
+									webView.getEngine().executeScript("addNotification('unable-ip');");
+								}
+							}
 						}
 					}, false);
 				}
