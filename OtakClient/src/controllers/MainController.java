@@ -62,7 +62,6 @@ public class MainController implements Initializable {
 								ipInput = "https://" + ipInput;
 							}
 
-							System.out.println(ipInput);
 							HTTPGet httpGet = new HTTPGet(ipInput);
 							String getResponse = httpGet.sendGet();
 
@@ -71,10 +70,8 @@ public class MainController implements Initializable {
 								webView.getEngine().executeScript("addNotification('unable-ip');");
 							} else {
 								if (getResponse.equals("Welcome to Otak")) {
-									System.out.println("1");
 									webView.getEngine().executeScript("addNotification('connected');");
 								} else {
-									System.out.println("2");
 									webView.getEngine().executeScript("addNotification('unable-ip');");
 								}
 							}
