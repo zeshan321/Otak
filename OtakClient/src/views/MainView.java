@@ -25,7 +25,7 @@ public class MainView extends Application {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainView.class.getResource("/layouts/mainlayout.fxml"));
+			loader.setLocation(this.getClass().getResource("/layouts/mainlayout.fxml"));
 			rootLayout = (AnchorPane) loader.load();
 			
 			// Get controller

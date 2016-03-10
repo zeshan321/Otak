@@ -22,35 +22,35 @@ public class HTTPGet {
 	public String sendGet() {
 		String response = null;
 		try {
-			URL obj = new URL(url);
-			
-            TrustManager trustManager = new X509TrustManager() {
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
+			URL urlObj = new URL(url);
 
-                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+			TrustManager trustManager = new X509TrustManager() {
+				public X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
 
-                }
+				public void checkClientTrusted(X509Certificate[] certs, String authType) {
 
-                public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                }
-            };
+				}
+
+				public void checkServerTrusted(X509Certificate[] certs, String authType) {
+				}
+			};
 
 
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, new TrustManager[]{trustManager}, null);
-            
-			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+			SSLContext sslContext = SSLContext.getInstance("SSL");
+			sslContext.init(null, new TrustManager[]{trustManager}, null);
+
+			HttpsURLConnection con = (HttpsURLConnection) urlObj.openConnection();
 
 			con.setHostnameVerifier(new NullHostNameVerifier());
 			con.setSSLSocketFactory(sslContext.getSocketFactory());
-			
+
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 
-			BufferedReader in = new BufferedReader(
-					new InputStreamReader(con.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			
 			String inputLine;
 			StringBuffer responseBuffer = new StringBuffer();
 
@@ -58,7 +58,7 @@ public class HTTPGet {
 				responseBuffer.append(inputLine);
 			}
 			in.close();
-			
+
 			return responseBuffer.toString();
 		} catch (Exception e) {
 			return response;

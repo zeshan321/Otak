@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,6 +18,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import requests.HTTPGet;
 import utils.ResponsiveWeb;
@@ -42,8 +45,27 @@ public class MainController implements Initializable {
 			public void changed(ObservableValue observableValue, State oldState, State newState) {
 				if (newState == State.SUCCEEDED) {
 					Document doc = webView.getEngine().getDocument();
-					Element button = doc.getElementById("btn_ip");
-					((EventTarget) button).addEventListener("click", new EventListener() {
+					Element buttonInstall = doc.getElementById("btn_install");
+					Element buttonIP = doc.getElementById("btn_ip");
+					
+					HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_install");
+
+					
+					((EventTarget) input).addEventListener("click", new EventListener() {
+
+						@Override
+						public void handleEvent(Event event) {							
+							DirectoryChooser dirChooser = new DirectoryChooser();
+							dirChooser.setTitle("Select Otak Installation Directory");
+							
+							File file = dirChooser.showDialog(stage);
+							if (file != null) {
+								input.setAttribute("value", file.getPath());
+							}
+						}
+					}, false);
+					
+					((EventTarget) buttonIP).addEventListener("click", new EventListener() {
 
 						@Override
 						public void handleEvent(Event event) {
@@ -56,7 +78,6 @@ public class MainController implements Initializable {
 
 							webView.getEngine().executeScript("addNotification('loading');");
 
-							// Add logic to check if able to connect
 							String ipInput = input.getValue();
 							if (!ipInput.startsWith("https://") || !ipInput.startsWith("HTTPS://")) {
 								ipInput = "https://" + ipInput;
@@ -65,7 +86,6 @@ public class MainController implements Initializable {
 							HTTPGet httpGet = new HTTPGet(ipInput);
 							String getResponse = httpGet.sendGet();
 
-							System.out.println(getResponse);
 							if (getResponse == null) {
 								webView.getEngine().executeScript("addNotification('unable-ip');");
 							} else {
