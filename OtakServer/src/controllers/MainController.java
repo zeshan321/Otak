@@ -1,7 +1,9 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
+import java.security.KeyStore;
 import java.util.ResourceBundle;
 
 import org.w3c.dom.Document;
@@ -10,6 +12,8 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
+
+import com.zeshanaslam.otak.Main;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import requests.HTTPGet;
+import secure.JKSGenerator;
 import utils.Config;
 import utils.ResponsiveWeb;
 
@@ -40,7 +44,7 @@ public class MainController implements Initializable {
 
 		// Load site
 		webView.getEngine().setJavaScriptEnabled(true);
-		webView.getEngine().load("file:///C:/Users/zesha/Desktop/Otak/Templates/Client/index.html");
+		webView.getEngine().load("file:///C:/Users/zesha/Desktop/Otak/Templates/Server/index.html");
 
 		// Make web view responsive
 		new ResponsiveWeb(anchorPane, webView).makeResponsive();
@@ -52,7 +56,7 @@ public class MainController implements Initializable {
 					Document doc = webView.getEngine().getDocument();
 
 					Element buttonInstall = doc.getElementById("btn_install");
-					Element buttonIP = doc.getElementById("btn_ip");
+					Element buttonPass = doc.getElementById("btn_pass");
 					HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_install");
 
 
@@ -73,9 +77,15 @@ public class MainController implements Initializable {
 					((EventTarget) buttonInstall).addEventListener("click", new EventListener() {
 
 						@Override
-						public void handleEvent(Event event) {	
-							if (input.getAttribute("value") != null && new File(input.getAttribute("value")).exists()) {
+						public void handleEvent(Event event) {
+							String dir = input.getAttribute("value");
+
+							if (dir != null && new File(dir).exists()) {
 								config.set("dir", input.getAttribute("value"));
+								webView.getEngine().executeScript("addNotification('installing');");
+
+								// Move files
+
 								webView.getEngine().executeScript("installDone();");
 							} else {
 								webView.getEngine().executeScript("addNotification('invalid-dir');");
@@ -83,40 +93,26 @@ public class MainController implements Initializable {
 						}
 					}, false);
 
-					((EventTarget) buttonIP).addEventListener("click", new EventListener() {
+					((EventTarget) buttonPass).addEventListener("click", new EventListener() {
 
 						@Override
 						public void handleEvent(Event event) {
-							HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_ip");
+							String password = (String) webView.getEngine().executeScript("document.getElementById('input_password').value");
 
-							if (input.getValue() == null) {
-								webView.getEngine().executeScript("addNotification('invalid-ip');");
+
+							if (password == null || password.length() < 5) {
+								webView.getEngine().executeScript("addNotification('invalid-pass');");
 								return;
 							}
 
-							webView.getEngine().executeScript("addNotification('loading');");
-
-							String ipInput = input.getValue();
-							if (!ipInput.startsWith("https://") || !ipInput.startsWith("HTTPS://")) {
-								ipInput = "https://" + ipInput;
-							}
-
-							HTTPGet httpGet = new HTTPGet(ipInput);
-							String getResponse = httpGet.sendGet();
-
-							if (getResponse == null) {
-								webView.getEngine().executeScript("addNotification('unable-ip');");
-								return;
-							}
+							webView.getEngine().executeScript("addNotification('encrypting');");
 							
-							if (getResponse.equals("Welcome to Otak")) {
-								webView.getEngine().executeScript("addNotification('connected');");
-
-								config.set("ip", ipInput);
-								config.save();
-							} else {
-								webView.getEngine().executeScript("addNotification('unable-ip');");
-							}
+							config.set("pass", password);
+							config.save();
+							
+							new JKSGenerator().generateKeyPair();
+							webView.getEngine().executeScript("addNotification('server');");
+							Main.startServer();
 						}
 					}, false);
 				}
