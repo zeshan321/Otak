@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,8 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
+
+import com.google.common.io.Files;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +26,7 @@ import javafx.stage.Stage;
 import requests.HTTPGet;
 import utils.Config;
 import utils.ResponsiveWeb;
+import utils.ZipHandler;
 
 public class MainController implements Initializable {
 
@@ -38,9 +42,16 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		config = new Config();
 
+		File old = new File(System.getProperty("user.home") + File.separator + "OtakClient Files");
+		
 		// Load site
 		webView.getEngine().setJavaScriptEnabled(true);
-		webView.getEngine().load("file:///C:/Users/zesha/Desktop/Otak/Templates/Client/index.html");
+		
+		if (old.exists()) {
+			webView.getEngine().load("file:///" + old.getPath() + File.separator + "index.html");
+		} else {
+			webView.getEngine().load("file:///" + config.getString("dir") + File.separator + "index.html");
+		}
 
 		// Make web view responsive
 		new ResponsiveWeb(anchorPane, webView).makeResponsive();
@@ -76,6 +87,16 @@ public class MainController implements Initializable {
 						public void handleEvent(Event event) {	
 							if (input.getAttribute("value") != null && new File(input.getAttribute("value")).exists()) {
 								config.set("dir", input.getAttribute("value"));
+								
+								// Move files from temp directory
+								try {
+									Files.move(old, new File(input.getAttribute("value")));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								old.delete();
 								webView.getEngine().executeScript("installDone();");
 							} else {
 								webView.getEngine().executeScript("addNotification('invalid-dir');");
