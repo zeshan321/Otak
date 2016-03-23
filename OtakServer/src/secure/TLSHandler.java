@@ -28,7 +28,7 @@ public class TLSHandler {
 		char[] ctPassword = config.getString("pass").toCharArray();
 
 		KeyStore keyStore = KeyStore.getInstance("JKS");
-		keyStore.load(new FileInputStream(new File(config.getString("dir") + File.separator + "keystore.jks")), ksPassword);
+		keyStore.load(new FileInputStream(new File("keystore.jks")), ksPassword);
 
 		KeyManagerFactory keyManager = KeyManagerFactory.getInstance("SunX509");
 		keyManager.init(keyStore, ctPassword);

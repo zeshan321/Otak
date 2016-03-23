@@ -2,16 +2,12 @@ package secure;
 
 import java.io.File;
 
-import utils.Config;
-
 public class JKSGenerator {
 
-	private Config config;
-	private File file;
+	private String password;
 	
-	public JKSGenerator() {
-		config = new Config();
-		file = new File(config.getString("dir") + File.separator + "keystore.jks");
+	public JKSGenerator(String password) {
+		this.password = password;
 	}
 	
     public void generateKeyPair(){
@@ -23,12 +19,10 @@ public class JKSGenerator {
                          " -keysize 2048 "+
                          " -dname CN=Otak "+
                          " -storetype JKS "+
-                         " -keypass "+ config.getString("pass") + " "+
+                         " -keypass "+ password + " "+
                          " -keystore keystore.jks " +
-                         " -storepass " + config.getString("pass");
+                         " -storepass " + password;
         execute(command);
-        
-        new File("keystore.jks").renameTo(file);
     }
      
     private void execute(String command){

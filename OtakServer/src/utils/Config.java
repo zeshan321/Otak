@@ -14,7 +14,7 @@ public class Config {
 
 	public Config() {
 		try {
-			String fileName = System.getProperty("user.home") + File.separator + "otakserver.properties";
+			String fileName = "otakserver.properties";
 
 			file = new File(fileName);
 			
@@ -50,11 +50,11 @@ public class Config {
 	}
 
 	public boolean getBoolean(String key) {
-		return (boolean) map.get(key);
+		return Boolean.valueOf(getString(key));
 	}
 
 	public int getInt(String key) {
-		return (int) map.get(key);
+		return Integer.valueOf(getString(key));
 	}
 	
 	public void save() {

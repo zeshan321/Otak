@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
-
-import com.google.common.io.Files;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,7 +25,6 @@ import javafx.stage.Stage;
 import requests.HTTPGet;
 import utils.Config;
 import utils.ResponsiveWeb;
-import utils.ZipHandler;
 
 public class MainController implements Initializable {
 
@@ -42,15 +40,15 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		config = new Config();
 
-		File old = new File(System.getProperty("user.home") + File.separator + "OtakClient Files");
+		File old = new File(System.getProperty("java.io.tmpdir") + File.separator + "oclientdata");
 		
 		// Load site
 		webView.getEngine().setJavaScriptEnabled(true);
 		
-		if (old.exists()) {
+		if (!config.contains("dir")) {
 			webView.getEngine().load("file:///" + old.getPath() + File.separator + "index.html");
 		} else {
-			webView.getEngine().load("file:///" + config.getString("dir") + File.separator + "index.html");
+			webView.getEngine().load("file:///" + config.getString("dir") + File.separator + "oclientdata" + File.separator + "index.html");
 		}
 
 		// Make web view responsive
@@ -86,18 +84,21 @@ public class MainController implements Initializable {
 						@Override
 						public void handleEvent(Event event) {	
 							if (input.getAttribute("value") != null && new File(input.getAttribute("value")).exists()) {
-								config.set("dir", input.getAttribute("value"));
+								String dir = input.getAttribute("value");
 								
-								// Move files from temp directory
+								config.set("dir", dir);
+								
 								try {
-									Files.move(old, new File(input.getAttribute("value")));
+									File newDir = new File(dir + File.separator + "oclientdata");
+									
+									FileUtils.deleteDirectory(newDir);
+									FileUtils.moveDirectory(old, newDir);
+									webView.getEngine().executeScript("installDone();");
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
+									webView.getEngine().executeScript("addNotification('install-error');");
 									e.printStackTrace();
 								}
 								
-								old.delete();
-								webView.getEngine().executeScript("installDone();");
 							} else {
 								webView.getEngine().executeScript("addNotification('invalid-dir');");
 							}
@@ -114,8 +115,6 @@ public class MainController implements Initializable {
 								webView.getEngine().executeScript("addNotification('invalid-ip');");
 								return;
 							}
-
-							webView.getEngine().executeScript("addNotification('loading');");
 
 							String ipInput = input.getValue();
 							if (!ipInput.startsWith("https://") || !ipInput.startsWith("HTTPS://")) {
