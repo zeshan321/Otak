@@ -1,11 +1,10 @@
 package controllers;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
@@ -40,16 +39,10 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		config = new Config();
 
-		File old = new File(System.getProperty("java.io.tmpdir") + File.separator + "oclientdata");
 		
 		// Load site
 		webView.getEngine().setJavaScriptEnabled(true);
-		
-		if (!config.contains("dir")) {
-			webView.getEngine().load("file:///" + old.getPath() + File.separator + "index.html");
-		} else {
-			webView.getEngine().load("file:///" + config.getString("dir") + File.separator + "oclientdata" + File.separator + "index.html");
-		}
+		webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "index.html");
 
 		// Make web view responsive
 		new ResponsiveWeb(anchorPane, webView).makeResponsive();
@@ -70,7 +63,7 @@ public class MainController implements Initializable {
 						@Override
 						public void handleEvent(Event event) {	
 							DirectoryChooser dirChooser = new DirectoryChooser();
-							dirChooser.setTitle("Select Otak Installation Directory");
+							dirChooser.setTitle("Select Otak Directory");
 
 							File file = dirChooser.showDialog(stage);
 							if (file != null) {
@@ -83,25 +76,7 @@ public class MainController implements Initializable {
 
 						@Override
 						public void handleEvent(Event event) {	
-							if (input.getAttribute("value") != null && new File(input.getAttribute("value")).exists()) {
-								String dir = input.getAttribute("value");
-								
-								config.set("dir", dir);
-								
-								try {
-									File newDir = new File(dir + File.separator + "oclientdata");
-									
-									FileUtils.deleteDirectory(newDir);
-									FileUtils.moveDirectory(old, newDir);
-									webView.getEngine().executeScript("installDone();");
-								} catch (IOException e) {
-									webView.getEngine().executeScript("addNotification('install-error');");
-									e.printStackTrace();
-								}
-								
-							} else {
-								webView.getEngine().executeScript("addNotification('invalid-dir');");
-							}
+							webView.getEngine().executeScript("installDone();");
 						}
 					}, false);
 
