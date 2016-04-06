@@ -14,7 +14,7 @@ public class Config {
 
 	public Config() {
 		try {
-			String fileName = System.getProperty("user.home") + File.separator + "otakclient.properties";
+			String fileName = "otakclient.properties";
 
 			file = new File(fileName);
 			

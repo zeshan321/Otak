@@ -21,6 +21,7 @@ public class ZipHandler {
 		this.outputFolder = outputFolder;
 	}
 
+	@SuppressWarnings("resource")
 	public void unzip() throws IOException {		
 		ZipFile zfile = new ZipFile(new File(zipFilePath));
 		Enumeration<? extends ZipEntry> entries = zfile.entries();
