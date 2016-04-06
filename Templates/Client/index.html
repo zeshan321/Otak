@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="com-md-12">
-                <div class="notification invalid-dir">
+				<div class="notification invalid-dir">
                     Invalid directory!
                 </div>
                 <div class="notification installing">
@@ -70,9 +70,9 @@
                 </div>
 			</div>
 			
-            <a class="btn btn-start" id="btn_start">Start now</a>
-			<a class="btn btn-start" id="btn_install">Install</a>
-			<a class="btn btn-start" id="btn_ip">Connect</a>
+            <a class="btn btn-start" id="btn_start">Next</a>
+			<a class="btn btn-start" id="btn_install">Next</a>
+			<a class="btn btn-start" id="btn_ip">Next</a>
             </div>
         </div>
         <!-- Welcome end -->
@@ -88,7 +88,7 @@
         $('#btn_start').click(function() {
 				$('#btn_start').hide();
 				$('#btn_install').show();
-				document.getElementById("welcome_desc").innerHTML = "Select an installation directory:";
+				document.getElementById("welcome_desc").innerHTML = "Select a Otak directory:";
 				$('#div_install').fadeIn();
         });
 

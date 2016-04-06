@@ -17,6 +17,10 @@ public class Main {
 		
 		if (!config.contains("setup")) {
 			System.out.println("Welcome to Otak. Starting setup...");
+
+			System.out.println("\nEnter a name for Otak:");
+			System.out.print(" > ");
+			config.set("name", reader.nextLine());
 			
 			System.out.println("\nEnter a secure password for encryption:");
 			System.out.print(" > ");

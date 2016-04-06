@@ -10,6 +10,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import callback.HTTPCallback;
+
 public class HTTPGet {
 
 	private String url;
@@ -19,7 +21,7 @@ public class HTTPGet {
 		this.url = url;
 	}
 
-	public String sendGet() {
+	public void sendGet(HTTPCallback callback) {
 		String response = null;
 		try {
 			URL urlObj = new URL(url);
@@ -59,9 +61,9 @@ public class HTTPGet {
 			}
 			in.close();
 
-			return responseBuffer.toString();
+			callback.onSuccess(url, responseBuffer.toString());
 		} catch (Exception e) {
-			return response;
+			callback.onError();
 		}		
 	}
 }

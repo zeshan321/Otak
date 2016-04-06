@@ -2,6 +2,9 @@ package com.zeshanaslam.otak;
 
 import java.net.InetSocketAddress;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
+
 import com.sun.net.httpserver.HttpsServer;
 
 import contexts.ConnectContext;
@@ -37,6 +40,20 @@ public class Server {
 					server.start();
 
 					System.out.println("Status: Otak server is running!");
+				} catch (Exception e) {
+					System.out.println("Error: " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					JmDNS mdnsServer = JmDNS.create();
+					ServiceInfo testService = ServiceInfo.create("_http._tcp.local.", "Otak Server", port, "otak server");
+					mdnsServer.registerService(testService);
 				} catch (Exception e) {
 					System.out.println("Error: " + e.getMessage());
 					e.printStackTrace();

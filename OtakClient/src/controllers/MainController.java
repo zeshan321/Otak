@@ -1,9 +1,13 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
+
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,6 +16,8 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 
+import Listeners.JmDNSListener;
+import callback.HTTPCallback;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -39,7 +45,7 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		config = new Config();
 
-		
+
 		// Load site
 		webView.getEngine().setJavaScriptEnabled(true);
 		webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "index.html");
@@ -52,6 +58,29 @@ public class MainController implements Initializable {
 			public void changed(ObservableValue observableValue, State oldState, State newState) {
 				if (newState == State.SUCCEEDED) {
 					Document doc = webView.getEngine().getDocument();
+
+					// Auto detect server
+					new Thread() {
+						@Override
+						public void run() {
+							HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_ip");
+
+							try {
+								JmDNS jmdns = JmDNS.create();
+								jmdns.addServiceListener("_http._tcp.local.", new JmDNSListener());
+								jmdns.close();
+								
+								ServiceInfo[] serviceInfoList = jmdns.list("_http._tcp.local.");
+								for (int i = 0; i < serviceInfoList.length; i++) {
+									System.out.println(serviceInfoList[i].getName());
+									System.out.println(serviceInfoList[i].getURL());
+									System.out.println("----------------------------");
+								}								
+							} catch(IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}.start();
 
 					Element buttonInstall = doc.getElementById("btn_install");
 					Element buttonIP = doc.getElementById("btn_ip");
@@ -96,22 +125,25 @@ public class MainController implements Initializable {
 								ipInput = "https://" + ipInput;
 							}
 
-							HTTPGet httpGet = new HTTPGet(ipInput);
-							String getResponse = httpGet.sendGet();
+							new HTTPGet(ipInput).sendGet(new HTTPCallback() {
 
-							if (getResponse == null) {
-								webView.getEngine().executeScript("addNotification('unable-ip');");
-								return;
-							}
-							
-							if (getResponse.equals("Welcome to Otak")) {
-								webView.getEngine().executeScript("addNotification('connected');");
+								@Override
+								public void onSuccess(String IP, String response) {
+									if (response.equals("Welcome to Otak")) {
+										webView.getEngine().executeScript("addNotification('connected');");
 
-								config.set("ip", ipInput);
-								config.save();
-							} else {
-								webView.getEngine().executeScript("addNotification('unable-ip');");
-							}
+										config.set("ip", IP);
+										config.save();
+									} else {
+										webView.getEngine().executeScript("addNotification('unable-ip');");
+									}
+								}
+
+								@Override
+								public void onError() {
+									webView.getEngine().executeScript("addNotification('unable-ip');");
+								}
+							});
 						}
 					}, false);
 				}
