@@ -1,6 +1,12 @@
+# Intellij stuff
+*.iml
+*.iws
+target/
+otakclient/.idea/workspace.xml
+.idea/
+
 # Otak test stuff
 otakclient.properties
 otakserver.properties
 keystore.jks
 test.bat
-otakclient/.idea/workspace.xml
