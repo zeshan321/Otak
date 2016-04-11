@@ -7,6 +7,7 @@
 target/
 otakclient/.idea/workspace.xml
 .idea/
+out/
 
 # Otak test stuff
 otakclient.properties
