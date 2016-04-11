@@ -1,16 +1,15 @@
 package requests;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.security.cert.X509Certificate;
+import callback.HTTPCallback;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
-import callback.HTTPCallback;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.security.cert.X509Certificate;
 
 public class HTTPGet {
 
@@ -22,7 +21,6 @@ public class HTTPGet {
     }
 
     public void sendGet(HTTPCallback callback) {
-        String response = null;
         try {
             URL urlObj = new URL(url);
 
@@ -54,14 +52,14 @@ public class HTTPGet {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             String inputLine;
-            StringBuffer responseBuffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
-                responseBuffer.append(inputLine);
+                stringBuilder.append(inputLine);
             }
             in.close();
 
-            callback.onSuccess(url, responseBuffer.toString());
+            callback.onSuccess(url, stringBuilder.toString());
         } catch (Exception e) {
             callback.onError();
         }

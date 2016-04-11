@@ -13,7 +13,6 @@ body {
     left: 0;
     right: 0;
     text-align: center;
-    text-transform: uppercase;
     z-index: 15;
     font-size: 18px;
     font-weight: 300;
@@ -49,7 +48,8 @@ body {
 }
 a,
 .caption h1 span,
-.item span {
+.item span
+.list-color span {
     color: #028fcc;
 }
 input.transparent-input {
@@ -57,4 +57,11 @@ input.transparent-input {
     border: 1px solid #6e6d6c !important;
     border-radius: 4px !important;
     color: #fff
+}
+.container-table {
+    display: table;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
 }

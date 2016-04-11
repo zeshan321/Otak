@@ -1,9 +1,10 @@
 package com.zeshanaslam.otak;
 
-import java.util.Scanner;
-
 import secure.JKSGenerator;
 import utils.Config;
+
+import java.util.Scanner;
+import java.util.UUID;
 
 public class Main {
 
@@ -39,6 +40,9 @@ public class Main {
             // Close reader
             reader.close();
 
+            System.out.println("\nGenerating UUID...");
+            config.set("UUID", UUID.randomUUID());
+
             config.set("setup", true);
             System.out.println("\nSaving data...");
             config.save();
@@ -48,11 +52,9 @@ public class Main {
 
             System.out.println("\nStarting server...");
             new Server(config.getString("IP"), config.getString("name"), config.getInt("port")).start();
-            ;
         } else {
-            System.out.println("Welcome to Otak. Starting server: "+ config.getString("name") + "\n");
+            System.out.println("Welcome to Otak. Starting server: " + config.getString("name") + "\n");
             new Server(config.getString("IP"), config.getString("name"), config.getInt("port")).start();
-            ;
         }
     }
 }

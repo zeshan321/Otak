@@ -8,6 +8,8 @@
       <element id="module-output" name="otakserver" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.4/commons-io-2.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/jmdns/jmdns/3.4.1/jmdns-3.4.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="org.json:json:20160212" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/json/json/20160212/json-20160212.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

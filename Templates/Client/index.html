@@ -47,7 +47,7 @@
     <!-- Welcome start -->
     <div class="container welcome-text">
         <div class="caption">
-            <h1 id="welcome_header">Welcome to <span>Otak</span></h1>
+            <h1 id="welcome_header">WELCOME TO <span>OTAK</span></h1>
             <p id="welcome_desc">Smart - Easy - Quick - Secure</p>
 			
 			<div id="div_install" class="container" hidden>
@@ -62,11 +62,16 @@
 			
             <div id="div_ip" class="container" hidden>
                 <div class="row clearfix">
-                    <div class="col-md-6 col-md-offset-3 column">
-                        <div class="form-group">
-                            <input id="input_ip" type="text" class="form-control transparent-input" placeholder="IP Address">
-                        </div>
-                    </div>
+				 <div class="col-md-6 col-md-offset-3 column">
+                    <div class="input-group">
+					  <input id="input_IP" type="text" class="form-control transparent-input" aria-label="..." placeholder="Enter or select otak server IP">
+					  <div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Local <span class="caret"></span></button>
+						<ul id="domainList" class="dropdown-menu dropdown-menu-right" role="menu">
+						</ul>
+					  </div><!-- /btn-group -->
+					</div>
+					</div>
                 </div>
 			</div>
 			
@@ -82,22 +87,42 @@
         <script type="text/javascript" src="js/notification.js"></script>
 
         <script>
-		$('#btn_ip').hide();
 		$('#btn_install').hide();
+		$('#btn_ip').hide();
 		
+		// Install
         $('#btn_start').click(function() {
-				$('#btn_start').hide();
-				$('#btn_install').show();
-				document.getElementById("welcome_desc").innerHTML = "Select a Otak directory:";
-				$('#div_install').fadeIn();
+			$('#btn_start').hide();
+			$('#btn_install').show();
+			document.getElementById("welcome_desc").innerHTML = "Select where we should keep your files:";
+			$('#div_install').fadeIn();
         });
-
+		
 		function installDone() {
 			$('#btn_install').hide();
 			$('#div_install').hide();
 			$('#btn_ip').show();
-			document.getElementById("welcome_desc").innerHTML = "Enter a valid Otak Server IP:";
+			document.getElementById("welcome_desc").innerHTML = "Enter Otak server IP:";
 			$('#div_ip').fadeIn();
+		}
+		
+		// IP selection
+		document.getElementById('domainList').onclick = function(event) {
+			var target = getEventTarget(event);
+			input_IP.value = target.innerHTML;
+		};
+		
+		function addDomain(info) {
+			$('#domainList').append('<li id='+ info + '><a href="#">' + info + '</a></li>');
+		}
+		
+		function removeDomain(info) {
+			$("#" + info).remove();
+		}
+		
+		function getEventTarget(e) {
+			e = e || window.event;
+			return e.target || e.srcElement; 
 		}
         </script>
 </body>

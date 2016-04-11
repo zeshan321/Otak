@@ -34,7 +34,6 @@ public class JKSGenerator {
     }
 
     private String[] parse(String command) {
-        String[] options = command.trim().split("\\s+");
-        return options;
+        return command.trim().split("\\s+");
     }
 }

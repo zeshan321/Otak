@@ -1,7 +1,5 @@
 package views;
 
-import java.io.IOException;
-
 import controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,10 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MainView extends Application {
 
     private Stage primaryStage;
-    private AnchorPane rootLayout;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -21,15 +20,15 @@ public class MainView extends Application {
         initRootLayout();
     }
 
-    public void initRootLayout() {
+    private void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(this.getClass().getResource("/mainlayout.fxml"));
-            rootLayout = (AnchorPane) loader.load();
+            AnchorPane rootLayout = loader.load();
 
             // Get controller
-            MainController controller = loader.<MainController>getController();
+            MainController controller = loader.getController();
             controller.stage = primaryStage;
 
             // Show the scene containing the root layout.

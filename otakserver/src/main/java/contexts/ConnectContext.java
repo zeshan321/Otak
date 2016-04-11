@@ -1,16 +1,22 @@
 package contexts;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.zeshanaslam.otak.Main;
+import org.json.JSONException;
+import org.json.JSONObject;
+import utils.Config;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-
 public class ConnectContext implements HttpHandler {
+
+    private Config config = Main.config;
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "Welcome to Otak";
+        String response = jsonOutput();
 
         try {
             httpExchange.sendResponseHeaders(200, response.length());
@@ -23,5 +29,25 @@ public class ConnectContext implements HttpHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String jsonOutput() {
+        JSONObject jsonObject;
+        String data = null;
+
+        try {
+            jsonObject = new JSONObject();
+            // Status needs to be worked on...
+            jsonObject.put("status", "online");
+            jsonObject.put("uuid", config.getString("UUID"));
+            jsonObject.put("name", config.getString("name"));
+            jsonObject.put("setup", config.getBoolean("setup"));
+
+            data = jsonObject.toString(2);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return data;
     }
 }

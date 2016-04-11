@@ -1,33 +1,33 @@
 package com.zeshanaslam.otak;
 
-import java.net.InetSocketAddress;
-
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceInfo;
-
 import com.sun.net.httpserver.HttpsServer;
-
 import contexts.ConnectContext;
 import secure.TLSHandler;
 
-public class Server {
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
+import java.net.InetSocketAddress;
+import java.util.Scanner;
 
+class Server {
+
+    private JmDNS jmDNS;
     private String IP;
     private String serverName;
     private int port;
 
-    public Server(String IP, String serverName, int port) {
+    Server(String IP, String serverName, int port) {
         this.IP = IP;
         this.serverName = serverName;
         this.port = port;
     }
 
-    public void start() {
+    void start() {
         new Thread() {
             @Override
             public void run() {
                 try {
-                    HttpsServer server = null;
+                    HttpsServer server;
 
                     if (IP == null || IP.equalsIgnoreCase("localhost") || IP.equals("") || IP.equals(" ")) {
                         server = HttpsServer.create(new InetSocketAddress(port), 0);
@@ -42,6 +42,21 @@ public class Server {
                     server.start();
 
                     System.out.println("Status: Otak server is running!");
+
+                    Scanner reader = new Scanner(System.in);
+                    while(true) {
+                        System.out.print(" > ");
+                        String cmd = reader.nextLine();
+
+                        if (cmd.equals("exit")) {
+                            System.out.println("Exiting...");
+                            jmDNS.unregisterAllServices();
+                            jmDNS.close();
+                            System.exit(0);
+                        }
+
+                        System.out.println("Error: Unknown command");
+                    }
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                     e.printStackTrace();
@@ -53,9 +68,9 @@ public class Server {
             @Override
             public void run() {
                 try {
-                    JmDNS mdnsServer = JmDNS.create();
+                    jmDNS = JmDNS.create();
                     ServiceInfo testService = ServiceInfo.create("_http._tcp.local.", "Otak Server", port, serverName);
-                    mdnsServer.registerService(testService);
+                    jmDNS.registerService(testService);
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                     e.printStackTrace();
