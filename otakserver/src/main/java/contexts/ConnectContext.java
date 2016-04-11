@@ -3,12 +3,15 @@ package contexts;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.zeshanaslam.otak.Main;
+import messages.Errors;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Config;
+import utils.ServerUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 public class ConnectContext implements HttpHandler {
 
@@ -16,19 +19,15 @@ public class ConnectContext implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = jsonOutput();
+        /* Map<String, String> params = new ServerUtils(httpExchange).queryToMap(httpExchange.getRequestURI().getQuery());
 
-        try {
-            httpExchange.sendResponseHeaders(200, response.length());
+        if (params.get("pass").equals(config.getString("pass"))) {
+            new ServerUtils(httpExchange).writeResponse(jsonOutput());
+        } else {
+            new ServerUtils(httpExchange).writeResponse(new Errors().getError(Errors.ErrorTypes.Auth));
+        }*/
 
-            OutputStream os = httpExchange.getResponseBody();
-            os.write(response.getBytes());
-            os.flush();
-            os.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new ServerUtils(httpExchange).writeResponse(jsonOutput());
     }
 
     private String jsonOutput() {

@@ -1,3 +1,6 @@
+# Eclispe stuff
+.metadata/
+
 # Intellij stuff
 *.iml
 *.iws
