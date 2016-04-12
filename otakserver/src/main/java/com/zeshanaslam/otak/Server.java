@@ -2,6 +2,7 @@ package com.zeshanaslam.otak;
 
 import com.sun.net.httpserver.HttpsServer;
 import contexts.ConnectContext;
+import contexts.ListContext;
 import secure.TLSHandler;
 
 import javax.jmdns.JmDNS;
@@ -37,6 +38,7 @@ class Server {
                     server.setHttpsConfigurator(new TLSHandler().createTLSContext());
 
                     server.createContext("/", new ConnectContext());
+                    server.createContext("/list", new ListContext());
 
                     server.setExecutor(null);
                     server.start();

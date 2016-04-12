@@ -23,10 +23,6 @@ public class Main {
             System.out.print(" > ");
             config.set("name", reader.nextLine());
 
-            System.out.println("\nEnter a secure password for encryption:");
-            System.out.print(" > ");
-            config.set("pass", reader.nextLine());
-
             System.out.println("\nEnter the IP you want Otak to run on:");
             System.out.println("Example: localhost");
             System.out.print(" > ");
@@ -36,6 +32,14 @@ public class Main {
             System.out.println("Example: 8000");
             System.out.print(" > ");
             config.set("port", reader.nextLine());
+
+            System.out.println("\nEnter a secure password for encryption:");
+            System.out.print(" > ");
+            config.set("pass", reader.nextLine());
+
+            System.out.println("\nSelect directory to save files:");
+            System.out.print(" > ");
+            config.set("dir", reader.nextLine());
 
             // Close reader
             reader.close();

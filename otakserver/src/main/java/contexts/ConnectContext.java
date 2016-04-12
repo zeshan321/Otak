@@ -19,15 +19,7 @@ public class ConnectContext implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        /* Map<String, String> params = new ServerUtils(httpExchange).queryToMap(httpExchange.getRequestURI().getQuery());
-
-        if (params.get("pass").equals(config.getString("pass"))) {
-            new ServerUtils(httpExchange).writeResponse(jsonOutput());
-        } else {
-            new ServerUtils(httpExchange).writeResponse(new Errors().getError(Errors.ErrorTypes.Auth));
-        }*/
-
-        new ServerUtils(httpExchange).writeResponse(jsonOutput());
+        new ServerUtils().writeResponse(httpExchange, jsonOutput());
     }
 
     private String jsonOutput() {
