@@ -46,7 +46,7 @@ class Server {
                     System.out.println("Status: Otak server is running!");
 
                     Scanner reader = new Scanner(System.in);
-                    while(true) {
+                    while (true) {
                         System.out.print(" > ");
                         String cmd = reader.nextLine();
 

@@ -3,15 +3,12 @@ package contexts;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.zeshanaslam.otak.Main;
-import messages.Errors;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Config;
 import utils.ServerUtils;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
 
 public class ConnectContext implements HttpHandler {
 

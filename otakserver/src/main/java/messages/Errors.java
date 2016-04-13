@@ -5,10 +5,6 @@ import org.json.JSONObject;
 
 public class Errors {
 
-    public enum ErrorTypes {
-        Auth
-    }
-
     public String getError(ErrorTypes error) {
         JSONObject jsonObject;
         String data = null;
@@ -29,5 +25,9 @@ public class Errors {
         }
 
         return null;
+    }
+
+    public enum ErrorTypes {
+        Auth
     }
 }
