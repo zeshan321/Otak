@@ -30,7 +30,7 @@ public class JmDNSListener implements ServiceListener {
     @SuppressWarnings("deprecation")
     @Override
     public void serviceResolved(final ServiceEvent event) {
-        String url;
+        final String url;
         if (event.getInfo().getURL().startsWith("http://")) {
             url = event.getInfo().getURL().replace("http://", "https://");
         } else {
@@ -41,7 +41,7 @@ public class JmDNSListener implements ServiceListener {
             @Override
             public void onSuccess(String IP, String response) {
                 System.out.println("Test");
-                otakServer.onFound(event.getDNS(), parseJSON(response));
+                otakServer.onFound(event.getDNS(), parseJSON(url, response));
             }
 
             @Override
@@ -50,9 +50,9 @@ public class JmDNSListener implements ServiceListener {
         });
     }
 
-    private ServerObject parseJSON(String response) {
+    private ServerObject parseJSON(String IP, String response) {
         JSONObject jsonObject = new JSONObject(response);
 
-        return new ServerObject(jsonObject.getString("name"), jsonObject.getString("uuid"), jsonObject.getString("status"), jsonObject.getBoolean("setup"));
+        return new ServerObject(IP, jsonObject.getString("name"), jsonObject.getString("uuid"), jsonObject.getString("status"), jsonObject.getBoolean("setup"));
     }
 }

@@ -51,15 +51,18 @@ public class ListContext implements HttpHandler {
         // Remove empty strings
         dirs.remove("");
 
-        server.writeResponse(httpExchange, jsonOutput(dirs, files));
+        // size -1 to not include the main directory folder
+        server.writeResponse(httpExchange, jsonOutput(filesList.size() - 1, dirs, files));
     }
 
-    private String jsonOutput(List dirs, List files) {
+    private String jsonOutput(int count, List dirs, List files) {
         JSONObject jsonObject;
         String data = null;
 
         try {
             jsonObject = new JSONObject();
+            jsonObject.put("success", true);
+            jsonObject.put("count", count);
             jsonObject.put("dirs", dirs);
             jsonObject.put("files", files);
 
