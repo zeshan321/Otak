@@ -30,7 +30,7 @@ public class ListContext implements HttpHandler {
         Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getQuery());
 
         if (!params.containsKey("pass") || !params.get("pass").equals(config.getString("pass"))) {
-            server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.Auth));
+            server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.AUTH));
             return;
         }
 
@@ -41,9 +41,9 @@ public class ListContext implements HttpHandler {
 
         for (File fileIter : filesList) {
             if (fileIter.isDirectory()) {
-                dirs.add(fileIter.getAbsolutePath().replace(config.getString("dir"), ""));
+                dirs.add(fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/"));
             } else {
-                files.add(fileIter.getAbsolutePath().replace(config.getString("dir"), ""));
+                files.add(fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/"));
             }
         }
 

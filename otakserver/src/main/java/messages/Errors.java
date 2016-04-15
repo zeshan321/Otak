@@ -10,11 +10,24 @@ public class Errors {
         String data = null;
 
         switch (error) {
-            case Auth:
+            case AUTH:
                 try {
                     jsonObject = new JSONObject();
                     jsonObject.put("success", false);
                     jsonObject.put("error", "Incorrect password");
+
+                    data = jsonObject.toString(2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return data;
+
+            case MISSING:
+                try {
+                    jsonObject = new JSONObject();
+                    jsonObject.put("success", false);
+                    jsonObject.put("error", "Missing parameters");
 
                     data = jsonObject.toString(2);
                 } catch (JSONException e) {
@@ -28,6 +41,6 @@ public class Errors {
     }
 
     public enum ErrorTypes {
-        Auth
+        AUTH, MISSING
     }
 }

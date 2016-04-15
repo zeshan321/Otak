@@ -2,6 +2,7 @@ package com.zeshanaslam.otak;
 
 import com.sun.net.httpserver.HttpsServer;
 import contexts.ConnectContext;
+import contexts.DownloadContext;
 import contexts.ListContext;
 import secure.TLSHandler;
 
@@ -39,6 +40,7 @@ class Server {
 
                     server.createContext("/", new ConnectContext());
                     server.createContext("/list", new ListContext());
+                    server.createContext("/download", new DownloadContext());
 
                     server.setExecutor(null);
                     server.start();

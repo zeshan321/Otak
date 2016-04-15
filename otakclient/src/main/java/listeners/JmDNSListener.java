@@ -40,7 +40,6 @@ public class JmDNSListener implements ServiceListener {
         new HTTPGet(url).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
-                System.out.println("Test");
                 otakServer.onFound(event.getDNS(), parseJSON(url, response));
             }
 

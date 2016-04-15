@@ -34,7 +34,7 @@ public class ServerUtils {
             FileInputStream fileInputStream = new FileInputStream(response);
 
             try {
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[8192];
                 int bytesRead;
 
                 while ((bytesRead = fileInputStream.read(buffer)) != -1) {
@@ -65,11 +65,5 @@ public class ServerUtils {
             }
         }
         return result;
-    }
-
-    public boolean authClient(String password) {
-        Config config = Main.config;
-
-        return config.getString("pass").equals(password);
     }
 }
