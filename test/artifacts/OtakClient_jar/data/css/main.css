@@ -44,9 +44,17 @@ body {
     color: #fff
 }
 .caption a:hover {
-    background-color: #028fcc;
+    color: gray;
 }
-a,
+
+.wh {
+  color: white;
+}
+
+.btn:hover{
+  color: gray;
+}
+
 .caption h1 span,
 .item span
 .list-color span {
