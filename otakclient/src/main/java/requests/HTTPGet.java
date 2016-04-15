@@ -61,6 +61,7 @@ public class HTTPGet {
 
             callback.onSuccess(url, stringBuilder.toString());
         } catch (Exception e) {
+            e.printStackTrace();
             callback.onError();
         }
     }

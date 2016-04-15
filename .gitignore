@@ -14,3 +14,4 @@ otakclient.properties
 otakserver.properties
 keystore.jks
 test.bat
+test/artifacts/OtakServer_jar/Files/

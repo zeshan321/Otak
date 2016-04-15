@@ -23,6 +23,7 @@ import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
 import utils.Config;
+import utils.FileSync;
 import utils.ResponsiveWeb;
 
 import javax.jmdns.JmDNS;
@@ -35,6 +36,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    public boolean isSetup;
     public Stage stage;
     @FXML
     private AnchorPane anchorPane;
@@ -48,7 +50,7 @@ public class MainController implements Initializable {
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);
 
-        final boolean isSetup = config.contains("setup") && config.getBoolean("setup");
+        isSetup = config.contains("setup") && config.getBoolean("setup");
         if (isSetup) {
             webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
         } else {
@@ -59,165 +61,139 @@ public class MainController implements Initializable {
         new ResponsiveWeb(anchorPane, webView).makeResponsive();
 
         // Wait for UI to finish loading
-        webView.getEngine().getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
-            @Override
-            public void changed(ObservableValue observableValue, State oldState, State newState) {
-                if (newState == State.SUCCEEDED) {
-                    if (isSetup) {
-                        return;
+        webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
+            if (newState == State.SUCCEEDED) {
+                if (isSetup) {
+                    return;
+                }
+
+                final Document doc = webView.getEngine().getDocument();
+
+                // Directory selection
+                final HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_install");
+                ((EventTarget) input).addEventListener("click", evt -> {
+                    DirectoryChooser dirChooser = new DirectoryChooser();
+                    dirChooser.setTitle("Select Otak Installation Directory");
+
+                    File file = dirChooser.showDialog(stage);
+                    if (file != null) {
+                        input.setAttribute("value", file.getPath());
+                    }
+                }, false);
+
+                final Element installButton = doc.getElementById("btn_install");
+                ((EventTarget) installButton).addEventListener("click", evt -> {
+                    if (input.getValue() == null || !new File(input.getValue()).exists()) {
+                        DirectoryChooser dirChooser = new DirectoryChooser();
+                        dirChooser.setTitle("Select Otak Installation Directory");
+
+                        File file = dirChooser.showDialog(stage);
+                        if (file != null) {
+                            input.setAttribute("value", file.getPath());
+                        }
+                    } else {
+                        config.set("folder", input.getValue());
+                        webView.getEngine().executeScript("installDone();");
+                    }
+                }, false);
+
+                // Directory selection end
+
+                // Search for otak servers on local network
+                final HashMap<String, ServerObject> serverObjectHashMap = new HashMap<>();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            JmDNS jmdns = JmDNS.create();
+                            jmdns.addServiceListener("_http._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
+
+                                @Override
+                                public void onFound(final JmDNS jmDNS, final ServerObject serverObject) {
+
+                                    // Add found Otak servers to  UI list
+                                    Platform.runLater(() -> {
+                                        serverObjectHashMap.put(serverObject.name, serverObject);
+                                        webView.getEngine().executeScript("addDomain(\"" + serverObject.name + "\");");
+                                    });
+                                }
+
+                                @Override
+                                public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
+
+                                    // Remove if otak server is no longer online
+                                    Platform.runLater(() -> webView.getEngine().executeScript("removeDomain(\"" + serverObject.name + "\");"));
+                                }
+                            }));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
+                // IP connection
+                final Element buttonIP = doc.getElementById("btn_ip");
+                final HTMLInputElement inputIP = (HTMLInputElement) doc.getElementById("input_IP");
+                ((EventTarget) buttonIP).addEventListener("click", evt -> {
+                    String serverIP = inputIP.getValue();
+
+                    if (serverIP.startsWith("Local: ")) {
+                        serverIP = serverIP.replace("Local: ", "");
+
+                        if (serverObjectHashMap.containsKey(serverIP)) {
+                            serverIP = serverObjectHashMap.get(serverIP).IP;
+                        }
                     }
 
-                    final Document doc = webView.getEngine().getDocument();
-
-                    // Directory selection
-                    final HTMLInputElement input = (HTMLInputElement) doc.getElementById("input_install");
-                    ((EventTarget) input).addEventListener("click", new EventListener() {
-
+                    new HTTPGet(serverIP).sendGet(new HTTPCallback() {
                         @Override
-                        public void handleEvent(Event evt) {
-                            DirectoryChooser dirChooser = new DirectoryChooser();
-                            dirChooser.setTitle("Select Otak Installation Directory");
-
-                            File file = dirChooser.showDialog(stage);
-                            if (file != null) {
-                                input.setAttribute("value", file.getPath());
-                            }
+                        public void onSuccess(String IP, String response) {
+                            config.set("IP", IP);
+                            webView.getEngine().executeScript("$('#myModal').modal('toggle');");
                         }
 
-                    }, false);
-
-                    final Element installButton = doc.getElementById("btn_install");
-                    ((EventTarget) installButton).addEventListener("click", new EventListener() {
-
                         @Override
-                        public void handleEvent(Event evt) {
-                            if (input.getValue() == null || !new File(input.getValue()).exists()) {
-                                DirectoryChooser dirChooser = new DirectoryChooser();
-                                dirChooser.setTitle("Select Otak Installation Directory");
+                        public void onError() {
+                            webView.getEngine().executeScript("addNotification('error-server');");
+                        }
+                    });
+                }, false);
 
-                                File file = dirChooser.showDialog(stage);
-                                if (file != null) {
-                                    input.setAttribute("value", file.getPath());
-                                }
+                // Connection password verify
+                final Element buttonPass = doc.getElementById("button_login");
+                final HTMLInputElement inputPass = (HTMLInputElement) doc.getElementById("input_pass");
+                ((EventTarget) buttonPass).addEventListener("click", evt -> {
+                    final String password = inputPass.getValue();
+                    final String IP = config.getString("IP");
+
+                    new HTTPGet(IP + "/list?pass=" + password).sendGet(new HTTPCallback() {
+                        @Override
+                        public void onSuccess(String IP, String response) {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getBoolean("success")) {
+                                // Start file sync
+                                new FileSync(response).run();
+
+                                config.set("password", password);
+                                config.set("setup", true);
+                                config.save();
+
+                                isSetup = true;
+                                webView.getEngine().executeScript("addNotification('connected');");
+                                webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
                             } else {
-                                config.set("folder", input.getValue());
-                                webView.getEngine().executeScript("installDone();");
+                                webView.getEngine().executeScript("addNotification('error-login');");
                             }
                         }
 
-                    }, false);
-
-                    // Directory selection end
-
-                    // Search for otak servers on local network
-                    final HashMap<String, ServerObject> serverObjectHashMap = new HashMap<>();
-                    new Thread() {
                         @Override
-                        public void run() {
-                            try {
-                                JmDNS jmdns = JmDNS.create();
-                                jmdns.addServiceListener("_http._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
-
-                                    @Override
-                                    public void onFound(final JmDNS jmDNS, final ServerObject serverObject) {
-
-                                        // Add found Otak servers to  UI list
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                serverObjectHashMap.put(serverObject.name, serverObject);
-                                                webView.getEngine().executeScript("addDomain(\"" + serverObject.name + "\");");
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
-
-                                        // Remove if otak server is no longer online
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                webView.getEngine().executeScript("removeDomain(\"" + serverObject.name + "\");");
-                                            }
-                                        });
-                                    }
-                                }));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                        public void onError() {
+                            System.out.println("222");
+                            webView.getEngine().executeScript("addNotification('error-login');");
                         }
-                    }.start();
-
-                    // IP connection
-                    final Element buttonIP = doc.getElementById("btn_ip");
-                    final HTMLInputElement inputIP = (HTMLInputElement) doc.getElementById("input_IP");
-                    ((EventTarget) buttonIP).addEventListener("click", new EventListener() {
-
-                        @Override
-                        public void handleEvent(Event evt) {
-                            String serverIP = inputIP.getValue();
-
-                            if (serverIP.startsWith("Local: ")) {
-                                serverIP = serverIP.replace("Local: ", "");
-
-                                if (serverObjectHashMap.containsKey(serverIP)) {
-                                    serverIP = serverObjectHashMap.get(serverIP).IP;
-                                }
-                            }
-
-                            new HTTPGet(serverIP).sendGet(new HTTPCallback() {
-                                @Override
-                                public void onSuccess(String IP, String response) {
-                                    config.set("IP", IP);
-                                    webView.getEngine().executeScript("$('#myModal').modal('toggle');");
-                                }
-
-                                @Override
-                                public void onError() {
-                                    webView.getEngine().executeScript("addNotification('error-server');");
-                                }
-                            });
-                        }
-
-                    }, false);
-
-                    // Connection password verify
-                    final Element buttonPass = doc.getElementById("button_login");
-                    final HTMLInputElement inputPass = (HTMLInputElement) doc.getElementById("input_pass");
-                    ((EventTarget) buttonPass).addEventListener("click", new EventListener() {
-
-                        @Override
-                        public void handleEvent(Event evt) {
-                            final String password = inputPass.getValue();
-                            final String IP = config.getString("IP");
-
-                            new HTTPGet(IP + "/list?pass=" + password).sendGet(new HTTPCallback() {
-                                @Override
-                                public void onSuccess(String IP, String response) {
-                                    JSONObject jsonObject = new JSONObject(response);
-
-                                    if (jsonObject.getBoolean("success")) {
-                                        config.set("password", password);
-                                        config.set("setup", true);
-                                        config.save();
-
-                                        webView.getEngine().executeScript("addNotification('connected');");
-                                        webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
-                                    } else {
-                                        webView.getEngine().executeScript("addNotification('error-login');");
-                                    }
-                                }
-
-                                @Override
-                                public void onError() {
-                                    webView.getEngine().executeScript("addNotification('error-login');");
-                                }
-                            });
-                        }
-
-                    }, false);
-                }
+                    });
+                }, false);
             }
         });
     }
