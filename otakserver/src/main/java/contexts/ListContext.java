@@ -6,6 +6,7 @@ import com.zeshanaslam.otak.Main;
 import messages.Errors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Config;
@@ -13,9 +14,7 @@ import utils.ServerUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public class ListContext implements HttpHandler {
@@ -35,26 +34,27 @@ public class ListContext implements HttpHandler {
         }
 
         // Start file list
+        JSONArray jsonArray = new JSONArray();
+
         Collection<File> filesList = FileUtils.listFilesAndDirs(new File(config.getString("dir")), TrueFileFilter.TRUE, TrueFileFilter.TRUE);
-        List<String> dirs = new ArrayList<>();
-        List<String> files = new ArrayList<>();
 
         for (File fileIter : filesList) {
-            if (fileIter.isDirectory()) {
-                dirs.add(fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/"));
-            } else {
-                files.add(fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/"));
+            String fileName = fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/");
+
+            if (!fileName.equals("")) {
+                if (fileIter.isDirectory()) {
+                    jsonArray.put(jsonOutput(fileName, fileIter.lastModified(), true));
+                } else {
+                    jsonArray.put(jsonOutput(fileName, fileIter.lastModified(), false));
+                }
             }
         }
 
-        // Remove empty strings
-        dirs.remove("");
-
         // size -1 to not include the main directory folder
-        server.writeResponse(httpExchange, jsonOutput(filesList.size() - 1, dirs, files));
+        server.writeResponse(httpExchange, returnData(filesList.size() -1, jsonArray));
     }
 
-    private String jsonOutput(int count, List dirs, List files) {
+    private String returnData(int count, JSONArray array) {
         JSONObject jsonObject;
         String data = null;
 
@@ -62,8 +62,7 @@ public class ListContext implements HttpHandler {
             jsonObject = new JSONObject();
             jsonObject.put("success", true);
             jsonObject.put("count", count);
-            jsonObject.put("dirs", dirs);
-            jsonObject.put("files", files);
+            jsonObject.put("info", array);
 
             data = jsonObject.toString(2);
         } catch (JSONException e) {
@@ -71,5 +70,21 @@ public class ListContext implements HttpHandler {
         }
 
         return data;
+    }
+
+    private JSONObject jsonOutput(String file, long timestamp, boolean isDir) {
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject();
+            jsonObject.put("file", file);
+            jsonObject.put("timestamp", timestamp);
+            jsonObject.put("dir", isDir);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject;
     }
 }
