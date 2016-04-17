@@ -89,3 +89,13 @@ input.transparent-input {
     display: inline-block;
     width: 150px;
 }
+.image-wrapper
+{
+    position: relative;
+}
+.scale-image
+{
+    display: block;
+    width: auto;
+    max-width: 75%;
+}
