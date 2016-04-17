@@ -92,7 +92,7 @@ public class MainController implements Initializable {
                             input.setAttribute("value", file.getPath());
                         }
                     } else {
-                        config.set("folder", input.getValue());
+                        config.set("dir", input.getValue());
                         webView.getEngine().executeScript("installDone();");
                     }
                 }, false);
@@ -172,12 +172,12 @@ public class MainController implements Initializable {
                             JSONObject jsonObject = new JSONObject(response);
 
                             if (jsonObject.getBoolean("success")) {
-                                // Start file sync
-                                new FileSync(response).run();
-
-                                config.set("password", password);
+                                config.set("pass", password);
                                 config.set("setup", true);
                                 config.save();
+
+                                // Start file sync
+                                new FileSync(response).run();
 
                                 isSetup = true;
                                 webView.getEngine().executeScript("addNotification('connected');");
@@ -189,7 +189,6 @@ public class MainController implements Initializable {
 
                         @Override
                         public void onError() {
-                            System.out.println("222");
                             webView.getEngine().executeScript("addNotification('error-login');");
                         }
                     });

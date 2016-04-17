@@ -9,6 +9,8 @@ import secure.TLSHandler;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 
 class Server {
@@ -60,6 +62,24 @@ class Server {
                         }
 
                         System.out.println("Error: Unknown command");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    ServerSocket serverSocket = new ServerSocket(port + 1);
+
+                    while(true) {
+                        Socket socket = serverSocket.accept();
+
                     }
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());

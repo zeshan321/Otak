@@ -29,10 +29,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="otakclient" target="1.7" />
-      <module name="OtakClient" target="1.7" />
-      <module name="OtakServer" target="1.7" />
-      <module name="otakserver" target="1.7" />
+      <module name="otakclient" target="1.8" />
+      <module name="otakserver" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

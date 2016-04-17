@@ -16,11 +16,11 @@ public class DownloadContext implements HttpHandler {
     private Config config = Main.config;
 
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
-        ServerUtils server = new ServerUtils();
+    public void handle(final HttpExchange httpExchange) throws IOException {
+        final ServerUtils server = new ServerUtils();
 
         // Auth connection
-        Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getQuery());
+        final Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getQuery());
 
         if (!params.containsKey("pass") || !params.get("pass").equals(config.getString("pass"))) {
             server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.AUTH));
