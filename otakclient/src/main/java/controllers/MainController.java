@@ -20,6 +20,7 @@ import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
 import sync.SyncHandler;
 import utils.Config;
+import utils.Parameters;
 import utils.ResponsiveWeb;
 
 import javax.jmdns.JmDNS;
@@ -199,7 +200,10 @@ public class MainController implements Initializable {
                     final String password = inputPass.getValue();
                     final String IP = config.getString("IP");
 
-                    new HTTPGet(IP + "/list?pass=" + password).sendGet(new HTTPCallback() {
+                    Parameters parameters = new Parameters();
+                    parameters.add("pass", password);
+
+                    new HTTPGet(IP + "/list", parameters.toString()).sendGet(new HTTPCallback() {
                         @Override
                         public void onSuccess(String IP, String response) {
                             JSONObject jsonObject = new JSONObject(response);
@@ -237,7 +241,10 @@ public class MainController implements Initializable {
     }
 
     private void startSync(Config config) {
-        new HTTPGet(config.getString("IP") + "/list?pass=" + config.getString("pass")).sendGet(new HTTPCallback() {
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+
+        new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
                 JSONObject jsonObject = new JSONObject(response);

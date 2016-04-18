@@ -19,9 +19,9 @@ public class DownloadContext implements HttpHandler {
     public void handle(final HttpExchange httpExchange) throws IOException {
         final ServerUtils server = new ServerUtils();
 
-        // Auth connection
-        final Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getQuery());
+        final Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getRawQuery());
 
+        // Auth connection
         if (!params.containsKey("pass") || !params.get("pass").equals(config.getString("pass"))) {
             server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.AUTH));
             return;

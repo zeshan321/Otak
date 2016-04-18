@@ -25,9 +25,9 @@ public class ListContext implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         ServerUtils server = new ServerUtils();
 
-        // Auth connection
-        Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getQuery());
+        Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getRawQuery());
 
+        // Auth connection
         if (!params.containsKey("pass") || !params.get("pass").equals(config.getString("pass"))) {
             server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.AUTH));
             return;

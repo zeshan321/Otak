@@ -1,12 +1,10 @@
 package utils;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.zeshanaslam.otak.Main;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,19 +32,10 @@ public class ServerUtils {
             FileInputStream fileInputStream = new FileInputStream(response);
 
             try {
-                byte[] buffer = new byte[8192];
-                int bytesRead;
-
-                while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                fileInputStream.close();
-                outputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+                IOUtils.copy(fileInputStream, outputStream);
             } finally {
-                outputStream.close();
+                IOUtils.closeQuietly(fileInputStream);
+                IOUtils.closeQuietly(outputStream);
             }
 
         } catch (IOException e) {
@@ -55,16 +44,20 @@ public class ServerUtils {
     }
 
     public Map<String, String> queryToMap(String query) {
-        query = query.replace("%20", " ");
-
         Map<String, String> result = new HashMap<>();
-        for (String param : query.split("&")) {
-            String pair[] = param.split("=");
-            if (pair.length > 1) {
-                result.put(pair[0], pair[1]);
-            } else {
-                result.put(pair[0], "");
+
+        System.out.println("Query: " + query);
+        try {
+            for (String param : query.split("&")) {
+                String pair[] = param.split("=");
+                if (pair.length > 1) {
+                    result.put(pair[0], URLDecoder.decode(pair[1], "UTF-8"));
+                } else {
+                    result.put(pair[0], "");
+                }
             }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
         return result;
     }

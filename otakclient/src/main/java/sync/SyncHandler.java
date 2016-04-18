@@ -8,6 +8,7 @@ import requests.HTTPDownload;
 import requests.HTTPGet;
 import requests.HTTPUpload;
 import utils.Config;
+import utils.Parameters;
 
 import java.io.File;
 import java.io.IOException;
@@ -132,7 +133,12 @@ public class SyncHandler implements Runnable {
             // Set last modified to correct timestamp
             file.setLastModified(fileObject.timestamp);
         } else {
-            new HTTPDownload(IP + "/download?pass=" + pass + "&file=" + fileObject.file).downloadFile(file, new DownloadCallback() {
+
+            Parameters parameters = new Parameters();
+            parameters.add("pass", config.getString("pass"));
+            parameters.add("file", fileObject.file);
+
+            new HTTPDownload(IP + "/download", parameters.toString()).downloadFile(file, new DownloadCallback() {
                 @Override
                 public void onRequestComplete() {
                     // Set last modified to correct timestamp
@@ -159,7 +165,12 @@ public class SyncHandler implements Runnable {
     private void uploadFile(FileObject fileObject) {
         File file = new File(dir + File.separator + fileObject.file);
 
-        new HTTPUpload(config.getString("IP") + "/upload?pass=" + config.getString("pass") + "&file=" + fileObject.file + "&type=file").sendPost(file, new HTTPCallback() {
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", fileObject.file);
+        parameters.add("type", "file");
+
+        new HTTPUpload(config.getString("IP") + "/upload", parameters.toString()).sendPost(file, new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
 
@@ -178,7 +189,13 @@ public class SyncHandler implements Runnable {
      * @param type can be 'dir' or 'delete'
      */
     private void updateFile(FileObject fileObject, String type) {
-        new HTTPGet(config.getString("IP") + "/upload?pass=" + config.getString("pass") + "&file=" + fileObject.file + "&type=" + type).sendGet(new HTTPCallback() {
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", fileObject.file);
+        parameters.add("type", type);
+
+        new HTTPGet(config.getString("IP") + "/upload", parameters.toString()).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
 
@@ -198,7 +215,12 @@ public class SyncHandler implements Runnable {
      * @param type can be 'dir' or 'delete'
      */
     private void updateFile(String file, String type) {
-        new HTTPGet(config.getString("IP") + "/upload?pass=" + config.getString("pass") + "&file=" + file + "&type=" + type).sendGet(new HTTPCallback() {
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", file);
+        parameters.add("type", type);
+
+        new HTTPGet(config.getString("IP") + "/upload", parameters.toString()).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
 

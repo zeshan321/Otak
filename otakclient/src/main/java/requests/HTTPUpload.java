@@ -1,6 +1,7 @@
 package requests;
 
 import callback.HTTPCallback;
+import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -16,8 +17,10 @@ public class HTTPUpload {
     private String url;
     private String USER_AGENT = "Mozilla/5.0";
 
-    public HTTPUpload(String url) {
-        this.url = url.replace(" ", "%20");
+    public HTTPUpload(String url, String params) {
+        this.url = url + params;
+
+        System.out.println(this.url);
     }
 
     public void sendPost(File file, HTTPCallback callback) {
@@ -30,7 +33,7 @@ public class HTTPUpload {
                     while(!success) {
 
                     }
-                    
+
                     // Check if to use https or not
                     if (url.startsWith("HTTPS://") || url.startsWith("https://")) {
                         URL urlObj = new URL(url);
@@ -62,19 +65,13 @@ public class HTTPUpload {
 
                         con.setDoOutput(true);
                         FileInputStream fileInputStream = new FileInputStream(file);
+                        OutputStream outputStream = con.getOutputStream();
 
-                        try (DataOutputStream dataOutputStream = new DataOutputStream(con.getOutputStream())) {
-                            byte[] buffer = new byte[8192];
-                            int bytesRead;
-
-                            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                                dataOutputStream.write(buffer, 0, bytesRead);
-                            }
-
-                            fileInputStream.close();
-                            dataOutputStream.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        try {
+                            IOUtils.copy(fileInputStream, outputStream);
+                        } finally {
+                            IOUtils.closeQuietly(fileInputStream);
+                            IOUtils.closeQuietly(outputStream);
                         }
 
 
@@ -88,6 +85,7 @@ public class HTTPUpload {
                         }
                         in.close();
 
+                        IOUtils.closeQuietly(con.getInputStream());
                         callback.onSuccess(url, stringBuilder.toString());
                     } else {
                         URL urlObj = new URL(url);
@@ -98,21 +96,14 @@ public class HTTPUpload {
 
                         con.setDoOutput(true);
                         FileInputStream fileInputStream = new FileInputStream(file);
+                        OutputStream outputStream = con.getOutputStream();
 
-                        try (DataOutputStream dataOutputStream = new DataOutputStream(con.getOutputStream())) {
-                            byte[] buffer = new byte[8192];
-                            int bytesRead;
-
-                            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                                dataOutputStream.write(buffer, 0, bytesRead);
-                            }
-
-                            fileInputStream.close();
-                            dataOutputStream.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        try {
+                            IOUtils.copy(fileInputStream, outputStream);
+                        } finally {
+                            IOUtils.closeQuietly(fileInputStream);
+                            IOUtils.closeQuietly(outputStream);
                         }
-
 
                         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
@@ -124,6 +115,7 @@ public class HTTPUpload {
                         }
                         in.close();
 
+                        IOUtils.closeQuietly(con.getInputStream());
                         callback.onSuccess(url, stringBuilder.toString());
                     }
                 } catch (Exception e) {

@@ -1,15 +1,13 @@
 package requests;
 
 import callback.DownloadCallback;
+import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
@@ -18,8 +16,8 @@ public class HTTPDownload {
 
     private String url;
 
-    public HTTPDownload(String url) {
-        this.url = url.replace(" ", "%20");
+    public HTTPDownload(String url, String params) {
+        this.url = url + params;
     }
 
     public void downloadFile(final File file, final DownloadCallback callBack) {
@@ -55,28 +53,13 @@ public class HTTPDownload {
                         InputStream inputStream = con.getInputStream();
                         OutputStream outputStream = new FileOutputStream(file);
 
-                        byte data[] = new byte[8192];
-
-                        long total = 0;
-                        int count;
-                        int fileLength = con.getContentLength();
-
-                        while ((count = inputStream.read(data)) != -1) {
-                            total += count;
-
-                            int percent = (int) ((total * 100) / fileLength);
-                            callBack.onProgress(percent);
-
-                            if (percent == 100) {
-                                callBack.onRequestComplete();
-                            }
-
-                            outputStream.write(data, 0, count);
+                        try {
+                            IOUtils.copy(inputStream, outputStream);
+                        } finally {
+                            IOUtils.closeQuietly(inputStream);
+                            IOUtils.closeQuietly(outputStream);
                         }
 
-                        outputStream.flush();
-                        outputStream.close();
-                        inputStream.close();
                     } else {
                         URL urlObj = new URL(url);
 
@@ -85,28 +68,12 @@ public class HTTPDownload {
                         InputStream inputStream = con.getInputStream();
                         OutputStream outputStream = new FileOutputStream(file);
 
-                        byte data[] = new byte[8192];
-
-                        long total = 0;
-                        int count;
-                        int fileLength = con.getContentLength();
-
-                        while ((count = inputStream.read(data)) != -1) {
-                            total += count;
-
-                            int percent = (int) ((total * 100) / fileLength);
-                            callBack.onProgress(percent);
-
-                            if (percent == 100) {
-                                callBack.onRequestComplete();
-                            }
-
-                            outputStream.write(data, 0, count);
+                        try {
+                            IOUtils.copy(inputStream, outputStream);
+                        } finally {
+                            IOUtils.closeQuietly(inputStream);
+                            IOUtils.closeQuietly(outputStream);
                         }
-
-                        outputStream.flush();
-                        outputStream.close();
-                        inputStream.close();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

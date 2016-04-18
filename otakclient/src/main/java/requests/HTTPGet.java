@@ -17,8 +17,12 @@ public class HTTPGet {
     private String url;
     private String USER_AGENT = "Mozilla/5.0";
 
+    public HTTPGet(String url, String params) {
+        this.url = url + params;
+    }
+
     public HTTPGet(String url) {
-        this.url = url.replace(" ", "%20");
+        this.url = url;
     }
 
     public void sendGet(HTTPCallback callback) {
