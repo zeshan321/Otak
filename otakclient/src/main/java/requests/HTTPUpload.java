@@ -19,7 +19,7 @@ public class HTTPUpload {
         this.url = url.replace(" ", "%20");
     }
 
-    public void sendPost(File file,HTTPCallback callback) {
+    public void sendPost(File file, HTTPCallback callback) {
         try {
             URL urlObj = new URL(url);
 

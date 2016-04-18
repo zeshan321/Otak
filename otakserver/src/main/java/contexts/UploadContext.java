@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.zeshanaslam.otak.Main;
 import messages.Errors;
+import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +65,12 @@ public class UploadContext implements HttpHandler {
                 break;
 
             case "delete":
-                new File(config.getString("dir") + File.separator + params.get("file")).delete();
+                File fileDel = new File(config.getString("dir") + File.separator + params.get("file"));
+                if (fileDel.isDirectory()) {
+                    FileUtils.deleteDirectory(fileDel);
+                } else {
+                    fileDel.delete();
+                }
                 break;
             default:
                 server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.MISSING));

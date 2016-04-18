@@ -18,10 +18,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
-import sync.Compare;
 import sync.SyncHandler;
 import utils.Config;
-import utils.FileSync;
 import utils.ResponsiveWeb;
 
 import javax.jmdns.JmDNS;
@@ -58,7 +56,7 @@ public class MainController implements Initializable {
                     JSONObject jsonObject = new JSONObject(response);
 
                     if (jsonObject.getBoolean("success")) {
-                        new SyncHandler(response).run();
+                        (new Thread(new SyncHandler(response))).start();
                     } else {
                         System.out.println("Error");
                     }

@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import utils.Config;
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +24,9 @@ public class Compare {
         this.server = server;
     }
 
+    /**
+     * Compare two json arrays to see which files need to be uploaded or downloaded
+     */
     public void compareData(CompareCallback compareCallback) {
         List<FileObject> filesUpload = new ArrayList<>();
         List<FileObject> filesDownload = new ArrayList<>();
@@ -81,7 +83,9 @@ public class Compare {
     }
 
 
-
+    /**
+     * Created json array of files from client
+     */
     private JSONArray generateClient() {
         JSONArray jsonArray = new JSONArray();
 
@@ -101,6 +105,7 @@ public class Compare {
 
         return jsonArray;
     }
+
     private JSONObject jsonOutput(String file, long timestamp, boolean isDir) {
         JSONObject jsonObject = null;
 

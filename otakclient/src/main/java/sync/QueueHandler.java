@@ -3,7 +3,10 @@ package sync;
 import objects.QueueObject;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.util.Scanner;
 
 public class QueueHandler {
@@ -41,7 +44,7 @@ public class QueueHandler {
         try {
             Scanner scan = new Scanner(file);
 
-            while(scan.hasNextLine()) {
+            while (scan.hasNextLine()) {
                 JSONObject jsonObject = new JSONObject(scan.nextLine());
 
                 remove();
