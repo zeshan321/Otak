@@ -25,6 +25,12 @@ public class HTTPUpload {
             @Override
             public void run() {
                 try {
+                    // Wait for file to be ready
+                    boolean success = file.renameTo(file);
+                    while(!success) {
+
+                    }
+                    
                     // Check if to use https or not
                     if (url.startsWith("HTTPS://") || url.startsWith("https://")) {
                         URL urlObj = new URL(url);
