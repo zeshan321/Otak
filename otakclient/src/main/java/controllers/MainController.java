@@ -32,12 +32,14 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    public boolean isSetup;
     public Stage stage;
     @FXML
     private AnchorPane anchorPane;
     @FXML
     private WebView webView;
+
+    private boolean isSetup;
+    private Thread thread;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,23 +52,7 @@ public class MainController implements Initializable {
         if (isSetup) {
             webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
 
-            new HTTPGet(config.getString("IP") + "/list?pass=" + config.getString("pass")).sendGet(new HTTPCallback() {
-                @Override
-                public void onSuccess(String IP, String response) {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    if (jsonObject.getBoolean("success")) {
-                        (new Thread(new SyncHandler(response))).start();
-                    } else {
-                        System.out.println("Error");
-                    }
-                }
-
-                @Override
-                public void onError() {
-
-                }
-            });
+            startSync(config);
         } else {
             webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "index.html");
         }
@@ -78,6 +64,9 @@ public class MainController implements Initializable {
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
                 if (isSetup) {
+                    if (thread == null) {
+                        startSync(config);
+                    }
                     return;
                 }
 
@@ -107,7 +96,7 @@ public class MainController implements Initializable {
                         }
                     } else {
                         config.set("dir", input.getValue());
-                        webView.getEngine().executeScript("installDone();");
+                        runScript("installDone();");
                     }
                 }, false);
 
@@ -128,7 +117,7 @@ public class MainController implements Initializable {
                                     // Add found Otak servers to  UI list
                                     Platform.runLater(() -> {
                                         serverObjectHashMap.put(serverObject.name, serverObject);
-                                        webView.getEngine().executeScript("addDomain(\"" + serverObject.name + "\");");
+                                        runScript("addDomain(\"" + serverObject.name + "\");");
                                     });
                                 }
 
@@ -136,7 +125,37 @@ public class MainController implements Initializable {
                                 public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
 
                                     // Remove if otak server is no longer online
-                                    // Platform.runLater(() -> webView.getEngine().executeScript("removeDomain(\"" + serverObject.name + "\");"));
+                                    // Platform.runLater(() -> runScript("removeDomain(\"" + serverObject.name + "\");"));
+                                }
+                            }));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            JmDNS jmdns = JmDNS.create();
+                            jmdns.addServiceListener("_https._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
+
+                                @Override
+                                public void onFound(final JmDNS jmDNS, final ServerObject serverObject) {
+
+                                    // Add found Otak servers to  UI list
+                                    Platform.runLater(() -> {
+                                        serverObjectHashMap.put(serverObject.name, serverObject);
+                                        runScript("addDomain(\"" + serverObject.name + "\");");
+                                    });
+                                }
+
+                                @Override
+                                public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
+
+                                    // Remove if otak server is no longer online
+                                    // Platform.runLater(() -> runScript("removeDomain(\"" + serverObject.name + "\");"));
                                 }
                             }));
                         } catch (IOException e) {
@@ -163,12 +182,12 @@ public class MainController implements Initializable {
                         @Override
                         public void onSuccess(String IP, String response) {
                             config.set("IP", IP);
-                            webView.getEngine().executeScript("$('#myModal').modal('toggle');");
+                            runScript("$('#myModal').modal('toggle');");
                         }
 
                         @Override
                         public void onError() {
-                            webView.getEngine().executeScript("addNotification('error-server');");
+                            runScript("addNotification('error-server');");
                         }
                     });
                 }, false);
@@ -191,19 +210,49 @@ public class MainController implements Initializable {
                                 config.save();
 
                                 isSetup = true;
-                                webView.getEngine().executeScript("addNotification('connected');");
-                                webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
+                                runScript("addNotification('connected');");
+
+                                Platform.runLater(() -> {
+                                    webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
+                                });
                             } else {
-                                webView.getEngine().executeScript("addNotification('error-login');");
+                                runScript("addNotification('error-login');");
                             }
                         }
 
                         @Override
                         public void onError() {
-                            webView.getEngine().executeScript("addNotification('error-login');");
+                            runScript("addNotification('error-login');");
                         }
                     });
                 }, false);
+            }
+        });
+    }
+    
+    private void runScript(String script) {
+        Platform.runLater(() -> {
+            webView.getEngine().executeScript(script);
+        });
+    }
+
+    private void startSync(Config config) {
+        new HTTPGet(config.getString("IP") + "/list?pass=" + config.getString("pass")).sendGet(new HTTPCallback() {
+            @Override
+            public void onSuccess(String IP, String response) {
+                JSONObject jsonObject = new JSONObject(response);
+
+                if (jsonObject.getBoolean("success")) {
+                    thread = (new Thread(new SyncHandler(response)));
+                    thread.start();;
+                } else {
+                    System.out.println("Error");
+                }
+            }
+
+            @Override
+            public void onError() {
+
             }
         });
     }

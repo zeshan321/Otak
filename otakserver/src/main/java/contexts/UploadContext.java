@@ -39,6 +39,8 @@ public class UploadContext implements HttpHandler {
         switch (params.get("type")) {
             case "dir":
                 new File(config.getString("dir") + File.separator + params.get("file")).mkdirs();
+
+                server.writeResponse(httpExchange, returnData(true));
                 break;
 
             case "file":
@@ -62,6 +64,8 @@ public class UploadContext implements HttpHandler {
                 outputStream.flush();
                 outputStream.close();
                 inputStream.close();
+
+                server.writeResponse(httpExchange, returnData(true));
                 break;
 
             case "delete":
@@ -71,21 +75,21 @@ public class UploadContext implements HttpHandler {
                 } else {
                     fileDel.delete();
                 }
+
+                server.writeResponse(httpExchange, returnData(true));
                 break;
             default:
                 server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.MISSING));
         }
-
-        server.writeResponse(httpExchange, returnData());
     }
 
-    private String returnData() {
+    private String returnData(boolean status) {
         JSONObject jsonObject;
         String data = null;
 
         try {
             jsonObject = new JSONObject();
-            jsonObject.put("success", true);
+            jsonObject.put("success", status);
             data = jsonObject.toString(2);
         } catch (JSONException e) {
             e.printStackTrace();

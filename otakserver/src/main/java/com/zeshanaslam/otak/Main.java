@@ -41,6 +41,10 @@ public class Main {
             System.out.print(" > ");
             config.set("dir", reader.nextLine());
 
+            System.out.println("\nEnable HTTPS: (true or false)");
+            System.out.print(" > ");
+            config.set("https", reader.nextBoolean());
+
             // Close reader
             reader.close();
 
@@ -55,10 +59,11 @@ public class Main {
             new JKSGenerator(config.getString("pass")).generateKeyPair();
 
             System.out.println("\nStarting server...");
-            new Server(config.getString("IP"), config.getString("name"), config.getInt("port")).start();
+            new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), config.getInt("port")).start();
         } else {
-            System.out.println("Welcome to Otak. Starting server: " + config.getString("name") + "\n");
-            new Server(config.getString("IP"), config.getString("name"), config.getInt("port")).start();
+            System.out.println("Welcome to Otak. Starting server: " + config.getString("name"));
+            System.out.println("HTTPS: " + config.getString("https") + "\n");
+            new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), config.getInt("port")).start();
         }
     }
 }

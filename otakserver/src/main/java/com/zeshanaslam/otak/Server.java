@@ -1,5 +1,6 @@
 package com.zeshanaslam.otak;
 
+import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpsServer;
 import contexts.ConnectContext;
 import contexts.DownloadContext;
@@ -19,58 +20,105 @@ class Server {
     private JmDNS jmDNS;
     private String IP;
     private String serverName;
+    private boolean https;
     private int port;
 
-    Server(String IP, String serverName, int port) {
+    Server(String IP, String serverName, boolean https, int port) {
         this.IP = IP;
         this.serverName = serverName;
+        this.https = https;
         this.port = port;
     }
 
     void start() {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    HttpsServer server;
+        if (https) {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        HttpsServer server;
 
-                    if (IP == null || IP.equalsIgnoreCase("localhost") || IP.equals("") || IP.equals(" ")) {
-                        server = HttpsServer.create(new InetSocketAddress(port), 0);
-                    } else {
-                        server = HttpsServer.create(new InetSocketAddress(IP, port), 0);
+                        if (IP == null || IP.equalsIgnoreCase("localhost") || IP.equals("") || IP.equals(" ")) {
+                            server = HttpsServer.create(new InetSocketAddress(port), 0);
+                        } else {
+                            server = HttpsServer.create(new InetSocketAddress(IP, port), 0);
+                        }
+                        server.setHttpsConfigurator(new TLSHandler().createTLSContext());
+
+                        server.createContext("/", new ConnectContext());
+                        server.createContext("/list", new ListContext());
+                        server.createContext("/download", new DownloadContext());
+                        server.createContext("/upload", new UploadContext());
+
+                        server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
+                        server.start();
+
+                        System.out.println("Status: Otak server is running!");
+
+                        Scanner reader = new Scanner(System.in);
+                        while (true) {
+                            System.out.print(" > ");
+                            String cmd = reader.nextLine();
+
+                            if (cmd.equals("exit")) {
+                                System.out.println("Exiting...");
+                                jmDNS.unregisterAllServices();
+                                jmDNS.close();
+                                System.exit(0);
+                            }
+
+                            System.out.println("Error: Unknown command");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                        e.printStackTrace();
                     }
-                    server.setHttpsConfigurator(new TLSHandler().createTLSContext());
+                }
+            }.start();
+        } else {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        HttpServer server;
 
-                    server.createContext("/", new ConnectContext());
-                    server.createContext("/list", new ListContext());
-                    server.createContext("/download", new DownloadContext());
-                    server.createContext("/upload", new UploadContext());
-
-                    server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
-                    server.start();
-
-                    System.out.println("Status: Otak server is running!");
-
-                    Scanner reader = new Scanner(System.in);
-                    while (true) {
-                        System.out.print(" > ");
-                        String cmd = reader.nextLine();
-
-                        if (cmd.equals("exit")) {
-                            System.out.println("Exiting...");
-                            jmDNS.unregisterAllServices();
-                            jmDNS.close();
-                            System.exit(0);
+                        if (IP == null || IP.equalsIgnoreCase("localhost") || IP.equals("") || IP.equals(" ")) {
+                            server = HttpServer.create(new InetSocketAddress(port), 0);
+                        } else {
+                            server = HttpServer.create(new InetSocketAddress(IP, port), 0);
                         }
 
-                        System.out.println("Error: Unknown command");
+                        server.createContext("/", new ConnectContext());
+                        server.createContext("/list", new ListContext());
+                        server.createContext("/download", new DownloadContext());
+                        server.createContext("/upload", new UploadContext());
+
+                        server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
+                        server.start();
+
+                        System.out.println("Status: Otak server is running!");
+
+                        Scanner reader = new Scanner(System.in);
+                        while (true) {
+                            System.out.print(" > ");
+                            String cmd = reader.nextLine();
+
+                            if (cmd.equals("exit")) {
+                                System.out.println("Exiting...");
+                                jmDNS.unregisterAllServices();
+                                jmDNS.close();
+                                System.exit(0);
+                            }
+
+                            System.out.println("Error: Unknown command");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
-                    e.printStackTrace();
                 }
-            }
-        }.start();
+            }.start();
+        }
 
 
         /* new Thread() {
@@ -95,8 +143,15 @@ class Server {
             public void run() {
                 try {
                     jmDNS = JmDNS.create();
-                    ServiceInfo testService = ServiceInfo.create("_http._tcp.local.", "Otak Server", port, serverName);
-                    jmDNS.registerService(testService);
+                    ServiceInfo serviceInfo;
+
+                    if (https) {
+                        serviceInfo = ServiceInfo.create("_https._tcp.local.", "Otak Server", port, serverName);
+                    } else {
+                        serviceInfo = ServiceInfo.create("_http._tcp.local.", "Otak Server", port, serverName);
+                    }
+
+                    jmDNS.registerService(serviceInfo);
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                     e.printStackTrace();
