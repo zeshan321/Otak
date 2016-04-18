@@ -3,8 +3,6 @@ package controllers;
 import callback.HTTPCallback;
 import callback.OtakServerFoundCallback;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,11 +15,11 @@ import objects.ServerObject;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
+import sync.Compare;
+import sync.SyncHandler;
 import utils.Config;
 import utils.FileSync;
 import utils.ResponsiveWeb;
@@ -53,6 +51,24 @@ public class MainController implements Initializable {
         isSetup = config.contains("setup") && config.getBoolean("setup");
         if (isSetup) {
             webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
+
+            new HTTPGet(config.getString("IP") + "/list?pass=" + config.getString("pass")).sendGet(new HTTPCallback() {
+                @Override
+                public void onSuccess(String IP, String response) {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean("success")) {
+                        new SyncHandler(response).run();
+                    } else {
+                        System.out.println("Error");
+                    }
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
         } else {
             webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "index.html");
         }
@@ -175,9 +191,6 @@ public class MainController implements Initializable {
                                 config.set("pass", password);
                                 config.set("setup", true);
                                 config.save();
-
-                                // Start file sync
-                                new FileSync(response).run();
 
                                 isSetup = true;
                                 webView.getEngine().executeScript("addNotification('connected');");

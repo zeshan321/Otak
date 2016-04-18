@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpsServer;
 import contexts.ConnectContext;
 import contexts.DownloadContext;
 import contexts.ListContext;
+import contexts.UploadContext;
 import secure.TLSHandler;
 
 import javax.jmdns.JmDNS;
@@ -43,6 +44,7 @@ class Server {
                     server.createContext("/", new ConnectContext());
                     server.createContext("/list", new ListContext());
                     server.createContext("/download", new DownloadContext());
+                    server.createContext("/upload", new UploadContext());
 
                     server.setExecutor(null);
                     server.start();
@@ -71,7 +73,7 @@ class Server {
         }.start();
 
 
-        new Thread() {
+        /* new Thread() {
             @Override
             public void run() {
                 try {
@@ -86,7 +88,7 @@ class Server {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        }.start();*/
 
         new Thread() {
             @Override

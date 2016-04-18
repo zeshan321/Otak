@@ -55,6 +55,8 @@ public class ServerUtils {
     }
 
     public Map<String, String> queryToMap(String query) {
+        query = query.replace("%20", " ");
+
         Map<String, String> result = new HashMap<>();
         for (String param : query.split("&")) {
             String pair[] = param.split("=");

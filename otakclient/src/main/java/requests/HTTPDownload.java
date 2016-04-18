@@ -2,6 +2,10 @@ package requests;
 
 import callback.DownloadCallback;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -9,17 +13,12 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 public class HTTPDownload {
 
     private String url;
 
     public HTTPDownload(String url) {
-        this.url = url;
+        this.url = url.replace(" ", "%20");
     }
 
     public void downloadFile(final File file, final DownloadCallback callBack) {
