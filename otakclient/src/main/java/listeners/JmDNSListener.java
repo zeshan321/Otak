@@ -19,7 +19,6 @@ public class JmDNSListener implements ServiceListener {
 
     @Override
     public void serviceAdded(ServiceEvent event) {
-        System.out.println("Found: " + event.getType());
         event.getDNS().requestServiceInfo(event.getInfo().getType(), event.getName());
     }
 
@@ -31,7 +30,6 @@ public class JmDNSListener implements ServiceListener {
     @SuppressWarnings("deprecation")
     @Override
     public void serviceResolved(final ServiceEvent event) {
-        System.out.println("Resolved: " + event.getType());
         boolean isHTTPS = event.getType().equals("_https._tcp.local.");
 
         String url;

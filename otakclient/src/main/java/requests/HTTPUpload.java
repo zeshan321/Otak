@@ -19,8 +19,6 @@ public class HTTPUpload {
 
     public HTTPUpload(String url, String params) {
         this.url = url + params;
-
-        System.out.println(this.url);
     }
 
     public void sendPost(File file, HTTPCallback callback) {

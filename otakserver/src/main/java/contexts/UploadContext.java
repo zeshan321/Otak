@@ -24,10 +24,6 @@ public class UploadContext implements HttpHandler {
 
         final Map<String, String> params = server.queryToMap(httpExchange.getRequestURI().getRawQuery());
 
-        System.out.println(params.get("pass"));
-        System.out.println(params.get("file"));
-        System.out.println(params.get("type"));
-
         // Auth connection
         if (!params.containsKey("pass") || !params.get("pass").equals(config.getString("pass"))) {
             server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.AUTH));
