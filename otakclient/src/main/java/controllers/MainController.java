@@ -136,7 +136,7 @@ public class MainController implements Initializable {
                                 public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
 
                                     // Remove if otak server is no longer online
-                                    Platform.runLater(() -> webView.getEngine().executeScript("removeDomain(\"" + serverObject.name + "\");"));
+                                    // Platform.runLater(() -> webView.getEngine().executeScript("removeDomain(\"" + serverObject.name + "\");"));
                                 }
                             }));
                         } catch (IOException e) {

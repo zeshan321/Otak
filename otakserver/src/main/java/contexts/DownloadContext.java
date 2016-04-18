@@ -34,12 +34,7 @@ public class DownloadContext implements HttpHandler {
         }
 
         // Send file
-        new Thread() {
-            @Override
-            public void run() {
-                File file = new File(config.getString("dir") + File.separator + params.get("file"));
-                server.writeFile(httpExchange, file);
-            }
-        }.start();
+        File file = new File(config.getString("dir") + File.separator + params.get("file"));
+        server.writeFile(httpExchange, file);
     }
 }

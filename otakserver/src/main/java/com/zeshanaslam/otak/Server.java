@@ -46,7 +46,7 @@ class Server {
                     server.createContext("/download", new DownloadContext());
                     server.createContext("/upload", new UploadContext());
 
-                    server.setExecutor(null);
+                    server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
                     server.start();
 
                     System.out.println("Status: Otak server is running!");
