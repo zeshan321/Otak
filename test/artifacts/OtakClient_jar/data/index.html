@@ -118,10 +118,11 @@
         $('#welcome_header').fadeOut();
         $('#welcome_desc').addClass('animated slideOutLeft');
         $('#btn_start').fadeOut();
+        $('#div_install').removeClass('slideOutRight');
         $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
           $('#welcome_header').html("SETUP <span>OTAK</span>");
           $("#welcome_header").fadeIn();
-          $('#welcome_desc').removeClass('slideOutLeft')
+          $('#welcome_desc').removeClass('slideOutLeft slideOutRight')
           $("#welcome_desc").addClass('animated slideInRight');
     			$("#welcome_desc").text("Select where we should keep your files:");
           $('#div_install').addClass('animated slideInRight');
@@ -131,9 +132,52 @@
         });
       });
 
+      //Previous buttons
+      $('#btn_install_prev').click(function(){
+          $('#welcome_header').fadeOut();
+          $('#welcome_desc').addClass('slideOutRight');
+          $('#div_install').addClass('slideOutRight');
+          $('#btn_install').fadeOut();
+          $('#btn_install_prev').fadeOut();
+          $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            $('#btn_start').fadeIn();
+            $('#welcome_header').html("WELCOME TO <span>OTAK</span>");
+            $("#welcome_header").fadeIn();
+            $('#welcome_desc').removeClass('slideOutRight slideInRight');
+            $("#welcome_desc").addClass('slideInLeft');
+            $("#welcome_desc").text("Smart - Easy - Quick - Secure");
+            $('#div_install').hide();
+          });
+      });
+
+      $('#btn_ip_prev').click(function(){
+        $('#btn_ip').fadeOut();
+        $('#btn_ip_prev').fadeOut();
+        $('#div_install').removeClass('slideOutLeft slideInRight slideOutRight');
+        $('#div_ip').removeClass('slideInRight');
+        $('#div_ip').addClass('slideOutRight');
+        $('#welcome_desc').removeClass('slideInRight');
+        $("#welcome_desc").addClass('slideOutRight');
+        $('#div_ip').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+          $('#btn_install').fadeIn();
+          $('#btn_install_prev').fadeIn();
+          $('#welcome_desc').removeClass('slideOutLeft');
+          $('#div_install').addClass('slideInLeft');
+          $('#div_install').show();
+          $('#div_ip').hide();
+        });
+
+        $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+          $("#welcome_desc").removeClass('slideOutRight');
+          $('#welcome_desc').addClass('slideInLeft');
+          $("#welcome_desc").text("Select where we should keep your files:");
+        });
+      });
+
 		function installDone() {
 			$('#btn_install').fadeOut();
       $('#btn_install_prev').fadeOut();
+      $('#div_install').removeClass('slideOutLeft slideInRight slideOutRight');
 			$('#div_install').addClass('slideOutLeft');
       $('#welcome_desc').addClass('slideOutLeft');
       $('#div_install').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
@@ -141,6 +185,7 @@
         $('#btn_ip').fadeIn();
         $('#btn_ip_prev').fadeIn();
         $('#div_ip').show();
+        $('#div_ip').removeClass('slideOutRight');
         $('#div_ip').addClass('animated slideInRight');
       });
 
