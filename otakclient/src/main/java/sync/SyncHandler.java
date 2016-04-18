@@ -13,7 +13,7 @@ public class SyncHandler implements Runnable {
 
     private Config config;
     private String json;
-    private String IP:
+    private String IP;
     private String pass;
 
     public SyncHandler(String json) {

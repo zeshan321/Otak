@@ -7,15 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../test/artifacts/OtakClient_jar/OtakClient.jar" afterPath="$PROJECT_DIR$/../test/artifacts/OtakClient_jar/OtakClient.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../test/artifacts/OtakServer_jar/OtakServer.jar" afterPath="$PROJECT_DIR$/../test/artifacts/OtakServer_jar/OtakServer.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/MainController.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/MainController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/requests/HTTPDownload.java" afterPath="$PROJECT_DIR$/src/main/java/requests/HTTPDownload.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/requests/HTTPGet.java" afterPath="$PROJECT_DIR$/src/main/java/requests/HTTPGet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/FileSync.java" afterPath="$PROJECT_DIR$/src/main/java/utils/FileSync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../otakserver/src/main/java/com/zeshanaslam/otak/Server.java" afterPath="$PROJECT_DIR$/../otakserver/src/main/java/com/zeshanaslam/otak/Server.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../otakserver/src/main/java/utils/ServerUtils.java" afterPath="$PROJECT_DIR$/../otakserver/src/main/java/utils/ServerUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/sync/SyncHandler.java" afterPath="$PROJECT_DIR$/src/main/java/sync/SyncHandler.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -100,7 +93,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileSync.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FileSync.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/utils/FileSync.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
@@ -120,11 +113,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SyncHandler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SyncHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/sync/SyncHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+            <state relative-caret-position="136">
+              <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -269,9 +262,9 @@
         <option value="$PROJECT_DIR$/src/main/java/callback/CompareCallback.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/MainController.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/MainController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/FileSync.java" />
         <option value="$PROJECT_DIR$/src/main/java/sync/Compare.java" />
         <option value="$PROJECT_DIR$/../otakserver/src/main/java/contexts/UploadContext.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/FileSync.java" />
         <option value="$PROJECT_DIR$/src/main/java/sync/SyncHandler.java" />
       </list>
     </option>
@@ -1278,15 +1271,15 @@
       <workItem from="1460395616073" duration="529000" />
       <workItem from="1460504827338" duration="4891000" />
       <workItem from="1460830208718" duration="8011000" />
-      <workItem from="1460919938809" duration="16346000" />
+      <workItem from="1460919938809" duration="16584000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54142000" />
+    <option name="totallyTimeSpent" value="54380000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1566,8 +1559,8 @@
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#455#456#0" expanded="true" />
-            <element signature="e#505#506#0" expanded="true" />
+            <element signature="e#455#456#0" expanded="false" />
+            <element signature="e#505#506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1577,9 +1570,9 @@
         <state relative-caret-position="306">
           <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#468#469#0" expanded="true" />
-            <element signature="e#518#519#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#468#469#0" expanded="false" />
+            <element signature="e#518#519#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1589,8 +1582,8 @@
         <state relative-caret-position="170">
           <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="43" />
           <folding>
-            <element signature="e#414#415#0" expanded="true" />
-            <element signature="e#464#465#0" expanded="true" />
+            <element signature="e#414#415#0" expanded="false" />
+            <element signature="e#464#465#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1669,16 +1662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sync/QueueHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/controllers/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -1703,26 +1686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sync/Compare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="68" column="64" selection-start-line="68" selection-start-column="64" selection-end-line="68" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sync/SyncHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/utils/FileSync.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1737,6 +1700,36 @@
             <element signature="e#7248#7249#0" expanded="true" />
             <element signature="e#7307#7308#0" expanded="true" />
             <element signature="e#7369#7370#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sync/Compare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="68" column="64" selection-start-line="68" selection-start-column="64" selection-end-line="68" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sync/QueueHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sync/SyncHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
