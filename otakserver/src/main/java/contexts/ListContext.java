@@ -51,7 +51,7 @@ public class ListContext implements HttpHandler {
         }
 
         // size -1 to not include the main directory folder
-        server.writeResponse(httpExchange, returnData(filesList.size() -1, jsonArray));
+        server.writeResponse(httpExchange, returnData(filesList.size() - 1, jsonArray));
     }
 
     private String returnData(int count, JSONArray array) {

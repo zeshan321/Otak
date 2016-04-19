@@ -30,6 +30,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class MainController implements Initializable {
 
@@ -210,6 +211,7 @@ public class MainController implements Initializable {
 
                             if (jsonObject.getBoolean("success")) {
                                 config.set("pass", password);
+                                config.set("UUID", UUID.randomUUID());
                                 config.set("setup", true);
                                 config.save();
 
@@ -233,7 +235,7 @@ public class MainController implements Initializable {
             }
         });
     }
-    
+
     private void runScript(String script) {
         Platform.runLater(() -> {
             webView.getEngine().executeScript(script);
@@ -251,7 +253,8 @@ public class MainController implements Initializable {
 
                 if (jsonObject.getBoolean("success")) {
                     thread = (new Thread(new SyncHandler(response)));
-                    thread.start();;
+                    thread.start();
+                    ;
                 } else {
                     System.out.println("Error");
                 }

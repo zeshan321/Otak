@@ -28,7 +28,7 @@ public class HTTPUpload {
                 try {
                     // Wait for file to be ready
                     boolean success = file.renameTo(file);
-                    while(!success) {
+                    while (!success) {
 
                     }
 

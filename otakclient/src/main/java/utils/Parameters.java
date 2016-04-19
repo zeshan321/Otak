@@ -25,7 +25,7 @@ public class Parameters {
                     result += "&";
                 }
 
-                Map.Entry entry = (Map.Entry)iter.next();
+                Map.Entry entry = (Map.Entry) iter.next();
 
                 result += entry.getKey() + "=" + URLEncoder.encode(entry.getValue().toString(), "UTF-8");
             }

@@ -5,7 +5,6 @@ import com.sun.net.httpserver.HttpHandler;
 import com.zeshanaslam.otak.Main;
 import messages.Errors;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Config;

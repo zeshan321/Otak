@@ -12,6 +12,7 @@ import utils.Parameters;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
@@ -20,11 +21,14 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 public class SyncHandler implements Runnable {
 
+    private final byte[] receiveData = new byte[1024];
+    private final byte[] sendData = new byte[1024];
     private Config config;
     private String json;
     private String IP;
     private String pass;
     private String dir;
+    private DatagramSocket clientSocket;
 
     public SyncHandler(String json) {
         this.config = new Config();
@@ -32,10 +36,18 @@ public class SyncHandler implements Runnable {
         this.IP = config.getString("IP");
         this.pass = config.getString("pass");
         this.dir = config.getString("dir");
+
+        try {
+            clientSocket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void run() {
+        startSocket();
+        sendMessage("Hello: " + config.getString("UUID"));
         new Compare(config, json).compareData(new CompareCallback() {
             @Override
             public void onComplete(List<FileObject> filesDownload, List<FileObject> filesUpload) {
@@ -239,5 +251,36 @@ public class SyncHandler implements Runnable {
      */
     private String fixPath(String path) {
         return path.replace(config.getString("dir"), "").replaceAll("\\\\", "/");
+    }
+
+    private void startSocket() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
+                        clientSocket.receive(packet);
+                        System.out.println(new String(packet.getData()));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    private void sendMessage(String message) {
+        try {
+            URL url = new URL(IP);
+            InetAddress address = InetAddress.getByName(url.getHost());
+
+            byte buff[] = message.getBytes();
+            DatagramPacket packetSend = new DatagramPacket(buff, buff.length, address, url.getPort());
+
+            clientSocket.send(packetSend);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -64,6 +64,7 @@ public class Main {
             System.out.println("Welcome to Otak. Starting server: " + config.getString("name"));
             System.out.println("HTTPS: " + config.getString("https") + "\n");
             new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), config.getInt("port")).start();
+            new Thread(new Notifier(config, config.getInt("port"))).start();
         }
     }
 }
