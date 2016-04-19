@@ -1,11 +1,9 @@
 .notification{
     position:fixed;
     top: 20px;
-    right:0;
-    background-color:#FF4136;
-    padding: 20px;
-    color: #fff;
-    font-size:21px;
+    right: 20px;;
+    padding: 10px;
+    font-size:12px;
     display:none;
 }
 .notification-success{
