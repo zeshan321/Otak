@@ -37,14 +37,16 @@ public class UploadContext implements HttpHandler {
 
         switch (params.get("type")) {
             case "dir":
-                new File(config.getString("dir") + File.separator + params.get("file")).mkdirs();
+                File file = new File(config.getString("dir") + File.separator + params.get("file"));
+                file.mkdirs();
 
                 server.writeResponse(httpExchange, returnData(true));
+                Main.sendMessage("Download: " + fileJSON(params.get("file"), file.lastModified(), file.isDirectory()), params.get("sender"));
                 break;
 
             case "file":
                 // Needs new thread
-                File file = new File(config.getString("dir") + File.separator + params.get("file"));
+                file = new File(config.getString("dir") + File.separator + params.get("file"));
 
                 if (file.exists()) {
                     file.delete();
@@ -65,6 +67,7 @@ public class UploadContext implements HttpHandler {
                 inputStream.close();
 
                 server.writeResponse(httpExchange, returnData(true));
+                Main.sendMessage("Download: " + fileJSON(params.get("file"), file.lastModified(), file.isDirectory()), params.get("sender"));
                 break;
 
             case "delete":
@@ -76,6 +79,7 @@ public class UploadContext implements HttpHandler {
                 }
 
                 server.writeResponse(httpExchange, returnData(true));
+                Main.sendMessage("Delete: " + fileJSON(params.get("file"), fileDel.lastModified(), fileDel.isDirectory()), params.get("sender"));
                 break;
             default:
                 server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.MISSING));
@@ -95,5 +99,21 @@ public class UploadContext implements HttpHandler {
         }
 
         return data;
+    }
+
+    private String fileJSON(String file, long timestamp, boolean isDir) {
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject();
+            jsonObject.put("file", file);
+            jsonObject.put("timestamp", timestamp);
+            jsonObject.put("dir", isDir);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject.toString();
     }
 }

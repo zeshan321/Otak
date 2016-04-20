@@ -1,14 +1,22 @@
 package com.zeshanaslam.otak;
 
+import Objects.ClientObject;
 import secure.JKSGenerator;
 import utils.Config;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class Main {
 
     public static Config config;
+
+    public static DatagramSocket serverSocket;
+    public static HashMap<String, ClientObject> clients = new HashMap<>();
 
     public static void main(String args[]) throws Exception {
         Scanner reader = new Scanner(System.in);
@@ -63,8 +71,54 @@ public class Main {
         } else {
             System.out.println("Welcome to Otak. Starting server: " + config.getString("name"));
             System.out.println("HTTPS: " + config.getString("https") + "\n");
-            new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), config.getInt("port")).start();
-            new Thread(new Notifier(config, config.getInt("port"))).start();
+
+            int port = config.getInt("port");
+
+            // Start HTTP server
+            new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), port).start();
+
+            // Start UDP socket
+            try {
+                serverSocket = new DatagramSocket(port);
+
+                while (true) {
+                    byte buffer[] = new byte[1024];
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                    serverSocket.receive(packet);
+
+                    String UUID = new String(packet.getData()).replace("Ping: ", "");
+                    clients.put(UUID, new ClientObject(UUID, packet.getAddress(), packet.getPort()));
+                    sendMessage(clients.get(UUID), "Pong: " + UUID);
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void sendMessage(ClientObject clientObject, String message) {
+        try {
+            DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), clientObject.IP, clientObject.port);
+
+            serverSocket.send(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendMessage(String message, String UUID) {
+        try {
+            for (ClientObject clientObject : clients.values()) {
+                if (!clientObject.UUID.equals(UUID)) {
+                    DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), clientObject.IP, clientObject.port);
+
+                    serverSocket.send(packet);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

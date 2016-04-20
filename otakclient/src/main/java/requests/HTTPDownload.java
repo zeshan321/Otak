@@ -61,6 +61,8 @@ public class HTTPDownload {
                         } finally {
                             IOUtils.closeQuietly(inputStream);
                             IOUtils.closeQuietly(outputStream);
+
+                            callBack.onRequestComplete();
                         }
 
                     } else {
@@ -76,6 +78,8 @@ public class HTTPDownload {
                         } finally {
                             IOUtils.closeQuietly(inputStream);
                             IOUtils.closeQuietly(outputStream);
+
+                            callBack.onRequestComplete();
                         }
                     }
                 } catch (Exception e) {
