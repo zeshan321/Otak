@@ -14,17 +14,55 @@
 
 <body>
 
-    <!-- Welcome start -->
-    <div class="container welcome-text">
-        <div class="caption">
-            <h1 id="welcome_header">WELCOME TO <span>OTAK</span></h1>
-            <p id="welcome_desc">Setup complete!</p>
+    <!-- Home -->
+    <div class="container-fluid">
+      <div class="row">
+          <div id="servername" class="col-xs-18 col-md-12 home-header"><h5><span class="glyphicon glyphicon-hdd"></span> Server_name<span class="glyphicon glyphicon-refresh right"></span><inline class="right" id="updatedat"> Last updated: ?:?? PM</inline></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3 col-md-2 nav fill">
+          <div class="btn-home"><a href="#"><span class="glyphicon glyphicon-home"></span> Home_link</a></div>
+          <div class="dropdown">
+            <button class="btn-home dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-time"></span> Recent Items
+            <span class="caret"></span></button>
+            <ul id="recents" class="dropdown-menu">
+              <li><a href="#"><span class="glyphicon glyphicon-folder-close"></span> Folder</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-file"></span> File</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-16 col-md-10 fill">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+            <li><a href="#menu1" data-toggle="tab">Menu 1</a></li>
+            <li><a href="#menu2" data-toggle="tab">Menu 2</a></li>
+            <li><a href="#" data-toggle="tab">Menu 3</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+              <h3>HOME</h3>
+              <p>Some content.</p>
             </div>
+            <div id="menu1" class="tab-pane fade">
+              <h3>Menu 1</h3>
+              <p>Some content in menu 1.</p>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+              <h3>Menu 2</h3>
+              <p>Some content in menu 2.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/notification.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/notification.js"></script>
+    <script>
+
+    </script>
 </body>
 
 </html>
