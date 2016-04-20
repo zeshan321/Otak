@@ -11,7 +11,7 @@ function showNotification() {
 
     $('.notification.' + nextNoti).removeClass('bounceOutRight notification-show animated bounceInRight');
     $('.notification.' + nextNoti).addClass('notification-show animated bounceInRight');
-	
+
     $('.notification.' + nextNoti).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
         setTimeout(function() {
             $('.notification.' + nextNoti).addClass('animated bounceOutRight');
@@ -29,6 +29,8 @@ function showNotification() {
 }
 
 function addNotification(type) {
-    notificationArray.push(type);
+    if (notificationArray.indexOf(type) == -1){
+      notificationArray.push(type);
+    }
     showNotification();
 }

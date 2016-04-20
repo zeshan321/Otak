@@ -84,7 +84,7 @@
 							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 
 							</button>
-							 <h4 class="modal-title" id="myModalLabel">Login</h4>
+							 <h4 class="modal-title" id="myModalLabel">Connect to: </h4>
 						</div>
 						<div class="modal-body">
 						  <div class="form-element">
@@ -200,6 +200,7 @@
 		document.getElementById('domainList').onclick = function(event) {
 			var target = getEventTarget(event);
 			input_IP.value = "Local: " + target.innerHTML;
+      $("#myModalLabel").text("Connect to: " + target.innerHTML);
 		};
 
 		function addDomain(info) {

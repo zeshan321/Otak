@@ -5,6 +5,8 @@
     padding: 10px;
     font-size:12px;
     display:none;
+
+    z-index: 999999;
 }
 .notification-success{
   background-color:#028fcc;
