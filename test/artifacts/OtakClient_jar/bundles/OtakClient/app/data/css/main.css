@@ -1,3 +1,31 @@
+/*** Works on common browsers ***/
+::selection {
+    background-color: #076CB9;
+    color: red;
+}
+
+/*** Mozilla based browsers ***/
+::-moz-selection {
+    background-color: #076CB9;
+    color: red;
+}
+
+/***For Other Browsers ***/
+::-o-selection {
+    background-color: #076CB9;
+    color: red;
+}
+
+::-ms-selection {
+    background-color: #076CB9;
+    color: red;
+}
+
+/*** For Webkit ***/
+::-webkit-selection {
+    background-color: #076CB9;
+    color: red;
+}
 .setup {
     background: url(../images/slider/1.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -120,13 +148,15 @@ ul.nav a:hover{
   text-decoration: none;
 }
 .btn-home{
-  position:relative;
+  position:block;
   height:30px;
   background-color: transparent;
   width: 100%;
-  padding-left: 40px;
+  padding-left: 50px;
   padding-top: 5px;
   border: none;
+  cursor:pointer;
+  margin: 0 auto;
 }
 .btn-home:hover{
   color: #cbc8c8;
