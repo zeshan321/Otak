@@ -120,11 +120,12 @@ ul.nav a:hover{
   text-decoration: none;
 }
 .btn-home{
-  color: #eee;
+  position:relative;
+  height:30px;
   background-color: transparent;
   width: 100%;
-  text-align: left;
-  padding: 10px;
+  padding-left: 40px;
+  padding-top: 5px;
   border: none;
 }
 .btn-home:hover{
