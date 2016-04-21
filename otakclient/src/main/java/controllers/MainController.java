@@ -22,6 +22,7 @@ import sync.SyncHandler;
 import utils.Config;
 import utils.Parameters;
 import utils.ResponsiveWeb;
+import views.HomeView;
 
 import javax.jmdns.JmDNS;
 import java.io.File;
@@ -40,9 +41,6 @@ public class MainController implements Initializable {
     @FXML
     private WebView webView;
 
-    private boolean isSetup;
-    private Thread thread;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         final Config config = new Config();
@@ -50,15 +48,7 @@ public class MainController implements Initializable {
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);
         webView.setContextMenuEnabled(false);
-
-        isSetup = config.contains("setup") && config.getBoolean("setup");
-        if (isSetup) {
-            webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
-
-            startSync(config);
-        } else {
-            webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "index.html");
-        }
+        webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "index.html");
 
         // Make web view responsive
         new ResponsiveWeb(anchorPane, webView).makeResponsive();
@@ -66,13 +56,6 @@ public class MainController implements Initializable {
         // Wait for UI to finish loading
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
-                if (isSetup) {
-                    if (thread == null) {
-                        startSync(config);
-                    }
-                    return;
-                }
-
                 final Document doc = webView.getEngine().getDocument();
 
                 // Directory selection
@@ -112,7 +95,7 @@ public class MainController implements Initializable {
                     public void run() {
                         try {
                             JmDNS jmdns = JmDNS.create();
-                            jmdns.addServiceListener("_http._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
+                            jmdns.addServiceListener("_http.otak._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
 
                                 @Override
                                 public void onFound(final JmDNS jmDNS, final ServerObject serverObject) {
@@ -128,7 +111,7 @@ public class MainController implements Initializable {
                                 public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
 
                                     // Remove if otak server is no longer online
-                                    // Platform.runLater(() -> runScript("removeDomain(\"" + serverObject.name + "\");"));
+                                    runScript("removeDomain(\"" + serverObject.name + "\");");
                                 }
                             }));
                         } catch (IOException e) {
@@ -142,7 +125,7 @@ public class MainController implements Initializable {
                     public void run() {
                         try {
                             JmDNS jmdns = JmDNS.create();
-                            jmdns.addServiceListener("_https._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
+                            jmdns.addServiceListener("_https.otak._tcp.local.", new JmDNSListener(new OtakServerFoundCallback() {
 
                                 @Override
                                 public void onFound(final JmDNS jmDNS, final ServerObject serverObject) {
@@ -156,9 +139,8 @@ public class MainController implements Initializable {
 
                                 @Override
                                 public void onRemove(final JmDNS jmDNS, final ServerObject serverObject) {
-
                                     // Remove if otak server is no longer online
-                                    // Platform.runLater(() -> runScript("removeDomain(\"" + serverObject.name + "\");"));
+                                    runScript("removeDomain(\"" + serverObject.name + "\");");
                                 }
                             }));
                         } catch (IOException e) {
@@ -216,11 +198,16 @@ public class MainController implements Initializable {
                                 config.set("setup", true);
                                 config.save();
 
-                                isSetup = true;
                                 runScript("addNotification('connected');");
 
+                                // Change stage to home page
                                 Platform.runLater(() -> {
-                                    webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
+                                    stage.close();
+                                    try {
+                                        new HomeView().start(new Stage());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 });
                             } else {
                                 runScript("addNotification('error-login');");
@@ -240,31 +227,6 @@ public class MainController implements Initializable {
     private void runScript(String script) {
         Platform.runLater(() -> {
             webView.getEngine().executeScript(script);
-        });
-    }
-
-    private void startSync(Config config) {
-        Parameters parameters = new Parameters();
-        parameters.add("pass", config.getString("pass"));
-
-        new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
-            @Override
-            public void onSuccess(String IP, String response) {
-                JSONObject jsonObject = new JSONObject(response);
-
-                if (jsonObject.getBoolean("success")) {
-                    thread = (new Thread(new SyncHandler(response)));
-                    thread.start();
-                    ;
-                } else {
-                    System.out.println("Error");
-                }
-            }
-
-            @Override
-            public void onError() {
-
-            }
         });
     }
 }

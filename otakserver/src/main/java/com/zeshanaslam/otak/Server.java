@@ -126,9 +126,9 @@ class Server {
                     ServiceInfo serviceInfo;
 
                     if (https) {
-                        serviceInfo = ServiceInfo.create("_https._tcp.local.", "Otak Server", port, serverName);
+                        serviceInfo = ServiceInfo.create("_https.otak._tcp.local.", "Otak Server", port, serverName);
                     } else {
-                        serviceInfo = ServiceInfo.create("_http._tcp.local.", "Otak Server", port, serverName);
+                        serviceInfo = ServiceInfo.create("_http.otak._tcp.local.", "Otak Server", port, serverName);
                     }
 
                     jmDNS.registerService(serviceInfo);

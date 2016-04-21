@@ -1,5 +1,7 @@
 package com.zeshanaslam.otak;
 
+import utils.Config;
+import views.HomeView;
 import views.MainView;
 
 public class Main {
@@ -13,7 +15,13 @@ public class Main {
                 System.setProperty("prism.text", "t2k");
 
                 // Start first view
-                javafx.application.Application.launch(MainView.class);
+                Config config = new Config();
+
+                if (config.contains("setup") && config.getBoolean("setup")) {
+                    javafx.application.Application.launch(HomeView.class);
+                } else {
+                    javafx.application.Application.launch(MainView.class);
+                }
             }
         }.start();
     }

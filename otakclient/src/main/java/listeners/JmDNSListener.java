@@ -3,6 +3,7 @@ package listeners;
 import callback.HTTPCallback;
 import callback.OtakServerFoundCallback;
 import objects.ServerObject;
+import org.json.JSONException;
 import org.json.JSONObject;
 import requests.HTTPGet;
 
@@ -30,7 +31,7 @@ public class JmDNSListener implements ServiceListener {
     @SuppressWarnings("deprecation")
     @Override
     public void serviceResolved(final ServiceEvent event) {
-        boolean isHTTPS = event.getType().equals("_https._tcp.local.");
+        boolean isHTTPS = event.getType().equals("_https.otak._tcp.local.");
 
         String url;
         if (isHTTPS) {

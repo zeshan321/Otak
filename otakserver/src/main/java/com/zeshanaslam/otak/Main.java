@@ -1,6 +1,6 @@
 package com.zeshanaslam.otak;
 
-import Objects.ClientObject;
+import objects.ClientObject;
 import secure.JKSGenerator;
 import utils.Config;
 
