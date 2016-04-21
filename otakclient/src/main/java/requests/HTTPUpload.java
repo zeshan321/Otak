@@ -26,7 +26,7 @@ public class HTTPUpload {
             @Override
             public void run() {
                 try {
-                    // Wait for file to be ready
+                    // Wait for file to be ready. Change this!
                     boolean success = file.renameTo(file);
                     while (!success) {
 

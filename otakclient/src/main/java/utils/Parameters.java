@@ -17,15 +17,15 @@ public class Parameters {
     @Override
     public String toString() {
         String result = "?";
-        Iterator iter = params.entrySet().iterator();
+        Iterator iterator = params.entrySet().iterator();
 
         try {
-            while (iter.hasNext()) {
+            while (iterator.hasNext()) {
                 if (!result.endsWith("?")) {
                     result += "&";
                 }
 
-                Map.Entry entry = (Map.Entry) iter.next();
+                Map.Entry entry = (Map.Entry) iterator.next();
 
                 result += entry.getKey() + "=" + URLEncoder.encode(entry.getValue().toString(), "UTF-8");
             }

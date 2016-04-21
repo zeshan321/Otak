@@ -47,7 +47,19 @@ public class Compare {
                 JSONObject serverFile = serverArray.getJSONObject(e);
 
                 if (file.equals(serverFile.getString("file"))) {
-                    found = true;
+                    if (!isDir) {
+                        if (timestamp == serverFile.getLong("timestamp")) {
+                            found = true;
+                        }
+
+                        if (timestamp > serverFile.getLong("timestamp")) {
+                            break;
+                        } else {
+                            found = true;
+                        }
+                    } else {
+                        found = true;
+                    }
                     break;
                 }
             }
@@ -69,7 +81,19 @@ public class Compare {
                 JSONObject clientFile = clientArray.getJSONObject(e);
 
                 if (file.equals(clientFile.getString("file"))) {
-                    found = true;
+                    if (!isDir) {
+                        if (timestamp == clientFile.getLong("timestamp")) {
+                            found = true;
+                        }
+
+                        if (timestamp > clientFile.getLong("timestamp")) {
+                            break;
+                        } else {
+                            found = true;
+                        }
+                    } else {
+                        found = true;
+                    }
                     break;
                 }
             }

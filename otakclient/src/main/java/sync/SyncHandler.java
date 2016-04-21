@@ -4,6 +4,9 @@ import callback.CompareCallback;
 import callback.DownloadCallback;
 import callback.HTTPCallback;
 import objects.FileObject;
+import org.apache.commons.io.monitor.FileAlterationListener;
+import org.apache.commons.io.monitor.FileAlterationMonitor;
+import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.json.JSONObject;
 import requests.HTTPDownload;
 import requests.HTTPGet;
@@ -14,33 +17,27 @@ import utils.Parameters;
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.nio.file.StandardWatchEventKinds.*;
-
 public class SyncHandler implements Runnable {
 
-    private final byte[] receiveData = new byte[1024];
-    private final byte[] sendData = new byte[1024];
     private Config config;
     private String json;
-    private String IP;
-    private String pass;
-    private String dir;
-
-    private List<String> files = new ArrayList<>();
     private DatagramSocket clientSocket;
+
+    private List<String> filesIgnore = new ArrayList<>();
+    private String marker = ".DNUPLOAD";
 
     public SyncHandler(String json) {
         this.config = new Config();
         this.json = json;
-        this.IP = config.getString("IP");
-        this.pass = config.getString("pass");
-        this.dir = config.getString("dir");
 
+        // Initialize socket
         try {
             clientSocket = new DatagramSocket();
         } catch (SocketException e) {
@@ -50,8 +47,10 @@ public class SyncHandler implements Runnable {
 
     @Override
     public void run() {
+        // Start socket
         startSocket();
         sendMessage("Ping: " + config.getString("UUID"));
+
         new Compare(config, json).compareData(new CompareCallback() {
             @Override
             public void onComplete(List<FileObject> filesDownload, List<FileObject> filesUpload) {
@@ -62,12 +61,14 @@ public class SyncHandler implements Runnable {
                     }
 
                     for (FileObject fileObject : filesUpload) {
-                        if (fileObject.isDir) {
+                        if (fileObject.file.contains(marker)) {
+                            continue;
+                        }
 
+                        if (fileObject.isDir) {
                             // Create dir on server
                             updateFile(fileObject, "dir");
                         } else {
-
                             // Upload file to server
                             uploadFile(fileObject);
                         }
@@ -81,68 +82,143 @@ public class SyncHandler implements Runnable {
             }
         });
 
-        // Watch dir for changes
-        Path path = Paths.get(dir);
+        // Watch directory for changes
+        FileAlterationObserver fileAlterationObserver = new FileAlterationObserver(config.getString("dir"));
+        fileAlterationObserver.addListener(new FileAlterationListener() {
+            @Override
+            public void onStart(FileAlterationObserver fileAlterationObserver) {
 
-        try {
-            WatchService watcher = path.getFileSystem().newWatchService();
+            }
 
-            // Watch every sub-dir in path
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
+            @Override
+            public void onDirectoryCreate(File file) {
+                FileObject fileObject = new FileObject(fixPath(file.getAbsolutePath()), true, 0);
 
-            WatchKey watchKey;
-
-            while (true) {
-                watchKey = watcher.take();
-
-                List<WatchEvent<?>> events = watchKey.pollEvents();
-                for (WatchEvent event : events) {
-                    Path dir = (Path) watchKey.watchable();
-                    Path fullPath = dir.resolve((Path) event.context());
-                    File file = fullPath.toFile();
-                    FileObject fileObject = new FileObject(fixPath(fullPath.toString()), file.isDirectory(), file.lastModified());
-
-                    if (!file.getName().endsWith(".otak")) {
-                        if (!files.contains(fileObject.file)) {
-                            if (event.kind() == ENTRY_CREATE) {
-                                if (fileObject.isDir) {
-                                    // Register to listener
-                                    fullPath.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-                                    updateFile(fileObject, "dir");
-                                } else {
-                                    uploadFile(fileObject);
-                                }
-                            } else if (event.kind() == ENTRY_MODIFY) {
-                                // Upload file if it isn't a directory. Check if file exists to prevent error on dir delete
-                                if (file.isDirectory()) {
-                                    fullPath.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-                                } else {
-                                    if (file.exists()) {
-                                        uploadFile(fileObject);
-                                    }
-                                }
-                            } else if (event.kind() == ENTRY_DELETE) {
-                                updateFile(fixPath(fullPath.toString()), "delete");
-                            }
-                        }
-                    } else {
-                        files.remove(fileObject.file);
-                    }
-                }
-
-                if (!watchKey.reset()) {
-                    break;
+                if (!filesIgnore.contains(fileObject.file)) {
+                    updateFile(fileObject, "dir");
+                } else {
+                    filesIgnore.remove(fileObject.file);
                 }
             }
 
+            @Override
+            public void onDirectoryChange(File file) {
+                // Ignore
+            }
+
+            @Override
+            public void onDirectoryDelete(File file) {
+                FileObject fileObject = new FileObject(fixPath(file.getAbsolutePath()), true, 0);
+
+                updateFile(fileObject, "delete");
+            }
+
+            @Override
+            public void onFileCreate(File file) {
+                FileObject fileObject = new FileObject(fixPath(file.getAbsolutePath()), file.isDirectory(), file.lastModified());
+
+                if (!fileObject.file.endsWith(marker)) {
+                    if (!filesIgnore.contains(fileObject.file)) {
+                        uploadFile(fileObject);
+                    } else {
+                        filesIgnore.remove(fileObject.file);
+                    }
+                }
+            }
+
+            @Override
+            public void onFileChange(File file) {
+                FileObject fileObject = new FileObject(fixPath(file.getAbsolutePath()), file.isDirectory(), file.lastModified());
+
+                if (!fileObject.file.endsWith(marker)) {
+                    if (!filesIgnore.contains(fileObject.file)) {
+                        uploadFile(fileObject);
+                    } else {
+                        filesIgnore.remove(fileObject.file);
+                    }
+                }
+            }
+
+            @Override
+            public void onFileDelete(File file) {
+                FileObject fileObject = new FileObject(fixPath(file.getAbsolutePath()), false, 0);
+
+                if (!fileObject.file.endsWith(marker)) {
+                    if (!filesIgnore.contains(fileObject.file)) {
+                        updateFile(fileObject, "delete");
+                    } else {
+                        filesIgnore.remove(fileObject.file);
+                    }
+                }
+            }
+
+            @Override
+            public void onStop(FileAlterationObserver fileAlterationObserver) {
+
+            }
+        });
+
+        FileAlterationMonitor monitor = new FileAlterationMonitor(3000);
+        monitor.addObserver(fileAlterationObserver);
+
+        try {
+            monitor.start();
         } catch (Exception e) {
-            System.out.println("Error: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Start socket connection to server to be notified of updates
+     */
+    private void startSocket() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        byte[] receiveData = new byte[1024];
+
+                        DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
+                        clientSocket.receive(packet);
+
+                        String update = new String(packet.getData());
+                        JSONObject json;
+
+                        if (update.startsWith("Download: ")) {
+                            json = new JSONObject(update.replace("Download: ", ""));
+
+                            downloadFile(new FileObject(json.getString("file"), json.getBoolean("dir"), json.getLong("timestamp")));
+                        }
+
+                        if (update.startsWith("Delete: ")) {
+                            json = new JSONObject(update.replace("Delete: ", ""));
+
+                            File file = new File(config.getString("dir") + File.separator + json.getString("file"));
+                            file.delete();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * Send message to server socket
+     */
+    private void sendMessage(String message) {
+        try {
+            URL url = new URL(config.getString("IP"));
+            InetAddress address = InetAddress.getByName(url.getHost());
+
+            byte buff[] = message.getBytes();
+            DatagramPacket packetSend = new DatagramPacket(buff, buff.length, address, url.getPort());
+
+            clientSocket.send(packetSend);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -151,31 +227,30 @@ public class SyncHandler implements Runnable {
      * If it is a directory it will be created.
      */
     private void downloadFile(FileObject fileObject) {
-        files.add(fileObject.file);
+        filesIgnore.add(fileObject.file);
 
         if (fileObject.isDir) {
-            File file = new File(dir + File.separator + fileObject.file);
+            File file = new File(config.getString("dir") + File.separator + fileObject.file);
             file.mkdirs();
 
             // Set last modified to correct timestamp
             file.setLastModified(fileObject.timestamp);
         } else {
-            File file = new File(dir + File.separator + fileObject.file + ".otak");
+            File file = new File(config.getString("dir") + File.separator + fileObject.file + marker);
 
             Parameters parameters = new Parameters();
             parameters.add("pass", config.getString("pass"));
             parameters.add("file", fileObject.file);
             parameters.add("sender", config.getString("UUID"));
 
-            new HTTPDownload(IP + "/download", parameters.toString()).downloadFile(file, new DownloadCallback() {
+            new HTTPDownload(config.getString("IP") + "/download", parameters.toString()).downloadFile(file, new DownloadCallback() {
                 @Override
                 public void onRequestComplete() {
                     // Set last modified to correct timestamp
                     file.setLastModified(fileObject.timestamp);
 
-                    System.out.println(file.getPath().replace(".otak", ""));
-                    File newFile = new File(file.getPath().replace(".otak", ""));
-                    file.renameTo(newFile);
+                    // Rename file
+                    renameFile(file, fileObject.file);
                 }
 
                 @Override
@@ -189,14 +264,13 @@ public class SyncHandler implements Runnable {
                 }
             });
         }
-
     }
 
     /**
      * Uploads file to te Otak server
      */
     private void uploadFile(FileObject fileObject) {
-        File file = new File(dir + File.separator + fileObject.file);
+        File file = new File(config.getString("dir") + File.separator + fileObject.file);
 
         Parameters parameters = new Parameters();
         parameters.add("pass", config.getString("pass"));
@@ -244,95 +318,23 @@ public class SyncHandler implements Runnable {
     }
 
     /**
-     * Creates directories or deletes files on the server
-     *
-     * @param file file path
-     * @param type can be 'dir' or 'delete'
-     */
-    private void updateFile(String file, String type) {
-        Parameters parameters = new Parameters();
-        parameters.add("pass", config.getString("pass"));
-        parameters.add("file", file);
-        parameters.add("type", type);
-        parameters.add("sender", config.getString("UUID"));
-
-        new HTTPGet(config.getString("IP") + "/upload", parameters.toString()).sendGet(new HTTPCallback() {
-            @Override
-            public void onSuccess(String IP, String response) {
-
-            }
-
-            @Override
-            public void onError() {
-                // Add to queue and try again later
-            }
-        });
-    }
-
-
-    /**
      * Fix string to stay consistent to server path
      */
     private String fixPath(String path) {
         return path.replace(config.getString("dir"), "").replaceAll("\\\\", "/");
     }
 
+
     /**
-     * Start socket connection to server to be notified of updates
+     * Rename file
      */
-    private void startSocket() {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        byte[] receiveData = new byte[1024];
+    private void renameFile(File file, String name) {
+        Path oldFile = file.toPath();
+        Path newFile = Paths.get(config.getString("dir") + File.separator + name);
 
-                        DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
-                        clientSocket.receive(packet);
-
-                        String update = new String(packet.getData());
-                        JSONObject json;
-
-                        if (update.startsWith("Download: ")) {
-                            json = new JSONObject(update.replace("Download: ", ""));
-                            File file = new File(config.getString("dir") + File.separator + json.getString("file"));
-
-                            if (!file.exists()) {
-                                downloadFile(new FileObject(json.getString("file"), json.getBoolean("dir"), json.getLong("timestamp")));
-                            }
-                        }
-
-                        if (update.startsWith("Delete: ")) {
-                            json = new JSONObject(update.replace("Delete: ", ""));
-
-                            File file = new File(config.getString("dir") + File.separator + json.getString("file"));
-                            file.delete();
-                        }
-
-                        if (update.startsWith("Modified: ")) {
-                            json = new JSONObject(update.replace("Modified: ", ""));
-
-                            downloadFile(new FileObject(json.getString("file"), json.getBoolean("dir"), json.getLong("timestamp")));
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    private void sendMessage(String message) {
         try {
-            URL url = new URL(IP);
-            InetAddress address = InetAddress.getByName(url.getHost());
-
-            byte buff[] = message.getBytes();
-            DatagramPacket packetSend = new DatagramPacket(buff, buff.length, address, url.getPort());
-
-            clientSocket.send(packetSend);
-        } catch (Exception e) {
+            Files.move(oldFile, newFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
