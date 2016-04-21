@@ -72,6 +72,10 @@ public class UploadContext implements HttpHandler {
 
             case "delete":
                 File fileDel = new File(config.getString("dir") + File.separator + params.get("file"));
+
+                long timestamp = fileDel.lastModified();
+                boolean isDir = fileDel.isDirectory();
+
                 if (fileDel.isDirectory()) {
                     FileUtils.deleteDirectory(fileDel);
                 } else {
@@ -79,7 +83,7 @@ public class UploadContext implements HttpHandler {
                 }
 
                 server.writeResponse(httpExchange, returnData(true));
-                Main.sendMessage("Delete: " + fileJSON(params.get("file"), fileDel.lastModified(), fileDel.isDirectory()), params.get("sender"));
+                Main.sendMessage("Delete: " + fileJSON(params.get("file"), timestamp, isDir), params.get("sender"));
                 break;
             default:
                 server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.MISSING));
