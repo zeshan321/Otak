@@ -49,6 +49,7 @@ public class MainController implements Initializable {
 
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);
+        webView.setContextMenuEnabled(false);
 
         isSetup = config.contains("setup") && config.getBoolean("setup");
         if (isSetup) {
