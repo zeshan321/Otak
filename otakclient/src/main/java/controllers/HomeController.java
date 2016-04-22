@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import requests.HTTPGet;
 import sync.SyncHandler;
 import utils.Config;
@@ -44,8 +46,12 @@ public class HomeController implements Initializable {
         // Wait for UI to finish loading
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
-                // Start snycing files
+                Document doc = webView.getEngine().getDocument();
+                // Start syncing files
                 startSync(config);
+
+                Element element = doc.getElementById("servername-header");
+                element.setTextContent("Testing");
             }
         });
     }
