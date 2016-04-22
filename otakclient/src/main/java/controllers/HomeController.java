@@ -10,7 +10,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import requests.HTTPGet;
 import sync.SyncHandler;
 import utils.Config;
@@ -24,12 +23,11 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
+    public Stage stage;
     @FXML
     private AnchorPane anchorPane;
     @FXML
     private WebView webView;
-
-    public Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,8 +48,8 @@ public class HomeController implements Initializable {
                 // Start syncing files
                 startSync(config);
 
-                Element element = doc.getElementById("servername-header");
-                element.setTextContent("Testing");
+                /*Element element = doc.getElementById("servername-header");
+                element.setTextContent("Testing");*/
             }
         });
     }

@@ -18,7 +18,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
-import sync.SyncHandler;
 import utils.Config;
 import utils.Parameters;
 import utils.ResponsiveWeb;

@@ -3,7 +3,6 @@ package listeners;
 import callback.HTTPCallback;
 import callback.OtakServerFoundCallback;
 import objects.ServerObject;
-import org.json.JSONException;
 import org.json.JSONObject;
 import requests.HTTPGet;
 

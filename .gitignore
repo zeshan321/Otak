@@ -17,3 +17,4 @@ test.bat
 test/artifacts/OtakServer_jar/Files/
 test/artifacts/OtakClient_jar/Files/
 otakclient/.idea/workspace.xml
+/test/artifacts/OtakClient_jar/windows/

@@ -1,10 +1,12 @@
 package com.zeshanaslam.otak;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
 import utils.Config;
 import views.HomeView;
 import views.MainView;
 
-public class Main {
+public class Main extends Application {
 
     public static void main(String[] args) {
         new Thread() {
@@ -24,5 +26,10 @@ public class Main {
                 }
             }
         }.start();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.close();
     }
 }
