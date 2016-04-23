@@ -10,18 +10,21 @@ import secure.TLSHandler;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 class Server {
 
     private JmDNS jmDNS;
+    private Scanner reader;
     private String IP;
     private String serverName;
     private boolean https;
     private int port;
 
     Server(String IP, String serverName, boolean https, int port) {
+        reader = new Scanner(System.in);
         this.IP = IP;
         this.serverName = serverName;
         this.https = https;
@@ -53,20 +56,7 @@ class Server {
 
                         System.out.println("Status: Otak server is running!");
 
-                        Scanner reader = new Scanner(System.in);
-                        while (true) {
-                            System.out.print(" > ");
-                            String cmd = reader.nextLine();
-
-                            if (cmd.equals("exit")) {
-                                System.out.println("Exiting...");
-                                jmDNS.unregisterAllServices();
-                                jmDNS.close();
-                                System.exit(0);
-                            }
-
-                            System.out.println("Error: Unknown command");
-                        }
+                        parseCommands();
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                         e.printStackTrace();
@@ -96,20 +86,7 @@ class Server {
 
                         System.out.println("Status: Otak server is running!");
 
-                        Scanner reader = new Scanner(System.in);
-                        while (true) {
-                            System.out.print(" > ");
-                            String cmd = reader.nextLine();
-
-                            if (cmd.equals("exit")) {
-                                System.out.println("Exiting...");
-                                jmDNS.unregisterAllServices();
-                                jmDNS.close();
-                                System.exit(0);
-                            }
-
-                            System.out.println("Error: Unknown command");
-                        }
+                        parseCommands();
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                         e.printStackTrace();
@@ -138,5 +115,21 @@ class Server {
                 }
             }
         }.start();
+    }
+
+    private void parseCommands() throws IOException {
+        while (true) {
+            System.out.print(" > ");
+            String cmd = reader.nextLine();
+
+            if (cmd.equals("exit")) {
+                System.out.println("Exiting...");
+                jmDNS.unregisterAllServices();
+                jmDNS.close();
+                System.exit(0);
+            }
+
+            System.out.println("Error: Unknown command");
+        }
     }
 }

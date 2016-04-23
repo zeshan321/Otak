@@ -49,7 +49,11 @@ public class SyncHandler implements Runnable {
     public void run() {
         // Start socket
         startSocket();
-        sendMessage("Ping: " + config.getString("UUID"));
+
+        // Send server client UUID
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("UUID", config.getString("UUID"));
+        sendMessage("Ping: " + jsonObject);
 
         new Compare(config, json).compareData(new CompareCallback() {
             @Override
@@ -187,12 +191,14 @@ public class SyncHandler implements Runnable {
 
                         if (update.startsWith("Download: ")) {
                             json = new JSONObject(update.replace("Download: ", ""));
+                            System.out.println("Download: " + json);
 
                             downloadFile(new FileObject(json.getString("file"), json.getBoolean("dir"), json.getLong("timestamp")));
                         }
 
                         if (update.startsWith("Delete: ")) {
                             json = new JSONObject(update.replace("Delete: ", ""));
+                            System.out.println("Delete: " + json);
 
                             File file = new File(config.getString("dir") + File.separator + json.getString("file"));
                             file.delete();

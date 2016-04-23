@@ -1,6 +1,7 @@
 package com.zeshanaslam.otak;
 
 import objects.ClientObject;
+import org.json.JSONObject;
 import secure.JKSGenerator;
 import utils.Config;
 
@@ -14,9 +15,8 @@ import java.util.UUID;
 public class Main {
 
     public static Config config;
-
-    public static DatagramSocket serverSocket;
     public static HashMap<String, ClientObject> clients = new HashMap<>();
+    static DatagramSocket serverSocket;
 
     public static void main(String args[]) throws Exception {
         Scanner reader = new Scanner(System.in);
@@ -53,9 +53,6 @@ public class Main {
             System.out.print(" > ");
             config.set("https", reader.nextBoolean());
 
-            // Close reader
-            reader.close();
-
             System.out.println("\nGenerating UUID...");
             config.set("UUID", UUID.randomUUID());
 
@@ -67,34 +64,16 @@ public class Main {
             new JKSGenerator(config.getString("pass")).generateKeyPair();
 
             System.out.println("\nStarting server...");
-            new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), config.getInt("port")).start();
+
+            // Clear console
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
+            // Start servers
+            startServers();
         } else {
-            System.out.println("Welcome to Otak. Starting server: " + config.getString("name"));
-            System.out.println("HTTPS: " + config.getString("https") + "\n");
-
-            int port = config.getInt("port");
-
-            // Start HTTP server
-            new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), port).start();
-
-            // Start UDP socket
-            try {
-                serverSocket = new DatagramSocket(port);
-
-                while (true) {
-                    byte buffer[] = new byte[1024];
-                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                    serverSocket.receive(packet);
-
-                    String UUID = new String(packet.getData()).replace("Ping: ", "");
-                    clients.put(UUID, new ClientObject(UUID, packet.getAddress(), packet.getPort()));
-                    sendMessage(clients.get(UUID), "Pong: " + UUID);
-                }
-
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                e.printStackTrace();
-            }
+            // Start servers
+            startServers();
         }
     }
 
@@ -118,6 +97,37 @@ public class Main {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void startServers() {
+        System.out.println("Welcome to Otak. Starting server: " + config.getString("name"));
+        System.out.println("HTTPS: " + config.getString("https") + "\n");
+
+        int port = config.getInt("port");
+
+        // Start HTTP server
+        new Server(config.getString("IP"), config.getString("name"), config.getBoolean("https"), port).start();
+
+        // Start UDP socket
+        try {
+            serverSocket = new DatagramSocket(port);
+
+            while (true) {
+                byte buffer[] = new byte[1024];
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                serverSocket.receive(packet);
+
+                JSONObject jsonObject = new JSONObject(new String(packet.getData()).replace("Ping: ", ""));
+                String UUID = jsonObject.getString("UUID");
+
+                clients.put(UUID, new ClientObject(UUID, packet.getAddress(), packet.getPort()));
+                sendMessage(clients.get(UUID), "Pong: " + UUID);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }

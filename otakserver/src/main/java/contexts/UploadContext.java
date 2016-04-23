@@ -30,7 +30,7 @@ public class UploadContext implements HttpHandler {
         }
 
         // Params check
-        if (!params.containsKey("file") || !params.containsKey("type")) {
+        if (!params.containsKey("file") || !params.containsKey("type") || !params.containsKey("sender")) {
             server.writeResponse(httpExchange, new Errors().getError(Errors.ErrorTypes.MISSING));
             return;
         }
