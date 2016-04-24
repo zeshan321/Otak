@@ -21,7 +21,7 @@
       </div>
       <div class="row">
         <div class="col-xs-3 col-md-2 nav fill">
-          <div class="btn-home"><a href="home.html"> <img src="images/Otak-logo-r.png"  height="25px"></a></div>
+          <div class="btn-home"><a href="home.html"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
           <div class="dropdown">
             <button class="btn-home dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-time"></span> Recent Items
             <span class="caret"></span></button>
@@ -32,23 +32,25 @@
           </div>
         </div>
         <div class="col-xs-16 col-md-10 fill window">
-          <ul class="nav nav-tabs">
+          <ul class="nav nav-tabs" id="windowbar">
             <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
             <li><a href="#menu1" data-toggle="tab">Menu 1</a></li>
             <li><a href="#menu2" data-toggle="tab">Menu 2</a></li>
-            <li><a href="#" data-toggle="tab">Menu 3</a></li>
           </ul>
 
-          <div class="tab-content window">
-            <div id="home" class="tab-pane fade in active">
-              <h3>HOME</h3>
-              <p>Some content.</p>
+          <div class="tab-content window" id="windows">
+            <div id="home" class="tab-pane in active">
+              <div class="row">
+                <div class="col-md-2 icon"><a href="#" class="glyphicon glyphicon-folder-close icon-img"></a><br> Menu1</div>
+                <div class="col-md-2 icon"><a href="#" class="glyphicon glyphicon-file icon-img"></a><br> File1.txt</div>
+                <div class="col-md-2 icon"><a href="#" class="glyphicon glyphicon-file icon-img"></a><br> File2.txt</div>
+              </div>
             </div>
-            <div id="menu1" class="tab-pane fade">
+            <div id="menu1" class="tab-pane">
               <h3>Menu 1</h3>
               <p>Some content in menu 1.</p>
             </div>
-            <div id="menu2" class="tab-pane fade">
+            <div id="menu2" class="tab-pane">
               <h3>Menu 2</h3>
               <p>Some content in menu 2.</p>
             </div>
@@ -61,7 +63,24 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
     <script>
+      //datatype[] holds glyphicon class (e.g. glyphicon-folder-close, glyphicon-file)
+      //dataname[] hold name of the file incl extension
+      //content refers to the name of the folder
+      //content_id refers to a friendly id for content (no spaces/special characters)
+      function newWindow(content, content_id, dataname[], datatype[]){
+          $("#windowbar").append("<li><a href='#" + content_id + "' data-toggle='tab'>" + content + "</a></li>");
+          $("#windows").append(" \
+          <div id='" + content_id + "' class='tab-pane in active'> \
+          <div class='row' id='" + content_id "child'> \
+          </div> \
+          ");
 
+          for(var i = 0; i < dataname.length; i++){
+            $("#"+ content_id +"child").append(" \
+              <div class='col-md-2 icon'><a href='#' class='glyphicon" + datatype[i] + " icon-img'></a><br>" + dataname[i] + "</div> \
+            ");
+          }
+      }
     </script>
 </body>
 
