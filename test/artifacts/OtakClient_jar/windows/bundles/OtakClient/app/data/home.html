@@ -13,68 +13,59 @@
 </head>
 
 <body>
-
+  <nav class="navbar navbar-default" role="navigation">
+    <h5><span class="glyphicon glyphicon-hdd"></span> <span id="servername">Server_name</span><inline class="right" id="updatedat"><span class="glyphicon glyphicon-refresh"></span> Last updated: ?:?? PM</inline></h5>
+  </nav>
+  <div id="wrapper">
     <!-- Home -->
-		<nav class="navbar navbar-default" role="navigation">
-		<h5><span class="glyphicon glyphicon-hdd"></span> <span id="servername">Server_name</span><inline class="right" id="updatedat"><span class="glyphicon glyphicon-refresh"></span> Last updated: ?:?? PM</inline></h5>
-		<div class="container">
-			<div id="sidebar-wrapper" class="sidebar-toggle">
-				<ul class="sidebar-nav">
-				<div class="btn-home"><a href="home.html"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
-					<li>
-						<a href="#item1">Item 1</a>
-					</li>
-					<li>
-						<a href="#item2">Item 2</a>
-					</li>
-					<li>
-						<a href="#item3">Item 3</a>
-					</li>
-				</ul>
-			</div>
-      <div>
-      </div>
-		</div>
-	</nav>
+    <div id="sidebar-wrapper" class="sidebar-toggle">
+  		<ul class="sidebar-nav">
+  			<div class="btn-home"><a href="home.html"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
+				<li>
+					<a href="#item1">Directory 1</a>
+				</li>
+				<li>
+					<a href="#item2">Directory 2</a>
+				</li>
+				<li>
+					<a href="#item3">Directory 3</a>
+				</li>
+			</ul>
+	</div>
 
   <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-md-offset-3">
-                        <h1>Simple Sidebar</h1>
-                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
-                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-                    </div>
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                  <div class="row" id="contents">
+                    <div class="icon"><a href="#" class="glyphicon glyphicon-folder-close icon-img"></a><br> Menu1</div>
+                    <div class="icon"><a href="#" class="glyphicon glyphicon-file icon-img"></a><br> File1.txt</div>
+                    <div class="icon"><a href="#" class="glyphicon glyphicon-file icon-img"></a><br> File2.txt</div>
+                  </div>
                 </div>
             </div>
         </div>
-        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
 
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
     <script>
-        //datatype[] holds glyphicon class (e.g. glyphicon-folder-close, glyphicon-file)
-        //dataname[] hold name of the file incl extension
-        //content refers to the name of the folder
-        //content_id refers to a friendly id for content (no spaces/special characters)
-        function newWindow(content, content_id, dataname[], datatype[]) {
-            $("#windowbar").append("<li><a href='#" + content_id + "' data-toggle='tab'>" + content + "</a></li>");
-            $("#windows").append(" \
-          <div id='" + content_id + "' class='tab-pane in active'> \
-          <div class='row' id='" + content_id "child'> \
-          </div> \
-          ");
+      function addLocation(href, text){
+        $(".sidebar-nav").append("<li> \
+         <a href='" + href + "'>" + text + "</a<\
+        </li>");
+      }
 
-            for (var i = 0; i < dataname.length; i++) {
-                $("#" + content_id + "child").append(" \
-              <div class='col-md-2 icon'><a href='#' class='glyphicon" + datatype[i] + " icon-img'></a><br>" + dataname[i] + "</div> \
-            ");
-            }
-        }
+      function addItem(type, text){
+        $("#contents").append("<div class='icon'> \
+        <a href='#' class='glyphicon " + type + " icon-img'></a><br>" + text + "\
+        </div>");
+      }
     </script>
 </body>
 
