@@ -58,6 +58,9 @@ public class HTTPDownload {
 
                         try {
                             IOUtils.copy(inputStream, outputStream);
+                            outputStream.flush();
+                            outputStream.close();
+                            inputStream.close();
                         } finally {
                             IOUtils.closeQuietly(inputStream);
                             IOUtils.closeQuietly(outputStream);
@@ -75,6 +78,9 @@ public class HTTPDownload {
 
                         try {
                             IOUtils.copy(inputStream, outputStream);
+                            outputStream.flush();
+                            outputStream.close();
+                            inputStream.close();
                         } finally {
                             IOUtils.closeQuietly(inputStream);
                             IOUtils.closeQuietly(outputStream);

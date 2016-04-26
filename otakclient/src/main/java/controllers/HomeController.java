@@ -67,6 +67,8 @@ public class HomeController implements Initializable {
         new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
+                runScript("serverStatus('online');");
+
                 JSONObject jsonObject = new JSONObject(response);
 
                 if (jsonObject.getBoolean("success")) {
@@ -78,7 +80,7 @@ public class HomeController implements Initializable {
 
             @Override
             public void onError() {
-
+                runScript("serverStatus('offline');");
             }
         });
     }

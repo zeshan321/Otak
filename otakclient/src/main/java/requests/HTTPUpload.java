@@ -67,6 +67,8 @@ public class HTTPUpload {
 
                         try {
                             IOUtils.copy(fileInputStream, outputStream);
+                            outputStream.flush();
+                            outputStream.close();
                         } finally {
                             IOUtils.closeQuietly(fileInputStream);
                             IOUtils.closeQuietly(outputStream);
@@ -98,6 +100,9 @@ public class HTTPUpload {
 
                         try {
                             IOUtils.copy(fileInputStream, outputStream);
+                            outputStream.flush();
+                            outputStream.close();
+                            fileInputStream.close();
                         } finally {
                             IOUtils.closeQuietly(fileInputStream);
                             IOUtils.closeQuietly(outputStream);

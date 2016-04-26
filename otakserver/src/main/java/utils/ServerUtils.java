@@ -31,15 +31,23 @@ public class ServerUtils {
             OutputStream outputStream = t.getResponseBody();
             FileInputStream fileInputStream = new FileInputStream(response);
 
-            try {
-                IOUtils.copy(fileInputStream, outputStream);
-            } finally {
-                IOUtils.closeQuietly(fileInputStream);
-                IOUtils.closeQuietly(outputStream);
-            }
+            copySteam(fileInputStream, outputStream);
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void copySteam(InputStream inputStream, OutputStream outputStream) throws IOException {
+        try {
+            IOUtils.copy(inputStream, outputStream);
+
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(outputStream);
         }
     }
 

@@ -55,16 +55,7 @@ public class UploadContext implements HttpHandler {
                 InputStream inputStream = httpExchange.getRequestBody();
                 OutputStream outputStream = new FileOutputStream(file);
 
-                byte data[] = new byte[8192];
-
-                int count;
-                while ((count = inputStream.read(data)) != -1) {
-                    outputStream.write(data, 0, count);
-                }
-
-                outputStream.flush();
-                outputStream.close();
-                inputStream.close();
+                server.copySteam(inputStream, outputStream);
 
                 server.writeResponse(httpExchange, returnData(true));
                 Main.sendMessage("Download: " + fileJSON(params.get("file"), file.lastModified(), file.isDirectory()), params.get("sender"));
