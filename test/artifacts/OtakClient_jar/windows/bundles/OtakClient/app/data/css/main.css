@@ -129,4 +129,5 @@ input.transparent-input {
 .form-element label {
     display: inline-block;
     width: 150px;
+    background-color: white;
 }

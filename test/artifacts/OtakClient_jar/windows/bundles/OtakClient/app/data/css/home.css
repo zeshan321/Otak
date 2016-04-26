@@ -1,3 +1,11 @@
+body
+{
+  background: #4c5358;
+  font-family: 'Montserrat', sans-serif;
+  
+}
+
+
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -28,7 +36,8 @@
   margin-left: -250px;
   overflow-y: auto;
   color: white;
-  background: #454545;
+  background: #40464b;
+
 }
 
 .navbar {
@@ -49,7 +58,9 @@
 }
 .sidebar-nav li {
   text-indent: 20px;
-  line-height: 30px;
+  line-height: 50px;
+  
+  font-size: 1.2em;
 }
 .sidebar-nav li a {
   color: #eee;
@@ -109,12 +120,13 @@
 
 .icon{
   display: inline-block;
-  padding: 10px;
+  padding: 15px;
   text-align: center;
 }
 
 .icon-img{
   font-size: 3em;
+  
   color: #6699cc;
 }
 
@@ -123,13 +135,25 @@
 }
 
 .logo {
-  margin-top: 10px;
+  margin-top: 17px;
   display: block;
-  height: 2em;
+  height: 2.5em;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
 }
 
 .right{
   float: right;
+}
+.File-labels{
+  color: white
+  
+
+}
+#line{
+  align:center;
+  width: 80%
+}
+.control-group{
+  padding-bottom: 20px;
 }
