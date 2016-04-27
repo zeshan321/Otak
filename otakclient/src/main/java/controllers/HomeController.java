@@ -10,6 +10,9 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
 import sync.SyncHandler;
 import utils.Config;
@@ -48,8 +51,28 @@ public class HomeController implements Initializable {
                 // Start syncing files
                 startSync(config);
 
-                /*Element element = doc.getElementById("servername-header");
-                element.setTextContent("Testing");*/
+                final Element settingsButton = doc.getElementById("menu-settings");
+                ((EventTarget) settingsButton).addEventListener("click", evt -> {
+
+                    // Server ip
+                    HTMLInputElement input = (HTMLInputElement) doc.getElementById("serverIP");
+                    input.setAttribute("value", config.getString("IP"));
+
+                    // Password
+                    input = (HTMLInputElement) doc.getElementById("password");
+                    input.setAttribute("value", config.getString("pass"));
+
+                    // Dir
+                    input = (HTMLInputElement) doc.getElementById("dir");
+                    input.setAttribute("value", config.getString("dir"));
+
+                    // Auto sync
+                    if (config.contains("sync")) {
+                        runScript("$('#auto-sync').bootstrapToggle('on')");
+                    } else {
+                        runScript("$('#auto-sync').bootstrapToggle('off')");
+                    }
+                }, false);
             }
         });
     }

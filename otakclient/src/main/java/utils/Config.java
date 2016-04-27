@@ -46,6 +46,10 @@ public class Config {
     }
 
     public boolean getBoolean(String key) {
+        if (!map.containsKey(key)) {
+            return false;
+        }
+
         return Boolean.valueOf(getString(key));
     }
 

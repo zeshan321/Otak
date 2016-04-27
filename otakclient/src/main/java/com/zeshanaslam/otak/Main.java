@@ -12,10 +12,6 @@ public class Main extends Application {
         new Thread() {
             @Override
             public void run() {
-                // Fix javafx windows pixelated fonts
-                System.setProperty("prism.lcdtext", "false");
-                System.setProperty("prism.text", "t2k");
-
                 // Start first view
                 Config config = new Config();
 

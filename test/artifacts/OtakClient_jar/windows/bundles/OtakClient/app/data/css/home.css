@@ -4,7 +4,6 @@ body
   padding-top: 30px;  
 }
 
-
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -144,18 +143,22 @@ body
 .right{
   float: right;
 }
+
 .File-labels{
   color: #4c5358;
   
 
 }
+
 #line{
   align:center;
   width: 80%
 }
+
 .control-group{
   padding-bottom: 20px;
 }
+
 .input-xlarge{
   background-color: transparent;
   color: #4c5358;
@@ -167,4 +170,9 @@ body
   border-right: none;
   border-bottom: solid #4c5358 2px ;
   width: 300px;
+}
+
+.fast .toggle-group { 
+  transition: left 0.05s; 
+  -webkit-transition: left 0.05s; 
 }
