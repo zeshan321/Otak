@@ -3,7 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<image overflow="visible" width="35" height="33" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAhCAYAAABTERJSAAAYNmlDQ1BJQ0MgUHJvZmlsZQAAWIWV
+<image overflow="visible" enable-background="new    " width="35" height="33" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAhCAYAAABTERJSAAAYNmlDQ1BJQ0MgUHJvZmlsZQAAWIWV
 eQk4Vd/X/z733MHlXvM8z/M8D5nnKfOsuK7pmjMTGVOoaFIhMiUZKg0kCRlSIpJEA0qlVCqKTO9B
 9f293/f//N/n3c9zzvlYe+21P3uvtYflAsDFToqICEHRAxAaFh1pb2rA7+rmzo+bBDDAAHogBuRI
 5KgIfVtbK4CUP9//Xn6MAmjz+1hm09b/rP//FgZfvygyAJAtgn18o8ihCL4GAJqTHBEZDQDmESIX
@@ -161,14 +161,14 @@ FfSAiDz7Mr36KwcuVcfUphEBkknm5HWXJrieR7CiTwT4Las2SViX9cdxOdb1qsmskiZT8rr0PD2S
 G9d0TIs84CZApGXPfvF7F6P5p4V6Y/8FNGWlMHTCLbsAAAAASUVORK5CYII=" transform="matrix(1 0 0 1 -39 29)">
 </image>
 <g>
-	<polygon fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" points="65.396,2.94 13.251,2.94 13.251,97.99 
+	<polygon fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" points="65.396,2.94 13.251,2.94 13.251,97.99 
 		87.508,97.99 87.508,25.053 65.396,25.053 	"/>
-	<polygon fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" points="71.883,4.974 85.297,18.387 71.883,18.387 
+	<polygon fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" points="71.883,4.974 85.297,18.387 71.883,18.387 
 			"/>
-	<line fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" x1="21.849" y1="41.841" x2="78.605" y2="41.841"/>
-	<line fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" x1="21.849" y1="56.445" x2="78.605" y2="56.445"/>
-	<line fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" x1="21.849" y1="63.747" x2="78.605" y2="63.747"/>
-	<line fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" x1="21.849" y1="71.049" x2="78.605" y2="71.049"/>
-	<line fill="none" stroke="#22A1D2" stroke-width="3" stroke-miterlimit="10" x1="21.849" y1="49.143" x2="78.605" y2="49.143"/>
+	<line fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" x1="21.849" y1="41.841" x2="78.605" y2="41.841"/>
+	<line fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" x1="21.849" y1="56.445" x2="78.605" y2="56.445"/>
+	<line fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" x1="21.849" y1="63.747" x2="78.605" y2="63.747"/>
+	<line fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" x1="21.849" y1="71.049" x2="78.605" y2="71.049"/>
+	<line fill="none" stroke="#22A1D2" stroke-width="4" stroke-miterlimit="10" x1="21.849" y1="49.143" x2="78.605" y2="49.143"/>
 </g>
 </svg>

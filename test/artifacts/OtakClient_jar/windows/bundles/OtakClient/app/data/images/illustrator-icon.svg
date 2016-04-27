@@ -3,13 +3,13 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<polygon fill="none" stroke="#F7931E" stroke-width="3" stroke-miterlimit="10" points="65.396,2.94 13.251,2.94 13.251,97.99 
+<polygon fill="none" stroke="#F7931E" stroke-width="4" stroke-miterlimit="10" points="65.396,2.94 13.251,2.94 13.251,97.99 
 	87.508,97.99 87.508,25.053 65.396,25.053 "/>
-<polygon fill="none" stroke="#F7931E" stroke-width="3" stroke-miterlimit="10" points="71.883,4.974 85.297,18.387 71.883,18.387 
+<polygon fill="none" stroke="#F7931E" stroke-width="4" stroke-miterlimit="10" points="71.883,4.974 85.297,18.387 71.883,18.387 
 	"/>
 <g>
-	<path fill="#F7931E" d="M40.349,65.108c-0.65,1.482-1.319,2.945-1.987,4.427h-6.269l13.207-29.593l13.242,29.593h-6.286
-		c-0.65-1.464-1.301-2.944-1.951-4.408h-9.918L40.349,65.108z M47.919,59.978l-2.565-6.052l-2.583,6.052H47.919z"/>
-	<path fill="#F7931E" d="M60.764,40.484H66.6v29.123h-5.836V40.484z"/>
+	<path fill="#F7931E" d="M40.349,65.107c-0.65,1.482-1.319,2.945-1.987,4.428h-6.269L45.3,39.942l13.242,29.593h-6.286
+		c-0.65-1.465-1.301-2.944-1.951-4.408h-9.918L40.349,65.107z M47.919,59.979l-2.565-6.053l-2.583,6.053H47.919z"/>
+	<path fill="#F7931E" d="M60.764,40.484H66.6v29.124h-5.836V40.484z"/>
 </g>
 </svg>

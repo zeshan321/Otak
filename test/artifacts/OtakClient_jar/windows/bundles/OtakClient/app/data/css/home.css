@@ -1,6 +1,6 @@
 body
 {
-  background: #4c5358;
+  
   font-family: 'Montserrat', sans-serif;
   
 }
@@ -146,7 +146,7 @@ body
   float: right;
 }
 .File-labels{
-  color: white
+  color: #4c5358;
   
 
 }
@@ -156,4 +156,16 @@ body
 }
 .control-group{
   padding-bottom: 20px;
+}
+.input-xlarge{
+  background-color: transparent;
+  color: #4c5358;
+  outline: none;
+  outline-style: none;
+  outline-offset: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid #4c5358 2px ;
+  width: 300px;
 }

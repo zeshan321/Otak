@@ -3,9 +3,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<polygon fill="none" stroke="#9F86FF" stroke-width="3" stroke-miterlimit="10" points="65.396,2.94 13.251,2.94 13.251,97.99 
+<polygon fill="none" stroke="#9F86FF" stroke-width="4" stroke-miterlimit="10" points="65.396,2.94 13.251,2.94 13.251,97.99 
 	87.508,97.99 87.508,25.053 65.396,25.053 "/>
-<polygon fill="none" stroke="#9F86FF" stroke-width="3" stroke-miterlimit="10" points="71.883,4.974 85.297,18.387 71.883,18.387 
+<polygon fill="none" stroke="#9F86FF" stroke-width="4" stroke-miterlimit="10" points="71.883,4.974 85.297,18.387 71.883,18.387 
 	"/>
 <g>
 	<g>
@@ -17,7 +17,7 @@
 	<g>
 		<path fill="#9F86FF" d="M49.434,44.302v0.015h-6.219v25.126h6.219c3.455,0,6.718-1.235,9.188-3.688c4.5-4.483,4.5-13.25,0-17.75
 			C56.152,45.536,52.887,44.302,49.434,44.302L49.434,44.302z M48.263,64.396V49.319h1.156c2.063,0,4,0.578,5.47,2.062
-			c1.483,1.484,2.062,3.422,2.062,5.484c0,2.078-0.578,4.015-2.049,5.484c-1.469,1.469-3.375,2.047-5.438,2.047h-0.014H48.263
+			c1.483,1.484,2.062,3.422,2.062,5.484c0,2.078-0.578,4.015-2.049,5.484c-1.469,1.469-3.375,2.047-5.438,2.047H49.45H48.263
 			L48.263,64.396z"/>
 	</g>
 	<g>
