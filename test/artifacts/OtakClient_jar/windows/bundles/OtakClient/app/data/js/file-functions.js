@@ -1,6 +1,5 @@
 function serverStatus(type) {
     span = document.getElementById("server-status");
-
     switch (type) {
         case "sync":
             span.className = "label label-warning";
@@ -120,7 +119,6 @@ function addItem(loc, name, type) {
         case "pptm":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" href=\"" + loc + "\"><img href=\"" + loc + "\" src=\"images\/" + "presentation-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
             break;
-
 
         default:
             $("#contents").append("<div id=\"row-files\" class=\"icon\" href=\"" + loc + "\"><img href=\"" + loc + "\" src=\"images\/" + "file-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
