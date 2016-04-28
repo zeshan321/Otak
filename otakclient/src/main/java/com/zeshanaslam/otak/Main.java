@@ -8,13 +8,18 @@ import views.MainView;
 
 public class Main extends Application {
 
+    public static Config config = new Config();
+
     public static void main(String[] args) {
+        // Fix javafx windows pixelated fonts
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            System.setProperty("prism.lcdtext", "false");
+            System.setProperty("prism.text", "t2k");
+        }
+
         new Thread() {
             @Override
             public void run() {
-                // Start first view
-                Config config = new Config();
-
                 if (config.contains("setup") && config.getBoolean("setup")) {
                     javafx.application.Application.launch(HomeView.class);
                 } else {

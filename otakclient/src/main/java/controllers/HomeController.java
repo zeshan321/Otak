@@ -1,22 +1,19 @@
 package controllers;
 
-import callback.HTTPCallback;
+import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
-import requests.HTTPGet;
-import sync.SyncHandler;
 import utils.Config;
-import utils.Parameters;
 import utils.ResponsiveWeb;
 
 import java.io.File;
@@ -32,9 +29,11 @@ public class HomeController implements Initializable {
     @FXML
     private WebView webView;
 
+    private Config config;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        final Config config = new Config();
+        config = Main.config;
 
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);
@@ -48,9 +47,8 @@ public class HomeController implements Initializable {
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
                 Document doc = webView.getEngine().getDocument();
-                // Start syncing files
-                startSync(config);
 
+                // Settings
                 final Element settingsButton = doc.getElementById("menu-settings");
                 ((EventTarget) settingsButton).addEventListener("click", evt -> {
 
@@ -67,11 +65,41 @@ public class HomeController implements Initializable {
                     input.setAttribute("value", config.getString("dir"));
 
                     // Auto sync
-                    if (config.contains("sync")) {
-                        runScript("$('#auto-sync').bootstrapToggle('on')");
-                    } else {
-                        runScript("$('#auto-sync').bootstrapToggle('off')");
+                    input = (HTMLInputElement) doc.getElementById("auto-sync");
+                    input.setChecked(config.getBoolean("sync"));
+                }, false);
+
+                final HTMLInputElement dirInput = (HTMLInputElement) doc.getElementById("dir");
+                ((EventTarget) dirInput).addEventListener("click", evt -> {
+                    DirectoryChooser dirChooser = new DirectoryChooser();
+                    dirChooser.setTitle("Select Otak Installation Directory");
+
+                    File file = dirChooser.showDialog(stage);
+                    if (file != null) {
+                        dirInput.setAttribute("value", file.getPath());
                     }
+                }, false);
+
+                final Element saveButton = doc.getElementById("btn-save");
+                ((EventTarget) saveButton).addEventListener("click", evt -> {
+
+                    // Server ip
+                    HTMLInputElement input = (HTMLInputElement) doc.getElementById("serverIP");
+                    config.set("IP", input.getValue());
+
+                    // Password
+                    input = (HTMLInputElement) doc.getElementById("password");
+                    config.set("pass", input.getValue());
+
+                    // Dir
+                    input = (HTMLInputElement) doc.getElementById("dir");
+                    config.set("dir", input.getValue());
+
+                    // Auto sync
+                    input = (HTMLInputElement) doc.getElementById("auto-sync");
+                    config.set("sync", input.getChecked());
+
+                    config.save();
                 }, false);
             }
         });
@@ -80,31 +108,6 @@ public class HomeController implements Initializable {
     private void runScript(String script) {
         Platform.runLater(() -> {
             webView.getEngine().executeScript(script);
-        });
-    }
-
-    private void startSync(Config config) {
-        Parameters parameters = new Parameters();
-        parameters.add("pass", config.getString("pass"));
-
-        new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
-            @Override
-            public void onSuccess(String IP, String response) {
-                runScript("serverStatus('online');");
-
-                JSONObject jsonObject = new JSONObject(response);
-
-                if (jsonObject.getBoolean("success")) {
-                    (new Thread(new SyncHandler(response))).start();
-                } else {
-                    System.out.println("Error");
-                }
-            }
-
-            @Override
-            public void onError() {
-                runScript("serverStatus('offline');");
-            }
         });
     }
 }

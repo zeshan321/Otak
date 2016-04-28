@@ -2,6 +2,7 @@ package controllers;
 
 import callback.HTTPCallback;
 import callback.OtakServerFoundCallback;
+import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
@@ -42,7 +43,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        final Config config = new Config();
+        final Config config = Main.config;
 
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);

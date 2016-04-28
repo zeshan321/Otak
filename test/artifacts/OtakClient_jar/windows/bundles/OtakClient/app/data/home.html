@@ -44,33 +44,7 @@
 					<div class="tab-content window" id="windows">
 						<div id="home" class="tab-pane in active">
 						  <div class="row" id="contents">
-							<div class="icon"><img href="#menu2" src="images/folder-icon.svg"></img><br><span class="File-labels"> Menu1</span></div>
-							<div class="icon"><img href="#" src="images/file-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/file-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/pdf-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/photo-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/video-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/music-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/excel-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/presentation-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/folder-icon.svg"></img><br><span class="File-labels"> Menu1</span></div>
-							<div class="icon"><img href="#" src="images/file-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/file-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/pdf-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/illustrator-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/photoshop-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/word-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/zip-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/java-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/folder-icon.svg"></img><br><span class="File-labels"> Menu1</span></div>
-							<div class="icon"><img href="#" src="images/file-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/file-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/pdf-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/photo-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/video-icon.svg"></img><br> <span class="File-labels">File1.txt</span></div>
-							<div class="icon"><img href="#" src="images/music-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/excel-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
-							<div class="icon"><img href="#" src="images/presentation-icon.svg"></img><br><span class="File-labels"> File2.txt</span></div>
+							
 						  </div>
 						</div>
 						<div id="menu1" class="tab-pane">
@@ -165,17 +139,29 @@
 			break;
 		}
 	  }
-	  
-      function addLocation(href, text){
-        $(".sidebar-nav").append("<li> \
-         <a href='" + href + "'>" + text + "</a<\
-        </li>");
-      }
 
-      function addItem(type, text){
-        $("#contents").append("<div class='icon'> \
-        <a href='#' class='fa fa-" + type + " icon-img'></a><br>" + text + "\
-        </div>");
+      function addItem(loc, name, type){
+        switch(type) {
+			case "folder":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "folder-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+				
+			case "png":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "photo-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+				
+			case "zip":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "zip-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+			case "mp4":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "video-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+			case "jar":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "java-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+			default:
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "file-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+		}
       }
     </script>
 </body>

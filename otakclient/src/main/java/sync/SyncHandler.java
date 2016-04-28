@@ -3,6 +3,7 @@ package sync;
 import callback.CompareCallback;
 import callback.DownloadCallback;
 import callback.HTTPCallback;
+import com.zeshanaslam.otak.Main;
 import objects.FileObject;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
@@ -34,7 +35,7 @@ public class SyncHandler implements Runnable {
     private String marker = ".DNUPLOAD";
 
     public SyncHandler(String json) {
-        this.config = new Config();
+        this.config = Main.config;
         this.json = json;
 
         // Initialize socket
@@ -55,7 +56,7 @@ public class SyncHandler implements Runnable {
         jsonObject.put("UUID", config.getString("UUID"));
         sendMessage("Ping: " + jsonObject);
 
-        new Compare(config, json).compareData(new CompareCallback() {
+        new Compare(json).compareData(new CompareCallback() {
             @Override
             public void onComplete(List<FileObject> filesDownload, List<FileObject> filesUpload) {
                 if (!filesDownload.isEmpty() || !filesUpload.isEmpty()) {

@@ -1,13 +1,13 @@
 package sync;
 
 import callback.CompareCallback;
+import com.zeshanaslam.otak.Main;
 import objects.FileObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import utils.Config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,11 +16,9 @@ import java.util.List;
 
 public class Compare {
 
-    private Config config;
     private String server;
 
-    public Compare(Config config, String server) {
-        this.config = config;
+    public Compare(String server) {
         this.server = server;
     }
 
@@ -113,10 +111,10 @@ public class Compare {
     private JSONArray generateClient() {
         JSONArray jsonArray = new JSONArray();
 
-        Collection<File> filesList = FileUtils.listFilesAndDirs(new File(config.getString("dir")), TrueFileFilter.TRUE, TrueFileFilter.TRUE);
+        Collection<File> filesList = FileUtils.listFilesAndDirs(new File(Main.config.getString("dir")), TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
         for (File fileIter : filesList) {
-            String fileName = fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/");
+            String fileName = fileIter.getAbsolutePath().replace(Main.config.getString("dir"), "").replaceAll("\\\\", "/");
 
             if (!fileName.equals("")) {
                 if (fileIter.isDirectory()) {

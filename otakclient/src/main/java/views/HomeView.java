@@ -2,11 +2,11 @@ package views;
 
 import controllers.HomeController;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import utils.SystemTraySupport;
 
 import java.io.IOException;
 
@@ -38,11 +38,8 @@ public class HomeView extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            primaryStage.setOnCloseRequest(event -> {
-                Platform.exit();
-                System.exit(0);
-            });
-
+            // Add tray support
+            new SystemTraySupport(primaryStage);
         } catch (IOException e) {
             e.printStackTrace();
         }
