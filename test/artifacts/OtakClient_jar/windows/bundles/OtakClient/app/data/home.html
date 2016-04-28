@@ -113,57 +113,7 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
-    <script>
-	  function serverStatus(type) {
-	    span = document.getElementById("server-status");
-		
-		switch(type) {
-			case "sync":
-				span.className = "label label-warning";
-				span.textContent = "Syncing..."
-			break;
-			
-			case "connecting":
-				span.className = "label label-warning";
-				span.textContent = "Connecting..."
-			break;
-			
-			case "online":
-				span.className = "label label-success";
-				span.textContent = "Online"
-			break;
-			
-			case "offline":
-				span.className = "label label-danger";
-				span.textContent = "Offline"
-			break;
-		}
-	  }
-
-      function addItem(loc, name, type){
-        switch(type) {
-			case "folder":
-				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "folder-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
-				break;
-				
-			case "png":
-				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "photo-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
-				break;
-				
-			case "zip":
-				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "zip-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
-				break;
-			case "mp4":
-				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "video-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
-				break;
-			case "jar":
-				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "java-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
-				break;
-			default:
-				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "file-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
-		}
-      }
-    </script>
+    <script type="text/javascript" src="js/file-functions.js"></script>
 </body>
 
 </html>

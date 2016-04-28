@@ -32,7 +32,7 @@ body {
 }
 
 .setup {
-    background: url(../images/slider/1.jpg) no-repeat center center fixed;
+    background: black;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -41,7 +41,7 @@ body {
 }
 .caption {
     position: absolute;
-    top: 50%;
+    top: 30%;
     margin-top: -104px;
     left: 0;
     right: 0;
@@ -130,4 +130,10 @@ input.transparent-input {
     display: inline-block;
     width: 150px;
     background-color: white;
+}
+.logo{
+
+    vertical-align: middle;
+    height: 7em;
+    padding:30px;
 }

@@ -35,7 +35,7 @@
     <!-- Welcome start -->
     <div class="container welcome-text">
       <div class="caption">
-          <h1 id="welcome_header">WELCOME TO <span>OTAK</span></h1>
+          <h1 id="welcome_header">WELCOME TO </h1><img class="logo" src="images/Otak-logo-r.png">
           <p id="welcome_desc">Smart - Easy - Quick - Secure</p>
 
   			<div id="div_install" class="container" hidden>
@@ -120,7 +120,7 @@
         $('#btn_start').fadeOut();
         $('#div_install').removeClass('slideOutRight');
         $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-          $('#welcome_header').html("SETUP <span>OTAK</span>");
+          $('#welcome_header').html("SETUP");
           $("#welcome_header").fadeIn();
           $('#welcome_desc').removeClass('slideOutLeft slideOutRight')
           $("#welcome_desc").addClass('animated slideInRight');
@@ -141,7 +141,7 @@
           $('#btn_install_prev').fadeOut();
           $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $('#btn_start').fadeIn();
-            $('#welcome_header').html("WELCOME TO <span>OTAK</span>");
+            $('#welcome_header').html("WELCOME TO");
             $("#welcome_header").fadeIn();
             $('#welcome_desc').removeClass('slideOutRight slideInRight');
             $("#welcome_desc").addClass('slideInLeft');
