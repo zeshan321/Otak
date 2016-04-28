@@ -10,6 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -115,18 +117,32 @@ public class HomeController implements Initializable {
                 new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
                     @Override
                     public void onSuccess(String IP, String response) {
+                        // Server status offline
+                        runScript("serverStatus('online');");
+
                         JSONObject jsonObject = new JSONObject(response);
 
                         if (jsonObject.getBoolean("success")) {
                             data.set(response);
+                            data.save();
+
+                            loadFiles(data.getContent());
                         } else {
-                            // Error
+                            if (data.getContent() != null) {
+                                loadFiles(data.getContent());
+                            }
                         }
                     }
 
                     @Override
                     public void onError() {
+                        // Server status offline
+                        runScript("serverStatus('offline');");
 
+                        // Load local files
+                        if (data.getContent() != null) {
+                            loadFiles(data.getContent());
+                        }
                     }
                 });
             }
@@ -137,5 +153,24 @@ public class HomeController implements Initializable {
         Platform.runLater(() -> {
             webView.getEngine().executeScript(script);
         });
+    }
+
+    private void loadFiles(String content) {
+        JSONObject jsonObject = new JSONObject(content);
+        JSONArray serverArray = jsonObject.getJSONArray("info");
+
+        for (int n = 0; n < serverArray.length(); n++) {
+            JSONObject clientFile = serverArray.getJSONObject(n);
+
+            String fileDir = clientFile.getString("file");
+            boolean isDir = clientFile.getBoolean("dir");
+            long timestamp = clientFile.getLong("timestamp");
+
+            if (isDir) {
+                runScript("addItem('" + fileDir + "', '" + FilenameUtils.getName(fileDir) + "', 'folder');");
+            } else {
+                runScript("addItem('" + fileDir + "', '" + FilenameUtils.getName(fileDir) + "', '" + FilenameUtils.getExtension(fileDir) + "');");
+            }
+        }
     }
 }
