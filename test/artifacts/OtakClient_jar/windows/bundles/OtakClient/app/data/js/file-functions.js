@@ -84,7 +84,13 @@ function serverStatus(type) {
 			case "docs":
 				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "word-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
 				break;
+			case "pages":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "word-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
 			case "xls":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "excel-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+			case "numbers":
 				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "excel-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
 				break;
 			case "xlsx":
@@ -94,6 +100,9 @@ function serverStatus(type) {
 				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "excel-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
 				break;
 			case "ppt":
+				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "presentation-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
+				break;
+			case "keynote":
 				$("#contents").append("<div id=\"row-files\" class=\"icon\"><img href=\"" + loc + "\" src=\"images\/" + "presentation-icon" + ".svg\"><\/img><br><span class=\"File-labels\"> " + name + "<\/span><\/div>");
 				break;
 			case "pptm":
