@@ -1,5 +1,6 @@
 package controllers;
 
+import callback.HTTPCallback;
 import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
@@ -9,11 +10,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
+import requests.HTTPGet;
 import utils.Config;
+import utils.Data;
+import utils.Parameters;
 import utils.ResponsiveWeb;
 
 import java.io.File;
@@ -101,6 +106,29 @@ public class HomeController implements Initializable {
 
                     config.save();
                 }, false);
+
+                // Load server files
+                Data data = new Data();
+                Parameters parameters = new Parameters();
+                parameters.add("pass", config.getString("pass"));
+
+                new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
+                    @Override
+                    public void onSuccess(String IP, String response) {
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        if (jsonObject.getBoolean("success")) {
+                            data.set(response);
+                        } else {
+                            // Error
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             }
         });
     }
