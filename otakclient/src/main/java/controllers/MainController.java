@@ -225,9 +225,7 @@ public class MainController implements Initializable {
     }
 
     private void runScript(String script) {
-        Platform.runLater(() -> {
-            webView.getEngine().executeScript(script);
-        });
+        Platform.runLater(() -> webView.getEngine().executeScript(script));
     }
 }
 

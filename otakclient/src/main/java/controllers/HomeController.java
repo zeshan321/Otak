@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import objects.FileObject;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +27,9 @@ import utils.ResponsiveWeb;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -35,7 +39,8 @@ public class HomeController implements Initializable {
     private AnchorPane anchorPane;
     @FXML
     private WebView webView;
-
+    private String currentDir = "";
+    private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
     private Config config;
 
     @Override
@@ -142,6 +147,8 @@ public class HomeController implements Initializable {
                         // Load local files
                         if (data.getContent() != null) {
                             loadFiles(data.getContent());
+
+
                         }
                     }
                 });
@@ -150,9 +157,7 @@ public class HomeController implements Initializable {
     }
 
     private void runScript(String script) {
-        Platform.runLater(() -> {
-            webView.getEngine().executeScript(script);
-        });
+        Platform.runLater(() -> webView.getEngine().executeScript(script));
     }
 
     private void loadFiles(String content) {
@@ -161,16 +166,34 @@ public class HomeController implements Initializable {
 
         for (int n = 0; n < serverArray.length(); n++) {
             JSONObject clientFile = serverArray.getJSONObject(n);
+            FileObject fileObject = new FileObject(clientFile.getString("file"), clientFile.getBoolean("dir"), clientFile.getLong("timestamp"));
+            File file = new File(fileObject.file);
 
-            String fileDir = clientFile.getString("file");
-            boolean isDir = clientFile.getBoolean("dir");
-            long timestamp = clientFile.getLong("timestamp");
+            String path = FilenameUtils.getFullPath(file.getAbsolutePath()).replace("C:\\", "");
+            List<FileObject> fileObjects = new ArrayList<>();
+            if (filesMap.containsKey(path)) {
+                fileObjects = filesMap.get(path);
+                fileObjects.add(fileObject);
 
-            if (isDir) {
-                runScript("addItem('" + fileDir + "', '" + FilenameUtils.getName(fileDir) + "', 'folder');");
+                filesMap.put(path, fileObjects);
             } else {
-                runScript("addItem('" + fileDir + "', '" + FilenameUtils.getName(fileDir) + "', '" + FilenameUtils.getExtension(fileDir) + "');");
+                fileObjects.add(fileObject);
+                filesMap.put(path, fileObjects);
             }
         }
+
+        parseMap();
+    }
+
+    private void parseMap() {
+        filesMap.keySet().stream().filter(keys -> keys.equals(currentDir)).forEach(keys -> {
+            for (FileObject fileObject : filesMap.get(keys)) {
+                if (fileObject.isDir) {
+                    runScript("addItem('" + fileObject.file + "', '" + FilenameUtils.getName(fileObject.file) + "', 'folder');");
+                } else {
+                    runScript("addItem('" + fileObject.file + "', '" + FilenameUtils.getName(fileObject.file) + "', '" + FilenameUtils.getExtension(fileObject.file).toLowerCase() + "');");
+                }
+            }
+        });
     }
 }
