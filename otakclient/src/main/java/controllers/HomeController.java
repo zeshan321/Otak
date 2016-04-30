@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import netscape.javascript.JSObject;
 import objects.FileObject;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
@@ -35,16 +36,19 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     public Stage stage;
-    @FXML
-    private AnchorPane anchorPane;
-    @FXML
-    private WebView webView;
+
     private String currentDir = "";
     private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
     private Config config;
 
+    @FXML
+    private AnchorPane anchorPane;
+    @FXML
+    private WebView webView;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("Initialized");
         config = Main.config;
 
         // Load site
@@ -59,6 +63,10 @@ public class HomeController implements Initializable {
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
                 Document doc = webView.getEngine().getDocument();
+
+                // Listen for file clicks
+                JSObject window = (JSObject) webView.getEngine().executeScript("window");
+                window.setMember("file", this);
 
                 // Settings
                 final Element settingsButton = doc.getElementById("menu-settings");
@@ -147,8 +155,6 @@ public class HomeController implements Initializable {
                         // Load local files
                         if (data.getContent() != null) {
                             loadFiles(data.getContent());
-
-
                         }
                     }
                 });
@@ -160,6 +166,11 @@ public class HomeController implements Initializable {
         Platform.runLater(() -> webView.getEngine().executeScript(script));
     }
 
+    /**
+     * Group files by directory in HashMap
+     *
+     * @param content json content of all files
+     */
     private void loadFiles(String content) {
         JSONObject jsonObject = new JSONObject(content);
         JSONArray serverArray = jsonObject.getJSONArray("info");
@@ -167,9 +178,8 @@ public class HomeController implements Initializable {
         for (int n = 0; n < serverArray.length(); n++) {
             JSONObject clientFile = serverArray.getJSONObject(n);
             FileObject fileObject = new FileObject(clientFile.getString("file"), clientFile.getBoolean("dir"), clientFile.getLong("timestamp"));
-            File file = new File(fileObject.file);
 
-            String path = FilenameUtils.getFullPath(file.getAbsolutePath()).replace("C:\\", "");
+            String path = fileObject.file.substring(0, fileObject.file.lastIndexOf("/"));
             List<FileObject> fileObjects = new ArrayList<>();
             if (filesMap.containsKey(path)) {
                 fileObjects = filesMap.get(path);
@@ -185,7 +195,12 @@ public class HomeController implements Initializable {
         parseMap();
     }
 
+    /**
+     * Parse filesMap and display on UI
+     */
     private void parseMap() {
+        runScript("clearItems();");
+
         filesMap.keySet().stream().filter(keys -> keys.equals(currentDir)).forEach(keys -> {
             for (FileObject fileObject : filesMap.get(keys)) {
                 if (fileObject.isDir) {
@@ -195,5 +210,21 @@ public class HomeController implements Initializable {
                 }
             }
         });
+    }
+
+    /**
+     * Runs on file clicks from UI
+     *
+     * @param loc  File location
+     * @param name File name
+     * @param type File extension
+     */
+    public void onClick(String loc, String name, String type) {
+        if (type.equals("folder")) {
+            currentDir = loc;
+            parseMap();
+        } else {
+            System.out.println("Clicked: " + name);
+        }
     }
 }

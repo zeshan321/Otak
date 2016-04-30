@@ -19,3 +19,4 @@ test/artifacts/OtakClient_jar/Files/
 test/artifacts/OtakServer_jar/files/
 test/artifacts/OtakClient_jar/files/
 otakclient/.idea/workspace.xml
+test/artifacts/OtakClient_jar/windows/bundles/otakclient/app/serverfiles.properties
