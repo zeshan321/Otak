@@ -158,6 +158,23 @@ public class HomeController implements Initializable {
                         }
                     }
                 });
+
+                // Reset directory on home click
+                final Element homeButton = doc.getElementById("home");
+                ((EventTarget) homeButton).addEventListener("click", evt -> {
+                    if (!currentDir.equals("")) {
+                        currentDir = "";
+                        parseMap();
+                    }
+                }, false);
+
+                final Element home1Button = doc.getElementById("home1");
+                ((EventTarget) home1Button).addEventListener("click", evt -> {
+                    if (!currentDir.equals("")) {
+                        currentDir = "";
+                        parseMap();
+                    }
+                }, false);
             }
         });
     }
