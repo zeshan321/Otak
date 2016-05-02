@@ -18,7 +18,50 @@
 body
 {
   font-family: 'Montserrat', sans-serif;
-  padding-top: 30px;  
+  padding-top: 30px;
+}
+
+.dirbrowse {
+  display: inline;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  padding-left: 15px;
+}
+
+.options:hover{
+  color: #777;
+}
+
+#contextMenu {
+  position: absolute;
+  display:none;
+}
+
+#navicon {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1em;
+}
+
+#navicon.disabled{
+  color: #999;
+}
+
+#navicon.disabled:hover{
+  cursor: not-allowed;
+}
+
+#navicon:hover {
+  cursor: pointer;
+  color: #777;
+}
+
+.serveroffset {
+  width: 250px;
+  min-width: 250px;
+  display: inline-block;
 }
 
 #wrapper {
@@ -74,7 +117,7 @@ body
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 50px;
-  
+
   font-size: 1.2em;
 }
 .sidebar-nav li a {
@@ -141,7 +184,7 @@ body
 
 .icon-img{
   font-size: 3em;
-  
+
   color: #6699cc;
 }
 
@@ -163,7 +206,7 @@ body
 
 .File-labels{
   color: #4c5358;
-  
+
 
 }
 
@@ -189,7 +232,7 @@ body
   width: 300px;
 }
 
-.fast .toggle-group { 
-  transition: left 0.05s; 
-  -webkit-transition: left 0.05s; 
+.fast .toggle-group {
+  transition: left 0.05s;
+  -webkit-transition: left 0.05s;
 }

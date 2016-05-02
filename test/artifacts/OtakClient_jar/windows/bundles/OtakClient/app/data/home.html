@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/bootstrap-toggle.min.css" rel="stylesheet">
+	  <link href="css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/notification.css" rel="stylesheet">
@@ -13,9 +13,23 @@
 </head>
 
 <body>
-	
+
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <h5><span class="fa fa-server"></span> <span id="servername">Server_name</span><inline class="right" id="updatedat">Status: <span id="server-status" class="label label-warning">Connecting...</span></inline></h5>
+    <h5>
+      <div class="serveroffset">
+          <span class="fa fa-arrow-left disabled" id="navicon"></span>
+          <span class="fa fa-arrow-right disabled" id="navicon"></span>
+          <span class="fa right fa-ellipsis-v options" id="navicon"></span>
+      </div>
+      <span class="fa fa-server"></span> <span id="servername">Server_name</span>
+      -<ol class="breadcrumb dirbrowse">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Library</a></li>
+        <li class="active">Data</li>
+      </ol>
+      <inline class="right" id="updatedat">Status:
+        <span id="server-status" class="label label-warning">Connecting...</span></inline>
+    </h5>
   </nav>
   <div id="wrapper">
     <!-- Home -->
@@ -42,8 +56,18 @@
                 <div class="col-lg-12">
 					<div class="tab-content window" id="windows">
 						<div id="home" class="tab-pane in active">
+              <!-- Right click functionality -->
+              <div id="contextMenu" class="dropdown clearfix">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                  <li><a tabindex="-1" href="#">Action</a></li>
+                  <li><a tabindex="-1" href="#">Another action</a></li>
+                  <li><a tabindex="-1" href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a tabindex="-1" href="#">Separated link</a></li>
+                </ul>
+              </div>
 						  <div class="row" id="contents">
-							
+
 						  </div>
 						</div>
 						<div id="menu1" class="tab-pane">
@@ -63,7 +87,7 @@
 									<p class="help-block">Otak server IP</p>
 								  </div>
 								</div>
-								
+
 								<div class="control-group">
 								  <!-- Password-->
 								  <label class="control-label" for="password">Password</label>
@@ -72,7 +96,7 @@
 									<p class="help-block">Otak server password</p>
 								  </div>
 								</div>
-							 
+
 								<div class="control-group">
 								  <!-- Dir -->
 								  <label class="control-label" for="email">Directory</label>
@@ -81,7 +105,7 @@
 									<p class="help-block">Directory path to store files</p>
 								  </div>
 								</div>
-							 
+
 								<div class="control-group">
 								  <!-- Auto sync -->
 								  <label class="control-label"  for="autoSync">Auto Sync</label>
@@ -90,7 +114,7 @@
 									<p class="help-block">Automatically synchronize files from Otak server</p>
 								  </div>
 								</div>
-							 
+
 								<div class="control-group">
 								  <!-- Button -->
 								  <div class="controls">
@@ -110,9 +134,10 @@
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
+	  <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/file-functions.js"></script>
+    <script type="text/javascript" src="js/quicknav.js"></script>
 </body>
 
 </html>
