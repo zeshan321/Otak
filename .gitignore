@@ -20,3 +20,4 @@ test/artifacts/OtakServer_jar/files/
 test/artifacts/OtakClient_jar/files/
 otakclient/.idea/workspace.xml
 test/artifacts/OtakClient_jar/windows/bundles/otakclient/app/serverfiles.properties
+test/artifacts/OtakClient_jar/windows/bundles/otakclient/app/serverfiles.properties
