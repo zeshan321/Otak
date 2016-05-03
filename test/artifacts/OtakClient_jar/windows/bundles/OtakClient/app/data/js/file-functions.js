@@ -39,16 +39,6 @@ String.prototype.truncate = function(n){
     return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
 };
 
-function addBreadcrumb(dir, loc, isActive){
-  for(var i = 0; i < dir.length; i++) {
-      if(i == dir.length - 1){ //last is always active
-          $(".dirbrowse").append("<li class='active'>" + dir[i] + "</li>");
-      } else {
-          $(".dirbrowse").append("<li><a href='" + loc[i] + "'>" + dir[i] + "</a></li>");
-      }
-  }
-}
-
 function addItem(loc, name, type) {
 	sort = name.truncate(18);
     switch (type) {
