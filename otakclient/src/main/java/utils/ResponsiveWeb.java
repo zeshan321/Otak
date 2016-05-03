@@ -1,7 +1,5 @@
 package utils;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
@@ -16,18 +14,12 @@ public class ResponsiveWeb {
     }
 
     public void makeResponsive() {
-        anchorPane.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                webView.setPrefWidth(newSceneWidth.doubleValue());
-            }
+        anchorPane.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
+            webView.setPrefWidth(newSceneWidth.doubleValue());
         });
 
-        anchorPane.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                webView.setPrefHeight(newSceneWidth.doubleValue());
-            }
+        anchorPane.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
+            webView.setPrefHeight(newSceneWidth.doubleValue());
         });
     }
 }

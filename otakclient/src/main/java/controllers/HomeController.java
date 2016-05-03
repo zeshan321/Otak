@@ -20,10 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
-import utils.Config;
-import utils.Data;
-import utils.Parameters;
-import utils.ResponsiveWeb;
+import utils.*;
 
 import java.io.File;
 import java.net.URL;
@@ -38,7 +35,6 @@ public class HomeController implements Initializable {
     public Stage stage;
 
     private String currentDir = "";
-    private String previousDir = "";
     private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
     private Config config;
 
@@ -60,9 +56,13 @@ public class HomeController implements Initializable {
         // Make web view responsive
         new ResponsiveWeb(anchorPane, webView).makeResponsive();
 
+        WebDispatcher webEventDispatcher = new WebDispatcher(new WebDispatcher(webView.getEventDispatcher()));
         // Wait for UI to finish loading
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
+                // Dispatch web events
+                webView.setEventDispatcher(webEventDispatcher);
+
                 Document doc = webView.getEngine().getDocument();
 
                 // Listen for file clicks
@@ -180,6 +180,11 @@ public class HomeController implements Initializable {
         });
     }
 
+    /**
+     * Execute javascript on platform thread
+     *
+     * @param script javascript string
+     */
     private void runScript(String script) {
         Platform.runLater(() -> webView.getEngine().executeScript(script));
     }
@@ -219,6 +224,10 @@ public class HomeController implements Initializable {
     private void parseMap() {
         runScript("clearItems();");
 
+        if (!(currentDir.equals(""))) {
+            runScript("addItem('" + currentDir.substring(0, currentDir.lastIndexOf("/")) + "', '" + ".." + "', 'folder');");
+        }
+
         filesMap.keySet().stream().filter(keys -> keys.equals(currentDir)).forEach(keys -> {
             for (FileObject fileObject : filesMap.get(keys)) {
                 if (fileObject.isDir) {
@@ -239,7 +248,6 @@ public class HomeController implements Initializable {
      */
     public void onClick(String loc, String name, String type) {
         if (type.equals("folder")) {
-            previousDir = currentDir;
             currentDir = loc;
             parseMap();
         } else {
