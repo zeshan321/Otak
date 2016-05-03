@@ -38,6 +38,7 @@ public class HomeController implements Initializable {
     public Stage stage;
 
     private String currentDir = "";
+    private String previousDir = "";
     private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
     private Config config;
 
@@ -160,7 +161,7 @@ public class HomeController implements Initializable {
                 });
 
                 // Reset directory on home click
-                final Element homeButton = doc.getElementById("home");
+                final Element homeButton = doc.getElementById("home1");
                 ((EventTarget) homeButton).addEventListener("click", evt -> {
                     if (!currentDir.equals("")) {
                         currentDir = "";
@@ -168,7 +169,7 @@ public class HomeController implements Initializable {
                     }
                 }, false);
 
-                final Element home1Button = doc.getElementById("home1");
+                final Element home1Button = doc.getElementById("home2");
                 ((EventTarget) home1Button).addEventListener("click", evt -> {
                     if (!currentDir.equals("")) {
                         currentDir = "";
@@ -238,6 +239,7 @@ public class HomeController implements Initializable {
      */
     public void onClick(String loc, String name, String type) {
         if (type.equals("folder")) {
+            previousDir = currentDir;
             currentDir = loc;
             parseMap();
         } else {
