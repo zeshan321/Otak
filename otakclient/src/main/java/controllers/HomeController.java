@@ -56,12 +56,12 @@ public class HomeController implements Initializable {
         // Make web view responsive
         new ResponsiveWeb(anchorPane, webView).makeResponsive();
 
-        WebDispatcher webEventDispatcher = new WebDispatcher(new WebDispatcher(webView.getEventDispatcher()));
+        WebDispatcher webDispatcher = new WebDispatcher(webView.getEventDispatcher());
         // Wait for UI to finish loading
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
                 // Dispatch web events
-                webView.setEventDispatcher(webEventDispatcher);
+                webView.setEventDispatcher(webDispatcher);
 
                 Document doc = webView.getEngine().getDocument();
 
