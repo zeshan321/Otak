@@ -21,6 +21,12 @@ body
   padding-top: 30px;  
 }
 
+button {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -69,6 +75,7 @@ body
   margin: 0;
   padding: 0;
   list-style: none;
+
 }
 .sidebar-nav li {
   text-indent: 20px;
