@@ -25,6 +25,7 @@ button {
   padding: 0;
   margin: 0;
   border: none;
+
 }
 
 #wrapper {
@@ -209,22 +210,23 @@ margin-bottom: 0px;
   -webkit-transition: left 0.05s; 
 }
 
-/* trying to make the drop down
-Calvin can u please help me with this =?
 
-http://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_slide_toggle
-*/
-#panel2, #flip2 {
-    padding: 0px;
-    margin-left:0px;
-    text-align: center;
-    background-color: grey;
-    width:250px;
-    z-index: 100;
-    
+ 
+.btn{
+
+width: 250px;
+border-radius: 0;
+border:none;
+
+
 }
 
-#panel2 {
-    padding: 5px;
-    display: none;
+#panel {
+    padding: 10px;
+    text-align: center;
+    color:white;
+}
+#panel li{
+
+
 }
