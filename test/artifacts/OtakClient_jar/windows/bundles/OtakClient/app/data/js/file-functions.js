@@ -124,6 +124,9 @@ function addItem(loc, name, type) {
         case "pptm":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"file.onClick('" + loc + "','" + name + "','" + type + "');\"><img src=\"images\/" + "presentation-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
+        case "pdf":
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"file.onClick('" + loc + "','" + name + "','" + type + "');\"><img src=\"images\/" + "pdf-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            break;
 
         default:
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"file.onClick('" + loc + "','" + name + "','" + type + "');\"><img src=\"images\/" + "file-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
