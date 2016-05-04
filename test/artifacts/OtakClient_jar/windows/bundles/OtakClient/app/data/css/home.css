@@ -18,14 +18,62 @@
 body
 {
   font-family: 'Montserrat', sans-serif;
-  padding-top: 30px;  
+  padding-top: 35px;
 }
 
-button {
-  padding: 0;
-  margin: 0;
-  border: none;
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    text-align:left;
+    margin-right:-4px;
+}
 
+#panel {
+  width: 250px;
+}
+
+#panel > .row {
+  margin: 0 auto;
+  background-color: #40464b;
+}
+
+#panel > .row > button {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding-right: 10px;
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #eee;
+}
+
+#panel > .row > button:hover {
+  color: #eee;
+  background: rgba(255,255,255,0.25);
+}
+
+.options{
+  width: 250px;
+  font-size: 2em;
+  background-color: #40464b;
+  border: none;
+  color: white;
+}
+
+.options:focus {
+    outline: none;
+}
+
+.btn-options {
+  padding: 0;
+}
+
+.btn-options:focus{
+  outline: none;
 }
 
 #wrapper {
@@ -81,7 +129,7 @@ button {
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 50px;
-  
+
   font-size: 1.2em;
 }
 .sidebar-nav li a {
@@ -140,14 +188,14 @@ button {
   margin: 10px;
 }
 .fa-server{
-padding-left:10px;
+  padding-left:10px;
 }
+
 #options{
-
-padding-bottom: 0px;
-margin-bottom: 0px;
-
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
+
 .icon{
   display: inline-block;
   padding: 15px;
@@ -156,7 +204,7 @@ margin-bottom: 0px;
 
 .icon-img{
   font-size: 3em;
-  
+
   color: #6699cc;
 }
 
@@ -179,7 +227,7 @@ margin-bottom: 0px;
 
 .File-labels{
   color: #4c5358;
-  
+
 
 }
 
@@ -205,28 +253,7 @@ margin-bottom: 0px;
   width: 300px;
 }
 
-.fast .toggle-group { 
-  transition: left 0.05s; 
-  -webkit-transition: left 0.05s; 
-}
-
-
- 
-.btn{
-
-width: 250px;
-border-radius: 0;
-border:none;
-
-
-}
-
-#panel {
-    padding: 10px;
-    text-align: center;
-    color:white;
-}
-#panel li{
-
-
+.fast .toggle-group {
+  transition: left 0.05s;
+  -webkit-transition: left 0.05s;
 }
