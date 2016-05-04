@@ -15,7 +15,8 @@
 <body>
 	
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <h5><span class="fa fa-server"></span> <span id="servername">Server_name</span><inline class="right" id="updatedat">Status: <span id="server-status" class="label label-warning">Connecting...</span></inline></h5>
+    
+    <h5><a href="#"><img id="options" src="images/options.svg"></span></a><span class="fa fa-server"></span> <span id="servername">Server_name</span><inline class="right" id="updatedat">Status: <span id="server-status" class="label label-warning">Connecting...</span></inline></h5>
   </nav>
   <div id="wrapper">
     <!-- Home -->
@@ -114,5 +115,14 @@
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/file-functions.js"></script>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script> 
+$(document).ready(function(){
+    $("#flip").click(function(){
+        $("#panel").slideToggle("slow");
+    });
+});
+</script>
 
 </html>

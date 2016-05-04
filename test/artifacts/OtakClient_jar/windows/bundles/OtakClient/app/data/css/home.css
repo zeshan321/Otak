@@ -56,10 +56,9 @@ body
 }
 
 .navbar {
-  padding-left: 10px;
+  padding-left: 0px;
   padding-right: 10px;
 	background-color: #eeeff1;
-  margin-bottom: 0;
   border-radius: 0;
   min-height: 0;
 }
@@ -132,7 +131,15 @@ body
 .btn-home {
   margin: 10px;
 }
+.fa-server{
+padding-left:10px;
+}
+#options{
 
+padding-bottom: 0px;
+margin-bottom: 0px;
+
+}
 .icon{
   display: inline-block;
   padding: 15px;
@@ -155,6 +162,7 @@ body
   height: 2.5em;
   margin-left: auto;
   margin-right: auto;
+
 }
 
 .right{
@@ -192,4 +200,24 @@ body
 .fast .toggle-group { 
   transition: left 0.05s; 
   -webkit-transition: left 0.05s; 
+}
+
+/* trying to make the drop down
+Calvin can u please help me with this =?
+
+http://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_slide_toggle
+*/
+#panel2, #flip2 {
+    padding: 0px;
+    margin-left:0px;
+    text-align: center;
+    background-color: grey;
+    width:250px;
+    z-index: 100;
+    
+}
+
+#panel2 {
+    padding: 5px;
+    display: none;
 }
