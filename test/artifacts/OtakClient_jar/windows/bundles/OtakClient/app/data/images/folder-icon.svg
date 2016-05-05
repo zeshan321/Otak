@@ -4,6 +4,11 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
 <path fill="#FFFFFF" d="M5.825,13.501"/>
-<polygon fill="#D8D8D8" points="2.195,13.243 2.195,87.1 96.891,87.1 96.891,19.574 38.331,19.838 31.474,13.243 "/>
 <line fill="none" stroke="#FFFFFF" stroke-width="3.0158" stroke-miterlimit="10" x1="2.195" y1="31.861" x2="96.891" y2="31.312"/>
+<line fill="none" stroke="#008CFF" stroke-width="3.0016" stroke-miterlimit="10" x1="2.195" y1="34.702" x2="95.999" y2="34.153"/>
+<g>
+	<path fill="#D8D8D8" d="M30.266,16.243L36.251,22l0.877,0.843l1.216-0.005l55.546-0.25V84.1H5.195V16.243H30.266 M31.474,13.243
+		H2.195V87.1h94.696V19.574l-58.56,0.264L31.474,13.243L31.474,13.243z"/>
+</g>
+<polygon fill="#D8D8D8" points="134.195,15.243 134.195,89.1 228.891,89.1 228.891,21.574 170.331,21.838 163.475,15.243 "/>
 </svg>

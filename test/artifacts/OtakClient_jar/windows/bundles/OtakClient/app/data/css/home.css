@@ -18,62 +18,14 @@
 body
 {
   font-family: 'Montserrat', sans-serif;
-  padding-top: 35px;
+  padding-top: 30px;  
 }
 
-.row-centered {
-    text-align:center;
-}
-.col-centered {
-    display:inline-block;
-    float:none;
-    text-align:left;
-    margin-right:-4px;
-}
-
-#panel {
-  width: 250px;
-}
-
-#panel > .row {
-  margin: 0 auto;
-  background-color: #40464b;
-}
-
-#panel > .row > button {
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  padding-right: 10px;
-  padding-left: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  color: #eee;
-}
-
-#panel > .row > button:hover {
-  color: #eee;
-  background: rgba(255,255,255,0.25);
-}
-
-.options{
-  width: 250px;
-  font-size: 2em;
-  background-color: #40464b;
-  border: none;
-  color: white;
-}
-
-.options:focus {
-    outline: none;
-}
-
-.btn-options {
+button {
   padding: 0;
-}
+  margin: 0;
+  border: none;
 
-.btn-options:focus{
-  outline: none;
 }
 
 #wrapper {
@@ -102,6 +54,7 @@ body
   position: fixed;
   left: 250px;
   width: 0;
+  top: 0;
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
@@ -111,7 +64,7 @@ body
 }
 
 .navbar {
-  padding-left: 0px;
+  padding-left: 10px;
   padding-right: 10px;
 	background-color: #eeeff1;
   border-radius: 0;
@@ -129,7 +82,7 @@ body
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 50px;
-
+  
   font-size: 1.2em;
 }
 .sidebar-nav li a {
@@ -188,14 +141,15 @@ body
   margin: 10px;
 }
 .fa-server{
-  padding-left:10px;
+padding-left:10px;
 }
-
 #options{
-  padding-bottom: 0px;
-  margin-bottom: 0px;
-}
 
+padding-top: 0px;
+margin-top: 0px;
+
+
+}
 .icon{
   display: inline-block;
   padding: 15px;
@@ -204,7 +158,7 @@ body
 
 .icon-img{
   font-size: 3em;
-
+  
   color: #6699cc;
 }
 
@@ -227,7 +181,7 @@ body
 
 .File-labels{
   color: #4c5358;
-
+  
 
 }
 
@@ -253,7 +207,39 @@ body
   width: 300px;
 }
 
-.fast .toggle-group {
-  transition: left 0.05s;
-  -webkit-transition: left 0.05s;
+.fast .toggle-group { 
+  transition: left 0.05s; 
+  -webkit-transition: left 0.05s; 
 }
+
+
+ 
+.btn-drop {
+  width: 250px;
+  border-radius: 0;
+  border:solid #337ab6 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  -webkit-transition-duration: 0.5s; /* Safari */
+  transition-duration: 0.5s;
+  outline: none;
+
+}
+.btn-drop:hover {
+  background-color: white;
+  border:solid #337ab6 5px;
+  color: #337ab6;
+  outline: none;
+}
+
+.btn-panel,
+.btn-panel:active, 
+.btn-panel:focus, 
+.btn-panel:hover {   
+    outline:none !important;
+}
+
+.navbar-default {
+margin-left: 250px;
+}
+
