@@ -237,7 +237,7 @@ margin-top: 0px;
   border-left: none;
   border-right: none;
   border-bottom: solid #4c5358 2px ;
-  width: 300px;
+  width: 250px;
 }
 
 .fast .toggle-group {
@@ -266,4 +266,22 @@ margin-top: 0px;
 .btn-panel:focus,
 .btn-panel:hover {
     outline:none !important;
+}
+
+.navbar-default {
+margin-left: 250px;
+}
+#btn-save {
+  width: 250px;
+  height: 50px;
+  border:none;
+  border-radius: 0;
+}
+#btn-save:hover {
+  border:solid #5cb85c 5px;;
+  background-color: white;
+  color:#5cb85c;
+}
+.help-block{
+
 }
