@@ -161,7 +161,7 @@ background: #40464b;
 
 #page-content-wrapper {
     position: absolute;
-    padding: 15px;
+    padding-left: 250px;
 }
 .vertical-align-center {
     /* To center vertically */
