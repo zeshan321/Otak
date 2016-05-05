@@ -18,35 +18,29 @@
 body
 {
   font-family: 'Montserrat', sans-serif;
-  padding-top: 30px;  
+  padding-top: 30px;
 }
 
 button {
   padding: 0;
   margin: 0;
   border: none;
-
 }
 
-#wrapper {
-    padding-left: 0;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+.row-centered {
+    text-align:center;
+    background: #40464b;
+    margin-left: -3px;
 }
-
-#wrapper.toggled {
-    padding-left: 250px;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-    width: 250px;
-}
-
-#wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: -250px;
+.col-centered {
+    display:inline-block;
+    background: transparent;
+    float:none;
+    text-align:center;
+    font-size: 1.5em;
+    margin-right:-4px;
+    width: 83px;
+    height: 83px;
 }
 
 #sidebar-wrapper {
@@ -60,7 +54,19 @@ button {
   overflow-y: auto;
   color: white;
   background: #40464b;
+}
 
+#wrapper.toggled {
+    margin-left: -250px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
 }
 
 .navbar {
@@ -77,12 +83,12 @@ button {
   margin: 0;
   padding: 0;
   list-style: none;
-
+background: #40464b;
 }
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 50px;
-  
+
   font-size: 1.2em;
 }
 .sidebar-nav li a {
@@ -100,7 +106,7 @@ button {
 }
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 0;
     }
 
     #wrapper.toggled {
@@ -112,7 +118,16 @@ button {
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        width: 0;
+      z-index: 1000;
+      position: fixed;
+      left: 250px;
+      width: 0;
+      top: 0;
+      height: 100%;
+      margin-left: -250px;
+      overflow-y: auto;
+      color: white;
+      background: #40464b;
     }
 
     #page-content-wrapper {
@@ -124,6 +139,24 @@ button {
         position: relative;
         margin-right: 0;
     }
+
+    .navbar-default {
+      margin-left: 250px;
+    }
+}
+
+@media(max-width: 768px){
+  #wrapper {
+      margin-left: -250px;
+      -webkit-transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -o-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+  }
+
+  .navbar-default {
+    margin-left: 10px;
+  }
 }
 
 #page-content-wrapper {
@@ -158,7 +191,7 @@ margin-top: 0px;
 
 .icon-img{
   font-size: 3em;
-  
+
   color: #6699cc;
 }
 
@@ -181,7 +214,7 @@ margin-top: 0px;
 
 .File-labels{
   color: #4c5358;
-  
+
 
 }
 
@@ -207,39 +240,30 @@ margin-top: 0px;
   width: 300px;
 }
 
-.fast .toggle-group { 
-  transition: left 0.05s; 
-  -webkit-transition: left 0.05s; 
+.fast .toggle-group {
+  transition: left 0.05s;
+  -webkit-transition: left 0.05s;
 }
-
-
- 
+``
 .btn-drop {
-  width: 250px;
   border-radius: 0;
-  border:solid #337ab6 5px;
-  padding-top: 15px;
-  padding-bottom: 15px;
   -webkit-transition-duration: 0.5s; /* Safari */
   transition-duration: 0.5s;
   outline: none;
 
 }
 .btn-drop:hover {
-  background-color: white;
-  border:solid #337ab6 5px;
-  color: #337ab6;
+  color: #eee;
+  background: rgba(255,255,255,0.25);
+}
+
+.btn-drop:focus {
   outline: none;
 }
 
 .btn-panel,
-.btn-panel:active, 
-.btn-panel:focus, 
-.btn-panel:hover {   
+.btn-panel:active,
+.btn-panel:focus,
+.btn-panel:hover {
     outline:none !important;
 }
-
-.navbar-default {
-margin-left: 250px;
-}
-

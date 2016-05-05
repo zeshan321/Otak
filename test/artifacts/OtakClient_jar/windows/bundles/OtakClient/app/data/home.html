@@ -13,10 +13,10 @@
 </head>
 
 <body>
-	
+
 
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    
+
     <h5><span class="fa fa-server"></span> <span id="servername">Server_name</span><inline class="right" id="updatedat">Status: <span id="server-status" class="label label-warning">Connecting...</span></inline></h5>
   </nav>
   <div id="wrapper">
@@ -24,11 +24,13 @@
     <div id="sidebar-wrapper" class="sidebar-toggle">
   		<ul class="sidebar-nav">
 	  		<button class="btn-panel" data-toggle="collapse" data-target="#panel"><img id="options" src="images/options.svg"></button>
-			<div id="panel" class="collapse ">
-				<button type="button" class="btn-primary btn-drop">Primary</button><br>
-				<button type="button" class="btn-primary btn-drop">Primary</button><br>
-				<button type="button" class="btn-primary btn-drop">Primary</button><br>
-			</div>
+  			<div id="panel" class="collapse ">
+          <div class="row-centered">
+            <button type="button" class="col-centered fa fa-plus-square-o btn-drop"></button>
+          	<button type="button" class="col-centered fa fa-minus-square-o btn-drop"></button>
+          	<button type="button" class="col-centered fa fa-bug btn-drop"></button>
+          </div>
+  			</div>
   			<div id="home1" class="btn-home"><a href="#home" data-toggle="tab"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
 				<hr id="line">
 				<li id="home2">
@@ -51,7 +53,7 @@
 					<div class="tab-content window" id="windows">
 						<div id="home" class="tab-pane in active">
 						  <div class="row" id="contents">
-							
+
 						  </div>
 						</div>
 						<div id="menu1" class="tab-pane">
@@ -71,7 +73,7 @@
 									<p class="help-block">Otak server IP</p>
 								  </div>
 								</div>
-								
+
 								<div class="control-group">
 								  <!-- Password-->
 								  <label class="control-label" for="password">Password</label>
@@ -80,7 +82,7 @@
 									<p class="help-block">Otak server password</p>
 								  </div>
 								</div>
-							 
+
 								<div class="control-group">
 								  <!-- Dir -->
 								  <label class="control-label" for="email">Directory</label>
@@ -89,7 +91,7 @@
 									<p class="help-block">Directory path to store files</p>
 								  </div>
 								</div>
-							 
+
 								<div class="control-group">
 								  <!-- Auto sync -->
 								  <label class="control-label"  for="autoSync">Auto Sync</label>
@@ -98,7 +100,7 @@
 									<p class="help-block">Automatically synchronize files from Otak server</p>
 								  </div>
 								</div>
-							 
+
 								<div class="control-group">
 								  <!-- Button -->
 								  <div class="controls">
