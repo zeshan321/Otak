@@ -176,6 +176,15 @@ public class HomeController implements Initializable {
                         parseMap();
                     }
                 }, false);
+
+                // Back directory
+                final Element backButton = doc.getElementById("btn-back");
+                ((EventTarget) backButton).addEventListener("click", evt -> {
+                    if (!currentDir.equals("")) {
+                        currentDir = currentDir.substring(0, currentDir.lastIndexOf("/"));
+                        parseMap();
+                    }
+                }, false);
             }
         });
     }
@@ -223,10 +232,6 @@ public class HomeController implements Initializable {
      */
     private void parseMap() {
         runScript("clearItems();");
-
-        if (!(currentDir.equals(""))) {
-            runScript("addItem('" + currentDir.substring(0, currentDir.lastIndexOf("/")) + "', '" + ".." + "', 'folder');");
-        }
 
         filesMap.keySet().stream().filter(keys -> keys.equals(currentDir)).forEach(keys -> {
             for (FileObject fileObject : filesMap.get(keys)) {
