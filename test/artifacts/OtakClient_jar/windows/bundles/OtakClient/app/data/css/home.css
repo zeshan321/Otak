@@ -17,7 +17,7 @@
 
 body
 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', 'Abel';
   padding-top: 30px;
 }
 
@@ -266,5 +266,32 @@ margin-top: 0px;
 }
 
 .help-block{
+  font-size: 10px;
+}
 
+#btn-save{
+width: 250px;
+border-radius: 0;
+padding: 10px;
+border: solid  4px transparent;
+}
+
+#btn-save:hover{
+background-color: white;
+border: solid  4px #5cb85c;
+color:#5cb85c;
+}
+.row-centered{
+  background-color: #eeeff1;
+  color:#000000;
+  
+}
+#btn-back,#btn-createdir,#btn-createfile{
+  border:solid  5px #eeeff1;
+  
+}
+#btn-back:hover,#btn-createdir:hover,#btn-createfile:hover{
+  border:solid  5px #2c7aff;
+  color:#2c7aff;
+  margin: 0;
 }
