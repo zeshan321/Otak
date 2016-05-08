@@ -247,11 +247,12 @@ public class HomeController implements Initializable {
     /**
      * Runs on file clicks from UI
      *
+     * @param click Mouse click type
      * @param loc  File location
      * @param name File name
      * @param type File extension
      */
-    public void onClick(String loc, String name, String type) {
+    public void onClick(String click, String loc, String name, String type) {
         if (type.equals("folder")) {
             currentDir = loc;
             parseMap();
