@@ -22,7 +22,9 @@ import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPGet;
 import utils.*;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -253,11 +255,25 @@ public class HomeController implements Initializable {
      * @param type File extension
      */
     public void onClick(String click, String loc, String name, String type) {
-        if (type.equals("folder")) {
-            currentDir = loc;
-            parseMap();
+        if (click.equals("left")) {
+            if (type.equals("folder")) {
+                currentDir = loc;
+                parseMap();
+            } else {
+                File file = new File(config.getString("dir") + File.separator + loc + File.separator + name);
+                if (file.exists()) {
+                    try {
+                        Desktop.getDesktop().open(file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+
+                 System.out.println("Clicked: " + name);
+            }
         } else {
-            System.out.println("Clicked: " + name);
+            System.out.println("Right");
         }
     }
 }

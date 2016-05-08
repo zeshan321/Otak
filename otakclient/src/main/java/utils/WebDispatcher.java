@@ -15,10 +15,10 @@ public class WebDispatcher implements EventDispatcher{
 
     @Override
     public Event dispatchEvent(Event event, EventDispatchChain tail) {
-        MouseEvent mouseEvent = (MouseEvent) event;
+       /* MouseEvent mouseEvent = (MouseEvent) event;
 
         // Mouse drag
-       /* if (event.getEventType().equals(MouseEvent.MOUSE_DRAGGED)) {
+        if (event.getEventType().equals(MouseEvent.MOUSE_DRAGGED)) {
             event.consume();
         }
 
