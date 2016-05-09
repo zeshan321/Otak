@@ -250,9 +250,9 @@ public class HomeController implements Initializable {
      * Runs on file clicks from UI
      *
      * @param click Mouse click type
-     * @param loc  File location
-     * @param name File name
-     * @param type File extension
+     * @param loc   File location
+     * @param name  File name
+     * @param type  File extension
      */
     public void onClick(String click, String loc, String name, String type) {
         if (click.equals("left")) {
@@ -260,7 +260,7 @@ public class HomeController implements Initializable {
                 currentDir = loc;
                 parseMap();
             } else {
-                File file = new File(config.getString("dir") + File.separator + loc + File.separator + name);
+                File file = new File(config.getString("dir") + File.separator + loc);
                 if (file.exists()) {
                     try {
                         Desktop.getDesktop().open(file);
@@ -270,7 +270,8 @@ public class HomeController implements Initializable {
                     return;
                 }
 
-                 System.out.println("Clicked: " + name);
+                // Download file
+                System.out.println("Clicked: " + name);
             }
         } else {
             System.out.println("Right");
