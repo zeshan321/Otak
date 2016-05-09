@@ -157,4 +157,8 @@ a:after {
 #c p {
 	color: white
 }
-
+.desaturate{
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: url(desaturate.svg#greyscale);
+}
