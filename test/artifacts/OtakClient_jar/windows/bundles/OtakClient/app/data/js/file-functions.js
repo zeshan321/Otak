@@ -54,7 +54,7 @@ function onRowClick(event) {
 
 
 function addItem(loc, name, type) {
-	sort = name.truncate(18);
+	sort = name.truncate(16);
     switch (type) {
         case "folder":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "folder-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
@@ -109,6 +109,9 @@ function addItem(loc, name, type) {
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "word-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
         case "doc":
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "word-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            break;
+        case "docx":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "word-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
         case "docs":
