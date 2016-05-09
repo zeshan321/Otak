@@ -268,3 +268,11 @@ margin-top: 0px;
 .help-block{
 
 }
+
+::-moz-selection {
+    background: transparent;
+}
+
+::selection {
+    background: transparent;
+}
