@@ -12,7 +12,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         // Fix javafx windows pixelated fonts
-        if (System.getProperty("os.name").startsWith("Windows")) {
+        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
             System.setProperty("prism.lcdtext", "false");
             System.setProperty("prism.text", "t2k");
         }
