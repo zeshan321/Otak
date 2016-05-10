@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="144px" height="128.16px" viewBox="0 0 144 128.16" enable-background="new 0 0 144 128.16" xml:space="preserve">
+<g>
+	<g>
+		<g>
+			<path fill="#919191" d="M77.472,65.624L41.12,17.385C51.989,9.193,63.86,5.221,77.472,5.221V65.624z"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<path fill="#919191" d="M77.472,65.624l7.362-59.953c33.111,4.065,56.657,34.203,52.591,67.313
+				c-4.064,33.114-34.202,56.657-67.315,52.592c-33.112-4.064-56.657-34.201-52.59-67.314c2.072-16.885,10.014-30.64,23.6-40.877
+				L77.472,65.624z"/>
+		</g>
+	</g>
+	<path fill="#919191" d="M77.472,65.624V5.221c2.701,0,4.681,0.121,7.362,0.452L77.472,65.624z"/>
+	<circle fill="#919191" cx="77.474" cy="65.668" r="60.498"/>
+	<text transform="matrix(1 0 0 1 52.0913 95.957)" fill="#919191" font-family="'LemonMilk'" font-size="22.807">15Gb</text>
+</g>
+<g>
+	<g>
+		<g>
+			<path fill="#C7C7C7" d="M73.245,62.409L37.768,15.33C48.375,7.335,59.961,3.459,73.245,3.459V62.409z"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<path fill="#B186F7" d="M73.245,62.409l7.184-58.51c32.316,3.967,55.295,33.38,51.326,65.692
+				c-3.967,32.318-33.379,55.295-65.695,51.326c-32.314-3.967-55.294-33.378-51.325-65.693c2.022-16.479,9.773-29.902,23.032-39.894
+				L73.245,62.409z"/>
+		</g>
+	</g>
+	<path fill="#C7C7C7" d="M73.245,62.409V3.459c2.635,0,4.566,0.118,7.184,0.44L73.245,62.409z"/>
+	<circle fill="none" stroke="#232323" stroke-width="3.848" stroke-miterlimit="10" cx="73.247" cy="62.451" r="59.042"/>
+	<text transform="matrix(1 0 0 1 48.4775 92.0117)" font-family="'LemonMilk'" font-size="22.2581">15Gb</text>
+</g>
+</svg>

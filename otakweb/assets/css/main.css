@@ -162,3 +162,6 @@ a:after {
     filter: grayscale(100%);
     filter: url(desaturate.svg#greyscale);
 }
+.icon-bar{
+    color:blue;
+}
