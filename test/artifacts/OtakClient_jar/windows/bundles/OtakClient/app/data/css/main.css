@@ -150,6 +150,29 @@ input.transparent-input {
     z-index: 10;
 
 }
+.logo2{
+  display: none;
+}
+/* end on animation styling*/
+@media only screen and (max-width: 800px) {
+  .black-brain{
+    visibility: hidden;
+    
+
+  }
+#welcome_header,#welcome_desc,#btn_start,#btn_install_prev,#btn_install,#btn_ip_prev,#btn_ip{
+    color: black;
+}
+.logo{
+  display: none;
+
+}
+.logo2{
+   display: inline;
+   
+   height: 80px;
+}
+  
 
 
 /* Animation styling
