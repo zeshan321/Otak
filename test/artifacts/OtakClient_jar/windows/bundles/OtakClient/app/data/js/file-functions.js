@@ -25,16 +25,34 @@ function serverStatus(type) {
 
 
 //EXAMPLE usage: addFileProgress('PLACEHOLDER.txt', 90);
-function addFileProgress(file, progress){
+function addFileProgress(file, progress) {
   var pbar = $("#pb" + file.split(".")[0]);
-  console.log(pbar);
+  var filename = file.split(".")[0];
+  
   if(pbar.length != 0){ //update the progress bar
-    pbar.html("<progress value='" + progress + "' max='100'></progress>");
+	if (progress != 100) {
+		pbar.html("<progress value='" + progress + "' max='100'></progress>");
+	} else {
+		$("#tr" + filename).remove();
+		$("#" + filename).remove();
+		pbar.remove();
+	}
   } else { //add the new progress bar
-    $("#filesinsync").append("<tr> \
-      <td id='" + file.split(".")[0] + "'>" + file + "</td> \
-      <td id='pb" + file.split(".")[0] + "' class='pbar'><progress value='" + progress + "' max='100'></progress></td> \
+    $("#filesinsync").append("<tr id='tr" + filename + "'> \
+      <td id='" + filename + "'>" + file + "</td> \
+      <td id='pb" + filename + "' class='pbar'><progress value='" + progress + "' max='100'></progress></td> \
       </tr>");
+  }
+  
+  // Update sync status
+  var syncinfo = $("#syncinfo");
+  var tablesize = $("#synctable").find('tr').length -1;
+  
+  console.log(tablesize);
+  if (tablesize == 0) {
+	  syncinfo.text("No downloads");
+  } else {
+	  syncinfo.text("Downloading: " + tablesize + " files");
   }
 }
 
