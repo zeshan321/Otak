@@ -27,16 +27,10 @@ function serverStatus(type) {
 //EXAMPLE usage: addFileProgress('PLACEHOLDER.txt', 90);
 function addFileProgress(file, progress) {
   var filename = file.split(".")[0];
-  var pbar = $("#pb" + filename);
+  var pbar = document.getElementById("pb" + filename);
   
-  if(pbar.length != 0){ //update the progress bar
-	if (progress != 100) {
-		pbar.html("<progress value='" + progress + "' max='100'></progress>");
-	} else {
-		$("#tr" + filename).remove();
-		$("#" + filename).remove();
-		pbar.remove();
-	}
+  if (pbar) { //update the progress bar
+	pbar.value = progress;
   } else { //add the new progress bar
     $("#filesinsync").append("<tr id='tr" + filename + "'> \
       <td id='" + filename + "'>" + file + "</td> \
@@ -44,7 +38,22 @@ function addFileProgress(file, progress) {
       </tr>");
   }
   
-  // Update sync status
+  updateSync();
+}
+
+function removeFileProgress(file) {
+  var filename = file.split(".")[0];
+  var pbar = document.getElementById("pb" + filename);
+  
+  if (pbar) {
+	  pbar.remove();
+	  document.getElementById("tr" + filename).remove();
+  }
+  
+  updateSync();
+}
+
+function updateSync() {
   var syncinfo = $("#syncinfo");
   var tablesize = $("#synctable").find('tr').length -1;
   
@@ -54,7 +63,6 @@ function addFileProgress(file, progress) {
 	  syncinfo.text("Downloading: " + tablesize + " files");
   }
 }
-
 function removeItem(href) {
 	var item = $("div[href=\"" + href + "\"]");
 	item.remove();

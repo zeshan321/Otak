@@ -1,5 +1,6 @@
 package controllers;
 
+import callback.DownloadCallback;
 import callback.HTTPCallback;
 import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
@@ -19,6 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
+import requests.HTTPDownload;
 import requests.HTTPGet;
 import utils.*;
 
@@ -39,6 +41,7 @@ public class HomeController implements Initializable {
     private String currentDir = "";
     private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
     private Config config;
+    private List<String> filesDownloading = new ArrayList<>();
 
     @FXML
     private AnchorPane anchorPane;
@@ -274,7 +277,44 @@ public class HomeController implements Initializable {
                 }
 
                 // Download file
-                System.out.println("Clicked: " + name);
+                if (!filesDownloading.contains(loc)) {
+                    System.out.println("Downloading: " + name);
+
+                    // Add to list
+                    filesDownloading.add(loc);
+
+                    Parameters parameters = new Parameters();
+                    parameters.add("pass", config.getString("pass"));
+                    parameters.add("file", loc);
+                    parameters.add("sender", config.getString("UUID"));
+
+                    new HTTPDownload(config.getString("IP") + "/download", parameters.toString()).downloadFile(file, new DownloadCallback() {
+                        @Override
+                        public void onRequestComplete() {
+                            runScript("removeFileProgress('" + loc + "');");
+
+                            // Remove from list
+                            filesDownloading.remove(loc);
+                        }
+
+                        @Override
+                        public void onProgress(int progress) {
+                            runScript("addFileProgress('" + loc + "','" + progress + "');");
+
+                            // Remove from list
+                            filesDownloading.remove(loc);
+                        }
+
+                        @Override
+                        public void onRequestFailed() {
+                            // Add to queue and try again later
+
+                            // Remove from list
+                            runScript("removeFileProgress('" + loc + "');");
+                            filesDownloading.remove(loc);
+                        }
+                    });
+                }
             }
         } else {
             System.out.println("Right");

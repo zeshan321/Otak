@@ -7,6 +7,8 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -28,6 +30,9 @@ public class HTTPDownload {
             @Override
             public void run() {
                 try {
+                    // Create dirs
+                    file.getParentFile().mkdirs();
+
                     // Check if to use https or not
                     if (url.startsWith("HTTPS://") || url.startsWith("https://")) {
                         URL urlObj = new URL(url);
@@ -57,7 +62,13 @@ public class HTTPDownload {
                         OutputStream outputStream = new FileOutputStream(file);
 
                         try {
-                            IOUtils.copy(inputStream, outputStream);
+                            ProgressListener progressListener = new ProgressListener();
+                            DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, con.getContentLength(), callBack);
+                            downloadCount.setListener(progressListener);
+
+                            IOUtils.copy(inputStream, downloadCount);
+                            downloadCount.flush();
+                            downloadCount.close();
                             outputStream.flush();
                             outputStream.close();
                             inputStream.close();
@@ -77,7 +88,13 @@ public class HTTPDownload {
                         OutputStream outputStream = new FileOutputStream(file);
 
                         try {
-                            IOUtils.copy(inputStream, outputStream);
+                            ProgressListener progressListener = new ProgressListener();
+                            DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, con.getContentLength(), callBack);
+                            downloadCount.setListener(progressListener);
+
+                            IOUtils.copy(inputStream, downloadCount);
+                            downloadCount.flush();
+                            downloadCount.close();
                             outputStream.flush();
                             outputStream.close();
                             inputStream.close();
@@ -94,5 +111,16 @@ public class HTTPDownload {
                 }
             }
         }.start();
+    }
+
+    private static class ProgressListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            DownloadOutputStream download = ((DownloadOutputStream) e.getSource());
+            int percent = ((download.getCount() * 100) / download.fileLength);
+
+            download.callback.onProgress(percent);
+        }
     }
 }
