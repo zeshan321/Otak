@@ -64,7 +64,7 @@ public class ListContext implements HttpHandler {
             jsonObject.put("count", count);
             jsonObject.put("info", array);
 
-            data = jsonObject.toString(2);
+            data = jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -127,6 +127,12 @@ public class HomeController implements Initializable {
 
                 // Load server files
                 Data data = new Data();
+
+                // Load local files
+                if (data.getContent() != null) {
+                    loadFiles(data.getContent());
+                }
+
                 Parameters parameters = new Parameters();
                 parameters.add("pass", config.getString("pass"));
 
@@ -154,11 +160,6 @@ public class HomeController implements Initializable {
                     public void onError() {
                         // Server status offline
                         runScript("serverStatus('offline');");
-
-                        // Load local files
-                        if (data.getContent() != null) {
-                            loadFiles(data.getContent());
-                        }
                     }
                 });
 
@@ -206,6 +207,8 @@ public class HomeController implements Initializable {
      * @param content json content of all files
      */
     private void loadFiles(String content) {
+        filesMap.clear();
+
         JSONObject jsonObject = new JSONObject(content);
         JSONArray serverArray = jsonObject.getJSONArray("info");
 

@@ -1,14 +1,12 @@
 package utils;
 
-
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
+import java.io.File;
+import java.nio.file.Paths;
 
 public class SystemTraySupport {
 
@@ -25,12 +23,11 @@ public class SystemTraySupport {
 
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            java.awt.Image image = null;
-            try {
-                URL url = new URL("http://images.all-free-download.com/images/graphiclarge/letter_o_pink_97067.jpg");
-                image = ImageIO.read(url);
-            } catch (IOException ex) {
-                System.out.println(ex);
+            Image image;
+            if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
+                image = Toolkit.getDefaultToolkit().getImage(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "images" + File.separator + "Otak-icon-b.png");
+            } else {
+                image = Toolkit.getDefaultToolkit().getImage(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "images" + File.separator + "Otak-icon.png");
             }
 
 
@@ -56,6 +53,7 @@ public class SystemTraySupport {
             popup.add(closeItem);
 
             TrayIcon trayIcon = new TrayIcon(image, "Otak Client", popup);
+            trayIcon.setImageAutoSize(true);
             trayIcon.addActionListener(showListener);
 
             try {
