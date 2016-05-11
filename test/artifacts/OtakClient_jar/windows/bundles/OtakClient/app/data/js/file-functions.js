@@ -23,6 +23,21 @@ function serverStatus(type) {
     }
 }
 
+
+//EXAMPLE usage: addFileProgress('PLACEHOLDER.txt', 90);
+function addFileProgress(file, progress){
+  var pbar = $("#pb" + file.split(".")[0]);
+  console.log(pbar);
+  if(pbar.length != 0){ //update the progress bar
+    pbar.html("<progress value='" + progress + "' max='100'></progress>");
+  } else { //add the new progress bar
+    $("#filesinsync").append("<tr> \
+      <td id='" + file.split(".")[0] + "'>" + file + "</td> \
+      <td id='pb" + file.split(".")[0] + "' class='pbar'><progress value='" + progress + "' max='100'></progress></td> \
+      </tr>");
+  }
+}
+
 function removeItem(href) {
 	var item = $("div[href=\"" + href + "\"]");
 	item.remove();
@@ -42,11 +57,11 @@ String.prototype.truncate = function(n){
 
 function onRowClick(event) {
 	var source = event.target.parentElement;
-	
+
 	if (event.which == 1) {
 		file.onClick('left', source.getAttribute("loc"), source.getAttribute("name"), source.getAttribute("type"));
 	}
-	
+
 	if (event.which == 3) {
 		file.onClick('right', source.getAttribute("loc"), source.getAttribute("name"), source.getAttribute("type"));
 	}
