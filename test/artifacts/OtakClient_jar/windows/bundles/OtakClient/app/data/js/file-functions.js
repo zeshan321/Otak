@@ -26,8 +26,8 @@ function serverStatus(type) {
 
 //EXAMPLE usage: addFileProgress('PLACEHOLDER.txt', 90);
 function addFileProgress(file, progress) {
-  var pbar = $("#pb" + file.split(".")[0]);
   var filename = file.split(".")[0];
+  var pbar = $("#pb" + filename);
   
   if(pbar.length != 0){ //update the progress bar
 	if (progress != 100) {
@@ -48,7 +48,6 @@ function addFileProgress(file, progress) {
   var syncinfo = $("#syncinfo");
   var tablesize = $("#synctable").find('tr').length -1;
   
-  console.log(tablesize);
   if (tablesize == 0) {
 	  syncinfo.text("No downloads");
   } else {
