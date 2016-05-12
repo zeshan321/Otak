@@ -28,35 +28,35 @@ function serverStatus(type) {
 function addFileProgress(file, progress) {
   var filename = file.split(".")[0];
   var pbar = document.getElementById("pb" + filename);
-  
+
   if (pbar) { //update the progress bar
-	pbar.value = progress;
+	   pbar.firstChild.value = progress;
   } else { //add the new progress bar
     $("#filesinsync").append("<tr id='tr" + filename + "'> \
       <td id='" + filename + "'>" + file + "</td> \
       <td id='pb" + filename + "' class='pbar'><progress value='" + progress + "' max='100'></progress></td> \
       </tr>");
   }
-  
+
   updateSync();
 }
 
 function removeFileProgress(file) {
   var filename = file.split(".")[0];
   var pbar = document.getElementById("pb" + filename);
-  
+
   if (pbar) {
 	  pbar.remove();
 	  document.getElementById("tr" + filename).remove();
   }
-  
+
   updateSync();
 }
 
 function updateSync() {
   var syncinfo = $("#syncinfo");
   var tablesize = $("#synctable").find('tr').length -1;
-  
+
   if (tablesize == 0) {
 	  syncinfo.text("No downloads");
   } else {

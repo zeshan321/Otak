@@ -337,6 +337,10 @@ color:#5cb85c;
   overflow-y: auto;
 }
 
+.table > tbody > tr > td{
+  border: none;
+}
+
 #home > .open {
   margin-bottom: 0;
   transition: .25s;
