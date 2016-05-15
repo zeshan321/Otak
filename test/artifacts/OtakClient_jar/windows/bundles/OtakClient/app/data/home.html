@@ -12,8 +12,7 @@
     <link href="css/home.css" rel="stylesheet">
 </head>
 
-<body>
-
+<body oncontextmenu="file.onClick('right', '', 'body'); return false;">
 
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <h5>
@@ -65,7 +64,7 @@
 									<thead>
 									  <tr>
 										<th>File</th>
-										<th style="text-align: right">Progress</th>
+										<th style="text-align: right">Status</th>
 									  </tr>
 									</thead>
 									<tbody id="filesinsync">

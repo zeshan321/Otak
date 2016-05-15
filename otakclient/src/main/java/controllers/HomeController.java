@@ -2,11 +2,15 @@ package controllers;
 
 import callback.DownloadCallback;
 import callback.HTTPCallback;
+import callback.TaskCallback;
 import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
@@ -42,6 +46,11 @@ public class HomeController implements Initializable {
     private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
     private Config config;
     private List<String> filesDownloading = new ArrayList<>();
+    private ContextMenu contextMenu = new ContextMenu();
+
+    // Threads
+    private int connectionLimit = 5;
+    private int threadsRunning = 0;
 
     @FXML
     private AnchorPane anchorPane;
@@ -55,7 +64,6 @@ public class HomeController implements Initializable {
 
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);
-        webView.setContextMenuEnabled(false);
         webView.getEngine().load("file:///" + Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "data" + File.separator + "home.html");
 
         // Make web view responsive
@@ -191,6 +199,15 @@ public class HomeController implements Initializable {
                         parseMap();
                     }
                 }, false);
+
+                // Hide context menu
+                webView.setOnMousePressed(e -> {
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        if (contextMenu != null) {
+                            contextMenu.hide();
+                        }
+                    }
+                });
             }
         });
     }
@@ -262,6 +279,8 @@ public class HomeController implements Initializable {
      */
     public void onClick(String click, String loc, String name, String type) {
         if (click.equals("left")) {
+            contextMenu.hide();
+
             if (type.equals("folder")) {
                 currentDir = loc;
                 parseMap();
@@ -278,46 +297,132 @@ public class HomeController implements Initializable {
 
                 // Download file
                 if (!filesDownloading.contains(loc)) {
-                    System.out.println("Downloading: " + name);
-
-                    // Add to list
-                    filesDownloading.add(loc);
-
-                    Parameters parameters = new Parameters();
-                    parameters.add("pass", config.getString("pass"));
-                    parameters.add("file", loc);
-                    parameters.add("sender", config.getString("UUID"));
-
-                    new HTTPDownload(config.getString("IP") + "/download", parameters.toString()).downloadFile(file, new DownloadCallback() {
+                    downloadFile(file, loc, new TaskCallback() {
                         @Override
-                        public void onRequestComplete() {
-                            runScript("removeFileProgress('" + loc + "');");
+                        public void onComplete() {
 
-                            // Remove from list
-                            filesDownloading.remove(loc);
-                        }
-
-                        @Override
-                        public void onProgress(int progress) {
-                            runScript("addFileProgress('" + loc + "','" + progress + "');");
-
-                            // Remove from list
-                            filesDownloading.remove(loc);
-                        }
-
-                        @Override
-                        public void onRequestFailed() {
-                            // Add to queue and try again later
-
-                            // Remove from list
-                            runScript("removeFileProgress('" + loc + "');");
-                            filesDownloading.remove(loc);
                         }
                     });
                 }
             }
         } else {
-            System.out.println("Right");
+            contextMenu.hide();
+            contextMenu = new ContextMenu();
+
+            MenuItem menuItem = new MenuItem("Delete");
+
+            if (type.equals("folder")) {
+                MenuItem download = new MenuItem("Download All");
+
+                download.setOnAction(event -> {
+                    List<String> files = new ArrayList<>();
+                    List<String> dirs = new ArrayList<>();
+                    dirs.add(loc);
+
+                    recursiveFileDownload(files, dirs);
+                });
+
+                contextMenu.getItems().add(download);
+            }
+
+            contextMenu.getItems().add(menuItem);
+            contextMenu.show(webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
         }
+    }
+
+    private List<FileObject> recursiveFileDownload(List<String> files, List<String> dirs) {
+        String dir;
+        if (dirs.size() > 0) {
+            dir = dirs.get(0);
+            dirs.remove(0);
+
+            String finalDir = dir;
+            filesMap.keySet().stream().filter(keys -> keys.equals(finalDir)).forEach(keys -> {
+                for (FileObject fileObject : filesMap.get(keys)) {
+                    if (fileObject.isDir) {
+                        dirs.add(fileObject.file);
+                    } else {
+                        files.add(fileObject.file);
+                    }
+                }
+            });
+        } else {
+           // Download and limit threads
+            new Thread() {
+                @Override
+                public void run() {
+                    // Add files to queue
+                    for (String loc: files) {
+                        runScript("addFileProgress('" + loc + "','queue');");
+                    }
+
+                    int currentFile = -1;
+
+                    while (true) {
+                        System.out.println(threadsRunning);
+                        if (threadsRunning <= connectionLimit) {
+                            if (currentFile == files.size() -1) {
+                                break;
+                            }
+
+                            threadsRunning++;
+                            currentFile++;
+
+                            downloadFile(new File(config.getString("dir") + File.separator + files.get(currentFile)), files.get(currentFile), new TaskCallback() {
+                                @Override
+                                public void onComplete() {
+                                    threadsRunning--;
+                                }
+                            });
+                        }
+                    }
+                }
+            }.start();
+            return null;
+        }
+
+        return recursiveFileDownload(files, dirs);
+    }
+
+    private void downloadFile(File file, String loc, TaskCallback taskCallback) {
+        runScript("addFileProgress('" + loc + "','download');");
+
+        // Add to list
+        filesDownloading.add(loc);
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", loc);
+        parameters.add("sender", config.getString("UUID"));
+
+        new HTTPDownload(config.getString("IP") + "/download", parameters.toString()).downloadFile(file, new DownloadCallback() {
+            @Override
+            public void onRequestComplete() {
+                runScript("removeFileProgress('" + loc + "');");
+
+                // Remove from list
+                filesDownloading.remove(loc);
+
+                taskCallback.onComplete();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+
+            @Override
+            public void onRequestFailed() {
+                // Add to queue and try again later
+
+                // Remove from list
+                filesDownloading.remove(loc);
+
+                // Display error
+                runScript("addFileProgress('" + loc + "','error');");
+
+                taskCallback.onComplete();
+            }
+        });
     }
 }

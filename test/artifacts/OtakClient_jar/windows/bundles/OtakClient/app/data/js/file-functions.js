@@ -1,3 +1,5 @@
+var filesQueue = 0;
+
 function serverStatus(type) {
     span = document.getElementById("server-status");
     switch (type) {
@@ -24,44 +26,88 @@ function serverStatus(type) {
 }
 
 
-//EXAMPLE usage: addFileProgress('PLACEHOLDER.txt', 90);
-function addFileProgress(file, progress) {
+function addFileProgress(file, status) {
+	var filename = file.split(".")[0];
+	
+	if (!document.getElementById("tr" + filename)) {
+	  var span;
+	  
+	  switch (status) {
+			case "error":
+				span = "<span id='" + "sp" + filename+"' class='label label-danger'>Error</span>";
+				break;
+
+			case "upload":
+				span = "<span id='" + "sp" + filename+"' class='label label-success'>Uploading</span>";
+				break;
+				
+			case "download":
+				span = "<span id='" + "sp" + filename+"' class='label label-success'>Downloading</span>";
+				break;
+				
+			case "queue":
+				span = "<span id='" + "sp" + filename+"' class='label label-warning'>In queue</span>";
+				break;
+		}
+		
+		$("#filesinsync").append("<tr id='tr" + filename + "'> \
+		  <td>" + file + "</td> \
+		  <td class='pbar'>" + span + "</td> \
+		  </tr>");
+
+		filesQueue++;
+		updateSync();
+	} else {
+		changeStatus(file, status);
+	}
+}
+
+function changeStatus(file, status) {
   var filename = file.split(".")[0];
-  var pbar = document.getElementById("pb" + filename);
+  var span = document.getElementById("sp" + filename);
+  
+  switch (status) {
+        case "error":
+			span.className = "label label-danger";
+            span.textContent = "Error"
+            break;
 
-  if (pbar) { //update the progress bar
-	   pbar.firstChild.value = progress;
-  } else { //add the new progress bar
-    $("#filesinsync").append("<tr id='tr" + filename + "'> \
-      <td id='" + filename + "'>" + file + "</td> \
-      <td id='pb" + filename + "' class='pbar'><progress value='" + progress + "' max='100'></progress></td> \
-      </tr>");
-  }
-
-  updateSync();
+        case "upload":
+			span.className = "label label-success";
+            span.textContent = "Uploading"
+            break;
+			
+        case "download":
+			span.className = "label label-success";
+            span.textContent = "Downloading"
+            break;
+			
+        case "queue":
+			span.className = "label label-warning";
+            span.textContent = "In queue"
+            break;
+    }
 }
 
 function removeFileProgress(file) {
   var filename = file.split(".")[0];
-  var pbar = document.getElementById("pb" + filename);
-
-  if (pbar) {
-	  pbar.remove();
+  
+  if (document.getElementById("tr" + filename)) {
 	  document.getElementById("tr" + filename).remove();
-  }
 
-  updateSync();
+	  filesQueue--;
+	  updateSync();
+  }
 }
 
 function updateSync() {
-  var syncinfo = $("#syncinfo");
-  var tablesize = $("#synctable").find('tr').length -1;
-
-  if (tablesize == 0) {
+	var syncinfo = $("#syncinfo");
+	
+	if (filesQueue == 0) {
 	  syncinfo.text("No downloads");
-  } else {
-	  syncinfo.text("Downloading: " + tablesize + " files");
-  }
+	} else {
+	  syncinfo.text("Downloading: " + filesQueue + " files");
+	}
 }
 function removeItem(href) {
 	var item = $("div[href=\"" + href + "\"]");
