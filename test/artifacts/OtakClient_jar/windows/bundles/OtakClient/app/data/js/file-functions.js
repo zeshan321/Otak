@@ -130,11 +130,11 @@ function onRowClick(event) {
 	var source = event.target.parentElement;
 
 	if (event.which == 1) {
-		file.onClick('left', source.getAttribute("loc"), source.getAttribute("name"), source.getAttribute("type"));
+		home.onClick('left', source.getAttribute("loc"), source.getAttribute("name"), source.getAttribute("type"));
 	}
 
 	if (event.which == 3) {
-		file.onClick('right', source.getAttribute("loc"), source.getAttribute("name"), source.getAttribute("type"));
+		home.onClick('right', source.getAttribute("loc"), source.getAttribute("name"), source.getAttribute("type"));
 	}
 }
 

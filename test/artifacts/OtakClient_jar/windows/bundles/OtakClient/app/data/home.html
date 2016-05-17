@@ -12,7 +12,7 @@
     <link href="css/home.css" rel="stylesheet">
 </head>
 
-<body oncontextmenu="file.onClick('right', '', 'body'); return false;">
+<body oncontextmenu="home.onClick('right', '', 'body'); return false;">
 
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <h5>
@@ -28,21 +28,21 @@
 	  		<button class="btn-panel" data-toggle="collapse" data-target="#panel"><img id="options" src="images/options.svg"></button>
   			<div id="panel" class="collapse ">
           <div class="row-centered">
-            <button id="btn-back" type="button" class="col-centered fa fa-chevron-left btn-drop"></button>
+            <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop"></button>
           	<button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop"></button>
           	<button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop"></button>
           </div>
   			</div>
-  			<div id="home1" class="btn-home"><a href="#home" data-toggle="tab"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
+  			<div onClick="home.onHome();" class="btn-home"><a href="#home" data-toggle="tab"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
 				<hr id="line">
 				<li id="home2">
-					<a href="#home" data-toggle="tab">Files</a>
+					<a onClick="home.onHome();" href="#home" data-toggle="tab">Files</a>
 				</li>
 				<li>
 					<a href="#menu1" data-toggle="tab">Devices</a>
 				</li>
 				<li>
-					<a id="menu-settings" href="#menu2" data-toggle="tab">Settings</a>
+					<a onClick="home.settingsClick();" href="#menu2" data-toggle="tab">Settings</a>
 				</li>
 			</ul>
 	</div>
@@ -104,7 +104,7 @@
 								  <!-- Dir -->
 								  <label class="control-label" for="email">Directory</label>
 								  <div class="controls">
-									<input type="text" id="dir" name="dir" class="input-xlarge">
+									<input onClick="home.dirChooser();" type="text" id="dir" name="dir" class="input-xlarge">
 									<p class="help-block">Directory path to store files</p>
 								  </div>
 								</div>
@@ -121,7 +121,7 @@
 								<div class="control-group">
 								  <!-- Button -->
 								  <div class="controls">
-									<button id="btn-save" class="btn btn-success">Save</button>
+									<button onClick="home.settingsSave();" class="btn btn-success">Save</button>
 								  </div>
 								</div>
 							  </fieldset>

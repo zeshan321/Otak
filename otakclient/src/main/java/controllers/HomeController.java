@@ -9,11 +9,9 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import objects.FileObject;
@@ -21,16 +19,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.html.HTMLInputElement;
 import requests.HTTPDownload;
 import requests.HTTPGet;
 import utils.*;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -42,24 +35,23 @@ public class HomeController implements Initializable {
 
     public Stage stage;
 
-    private String currentDir = "";
-    private HashMap<String, List<FileObject>> filesMap = new HashMap<>();
-    private Config config;
-    private List<String> filesDownloading = new ArrayList<>();
-    private ContextMenu contextMenu = new ContextMenu();
+    // Package local
+    String currentDir = "";
+    Config config;
+    HashMap<String, List<FileObject>> filesMap = new HashMap<>();
+    List<String> filesDownloading = new ArrayList<>();
+    ContextMenu contextMenu = new ContextMenu();
+    @FXML
+    AnchorPane anchorPane;
+    @FXML
+    WebView webView;
 
     // Threads
     private int connectionLimit = 5;
     private int threadsRunning = 0;
 
-    @FXML
-    private AnchorPane anchorPane;
-    @FXML
-    private WebView webView;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Initialized");
         config = Main.config;
 
         // Load site
@@ -70,6 +62,15 @@ public class HomeController implements Initializable {
         new ResponsiveWeb(anchorPane, webView).makeResponsive();
 
         WebDispatcher webDispatcher = new WebDispatcher(webView.getEventDispatcher());
+
+        // Hide context menu
+        webView.setOnMousePressed(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                if (contextMenu != null) {
+                    contextMenu.hide();
+                }
+            }
+        });
         // Wait for UI to finish loading
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
@@ -77,69 +78,14 @@ public class HomeController implements Initializable {
                 webView.setEventDispatcher(webDispatcher);
 
                 Document doc = webView.getEngine().getDocument();
-
-                // Listen for file clicks
                 JSObject window = (JSObject) webView.getEngine().executeScript("window");
-                window.setMember("file", this);
 
-                // Settings
-                final Element settingsButton = doc.getElementById("menu-settings");
-                ((EventTarget) settingsButton).addEventListener("click", evt -> {
 
-                    // Server ip
-                    HTMLInputElement input = (HTMLInputElement) doc.getElementById("serverIP");
-                    input.setAttribute("value", config.getString("IP"));
-
-                    // Password
-                    input = (HTMLInputElement) doc.getElementById("password");
-                    input.setAttribute("value", config.getString("pass"));
-
-                    // Dir
-                    input = (HTMLInputElement) doc.getElementById("dir");
-                    input.setAttribute("value", config.getString("dir"));
-
-                    // Auto sync
-                    input = (HTMLInputElement) doc.getElementById("auto-sync");
-                    input.setChecked(config.getBoolean("sync"));
-                }, false);
-
-                final HTMLInputElement dirInput = (HTMLInputElement) doc.getElementById("dir");
-                ((EventTarget) dirInput).addEventListener("click", evt -> {
-                    DirectoryChooser dirChooser = new DirectoryChooser();
-                    dirChooser.setTitle("Select Otak Installation Directory");
-
-                    File file = dirChooser.showDialog(stage);
-                    if (file != null) {
-                        dirInput.setAttribute("value", file.getPath());
-                    }
-                }, false);
-
-                final Element saveButton = doc.getElementById("btn-save");
-                ((EventTarget) saveButton).addEventListener("click", evt -> {
-
-                    // Server ip
-                    HTMLInputElement input = (HTMLInputElement) doc.getElementById("serverIP");
-                    config.set("IP", input.getValue());
-
-                    // Password
-                    input = (HTMLInputElement) doc.getElementById("password");
-                    config.set("pass", input.getValue());
-
-                    // Dir
-                    input = (HTMLInputElement) doc.getElementById("dir");
-                    config.set("dir", input.getValue());
-
-                    // Auto sync
-                    input = (HTMLInputElement) doc.getElementById("auto-sync");
-                    config.set("sync", input.getChecked());
-
-                    config.save();
-                }, false);
+                // Home handler
+                window.setMember("home", new HomeHandler(this, doc));
 
                 // Load server files
                 Data data = new Data();
-
-                // Load local files
                 if (data.getContent() != null) {
                     loadFiles(data.getContent());
                 }
@@ -171,41 +117,6 @@ public class HomeController implements Initializable {
                     public void onError() {
                         // Server status offline
                         runScript("serverStatus('offline');");
-                    }
-                });
-
-                // Reset directory on home click
-                final Element homeButton = doc.getElementById("home1");
-                ((EventTarget) homeButton).addEventListener("click", evt -> {
-                    if (!currentDir.equals("")) {
-                        currentDir = "";
-                        parseMap();
-                    }
-                }, false);
-
-                final Element home1Button = doc.getElementById("home2");
-                ((EventTarget) home1Button).addEventListener("click", evt -> {
-                    if (!currentDir.equals("")) {
-                        currentDir = "";
-                        parseMap();
-                    }
-                }, false);
-
-                // Back directory
-                final Element backButton = doc.getElementById("btn-back");
-                ((EventTarget) backButton).addEventListener("click", evt -> {
-                    if (!currentDir.equals("")) {
-                        currentDir = currentDir.substring(0, currentDir.lastIndexOf("/"));
-                        parseMap();
-                    }
-                }, false);
-
-                // Hide context menu
-                webView.setOnMousePressed(e -> {
-                    if (e.getButton() == MouseButton.PRIMARY) {
-                        if (contextMenu != null) {
-                            contextMenu.hide();
-                        }
                     }
                 });
             }
@@ -255,7 +166,7 @@ public class HomeController implements Initializable {
     /**
      * Parse filesMap and display on UI
      */
-    private void parseMap() {
+    void parseMap() {
         runScript("clearItems();");
 
         filesMap.keySet().stream().filter(keys -> keys.equals(currentDir)).forEach(keys -> {
@@ -269,68 +180,7 @@ public class HomeController implements Initializable {
         });
     }
 
-    /**
-     * Runs on file clicks from UI
-     *
-     * @param click Mouse click type
-     * @param loc   File location
-     * @param name  File name
-     * @param type  File extension
-     */
-    public void onClick(String click, String loc, String name, String type) {
-        if (click.equals("left")) {
-            contextMenu.hide();
-
-            if (type.equals("folder")) {
-                currentDir = loc;
-                parseMap();
-            } else {
-                File file = new File(config.getString("dir") + File.separator + loc);
-                if (file.exists()) {
-                    try {
-                        Desktop.getDesktop().open(file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                }
-
-                // Download file
-                if (!filesDownloading.contains(loc)) {
-                    downloadFile(file, loc, new TaskCallback() {
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-                }
-            }
-        } else {
-            contextMenu.hide();
-            contextMenu = new ContextMenu();
-
-            MenuItem menuItem = new MenuItem("Delete");
-
-            if (type.equals("folder")) {
-                MenuItem download = new MenuItem("Download All");
-
-                download.setOnAction(event -> {
-                    List<String> files = new ArrayList<>();
-                    List<String> dirs = new ArrayList<>();
-                    dirs.add(loc);
-
-                    recursiveFileDownload(files, dirs);
-                });
-
-                contextMenu.getItems().add(download);
-            }
-
-            contextMenu.getItems().add(menuItem);
-            contextMenu.show(webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
-        }
-    }
-
-    private List<FileObject> recursiveFileDownload(List<String> files, List<String> dirs) {
+    List<FileObject> recursiveFileDownload(List<String> files, List<String> dirs) {
         String dir;
         if (dirs.size() > 0) {
             dir = dirs.get(0);
@@ -347,21 +197,20 @@ public class HomeController implements Initializable {
                 }
             });
         } else {
-           // Download and limit threads
+            // Download and limit threads
             new Thread() {
                 @Override
                 public void run() {
                     // Add files to queue
-                    for (String loc: files) {
+                    for (String loc : files) {
                         runScript("addFileProgress('" + loc + "','queue');");
                     }
 
                     int currentFile = -1;
 
                     while (true) {
-                        System.out.println(threadsRunning);
                         if (threadsRunning <= connectionLimit) {
-                            if (currentFile == files.size() -1) {
+                            if (currentFile == files.size() - 1) {
                                 break;
                             }
 
@@ -384,7 +233,7 @@ public class HomeController implements Initializable {
         return recursiveFileDownload(files, dirs);
     }
 
-    private void downloadFile(File file, String loc, TaskCallback taskCallback) {
+    void downloadFile(File file, String loc, TaskCallback taskCallback) {
         runScript("addFileProgress('" + loc + "','download');");
 
         // Add to list

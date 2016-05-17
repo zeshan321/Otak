@@ -10,9 +10,9 @@ import java.io.OutputStream;
 
 public class DownloadOutputStream extends CountingOutputStream {
 
-    private ActionListener listener = null;
     public DownloadCallback callback;
     public int fileLength;
+    private ActionListener listener = null;
 
     public DownloadOutputStream(OutputStream out, int fileLength, DownloadCallback callback) {
         super(out);

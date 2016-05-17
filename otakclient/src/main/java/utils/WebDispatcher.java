@@ -3,9 +3,8 @@ package utils;
 import javafx.event.Event;
 import javafx.event.EventDispatchChain;
 import javafx.event.EventDispatcher;
-import javafx.scene.input.MouseEvent;
 
-public class WebDispatcher implements EventDispatcher{
+public class WebDispatcher implements EventDispatcher {
 
     private EventDispatcher eventDispatcher;
 

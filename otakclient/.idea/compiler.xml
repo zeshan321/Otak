@@ -22,12 +22,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="otakclient" />
         <module name="OtakClient" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="otakclient" target="1.8" />
       <module name="OtakClient" target="1.8" />
     </bytecodeTargetLevel>
   </component>

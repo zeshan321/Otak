@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/otakclient.iml" filepath="$PROJECT_DIR$/otakclient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OtakClient.iml" filepath="$PROJECT_DIR$/OtakClient.iml" />
     </modules>
   </component>
 </project>
