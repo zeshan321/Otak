@@ -80,7 +80,6 @@ public class HomeController implements Initializable {
                 Document doc = webView.getEngine().getDocument();
                 JSObject window = (JSObject) webView.getEngine().executeScript("window");
 
-
                 // Home handler
                 window.setMember("home", new HomeHandler(this, doc));
 

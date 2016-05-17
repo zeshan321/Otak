@@ -13,23 +13,23 @@
 
 <body class="setup">
 
-<div class="black-brain"><img  src="images/Blackbrain.png"></div>
-<!-- particles.js container -->
-<div id="particles-js"></div>
+    <div class="black-brain"><img src="images/Blackbrain.png"></div>
+    <!-- particles.js container -->
+    <div id="particles-js"></div>
 
-<!-- scripts -->
-<script src="js/particles.js"></script>
-<script src="js/app.js"></script>
+    <!-- scripts -->
+    <script src="js/particles.js"></script>
+    <script src="js/app.js"></script>
 
     <!-- Notifications start -->
     <div class="container">
         <div class="row">
             <div class="com-md-12">
-				<div class=" notification alert alert-warning error-server" role="alert">
+                <div class=" notification alert alert-warning error-server" role="alert">
                     <span class="fa fa-exclamation-triangle"></span> Unable to connect to server.
                 </div>
-				<div class="notification alert alert-danger error-login" role="alert">
-                    <span class="fa-minus-circle"></span> Invalid password.
+                <div class="notification alert alert-danger error-login" role="alert">
+                    <span class="fa fa-minus-circle"></span> Invalid password.
                 </div>
                 <div class="notification alert alert-success connected">
                     <span class="fa fa-check-circle"></span> Successfully connected.
@@ -41,188 +41,186 @@
 
     <!-- Welcome start -->
     <div class="container welcome-text">
-      <div class="caption">
-          <h1 id="welcome_header">WELCOME TO </h1><img class="logo" src="images/Otak-logo-r.png"><img class="logo2" src="images/Otak-logo.svg">
-          <p id="welcome_desc">Smart - Easy - Quick - Secure</p>
+        <div class="caption">
+            <h1 id="welcome_header">WELCOME TO </h1><img class="logo" src="images/Otak-logo-r.png"><img class="logo2" src="images/Otak-logo.svg">
+            <p id="welcome_desc">Smart - Easy - Quick - Secure</p>
 
-  			<div id="div_install" class="container" hidden>
-          <div class="row clearfix">
-            <div class="col-md-6 col-md-offset-3 column">
-              <div class="form-group">
-                <input id="input_install" type="text" class="form-control transparent-input" placeholder="Choose install directory">
-              </div>
+            <div id="div_install" class="container" hidden>
+                <div class="row clearfix">
+                    <div class="col-md-6 col-md-offset-3 column">
+                        <div class="form-group">
+                            <input id="input_install" onClick="setup.onDirClick();" type="text" class="form-control transparent-input" placeholder="Choose install directory">
+                        </div>
+                    </div>
+                </div>
             </div>
-    			</div>
+
+            <div id="div_ip" class="container" hidden>
+                <div class="row clearfix">
+                    <div class="col-md-6 col-md-offset-3 column">
+                        <div class="input-group">
+                            <input id="input_IP" type="text" class="form-control transparent-input" aria-label="..." placeholder="Enter or select Otak server IP">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Local <span class="caret"></span></button>
+                                <ul id="domainList" class="dropdown-menu dropdown-menu-right" role="menu">
+                                </ul>
+                            </div>
+                            <!-- /btn-group -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-lg wh" id="btn_start">Get Started <span class="fa fa-chevron-right text-right"></span></a>
+
+            <a class="btn btn-lg wh" id="btn_install_prev"><span class="fa fa-chevron-left text-right"></a>
+            <a onClick="setup.onCompleteDirClick();" class="btn btn-lg wh" id="btn_install"><span class="fa fa-chevron-right text-right"></a>
+
+            <a class="btn btn-lg wh" id="btn_ip_prev"><span class="fa fa-chevron-left text-right"></a>
+            <a onClick="setup.onIPClick();" class="btn btn-lg wh" id="btn_ip"><span class="fa fa-chevron-right text-right"></a>
+
         </div>
-
-        <div id="div_ip" class="container" hidden>
-          <div class="row clearfix">
-  				 <div class="col-md-6 col-md-offset-3 column">
-             <div class="input-group">
-  					  <input id="input_IP" type="text" class="form-control transparent-input" aria-label="..." placeholder="Enter or select Otak server IP">
-    					  <div class="input-group-btn">
-      						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Local <span class="caret"></span></button>
-      						<ul id="domainList" class="dropdown-menu dropdown-menu-right" role="menu">
-      						</ul>
-    					  </div><!-- /btn-group -->
-  					  </div>
-  				  </div>
-          </div>
-  			</div>
-
-        <a class="btn btn-lg wh" id="btn_start">Get Started <span class="fa fa-chevron-right text-right"></span></a>
-
-        <a class="btn btn-lg wh" id="btn_install_prev"><span class="fa fa-chevron-left text-right"></a>
-  			<a class="btn btn-lg wh" id="btn_install"><span class="fa fa-chevron-right text-right"></a>
-
-        <a class="btn btn-lg wh" id="btn_ip_prev"><span class="fa fa-chevron-left text-right"></a>
-  			<a class="btn btn-lg wh" id="btn_ip"><span class="fa fa-chevron-right text-right"></a>
-
-      </div>
     </div>
     <!-- Welcome end -->
 
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="vertical-alignment-helper">
-				<div class="modal-dialog vertical-align-center">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Connect to: </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-element">
+                            <label for="foo">Password:</label>
+                            <input id="input_pass" type="password" class="form-controld" placeholder="Enter Otak server password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="button_login" onClick="setup.verifyUser();" type="button" class="btn btn-primary">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal end -->
 
-							</button>
-							 <h4 class="modal-title" id="myModalLabel">Connect to: </h4>
-						</div>
-						<div class="modal-body">
-						  <div class="form-element">
-						  <label for="foo">Password:</label>
-						  <input id="input_pass" type="password" class="form-controld" placeholder="Enter Otak server password">
-						</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							<button id="button_login" type="button" class="btn btn-primary">Login</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modal end -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/notification.js"></script>
 
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/notification.js"></script>
+    <script>
+        $('#btn_install_prev').hide();
+        $('#btn_ip_prev').hide();
+        $('#btn_install').hide();
+        $('#btn_ip').hide();
 
-        <script>
-
-      $('#btn_install_prev').hide();
-      $('#btn_ip_prev').hide();
-  		$('#btn_install').hide();
-  		$('#btn_ip').hide();
-
-		// Install
-      $('#btn_start').click(function() {
-        $('#welcome_header').fadeOut();
-        $('#welcome_desc').addClass('animated slideOutLeft');
-        $('#btn_start').fadeOut();
-        $('#div_install').removeClass('slideOutRight');
-        $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-          $('#welcome_header').html("SETUP");
-          $("#welcome_header").fadeIn();
-          $('#welcome_desc').removeClass('slideOutLeft slideOutRight')
-          $("#welcome_desc").addClass('animated slideInRight');
-    			$("#welcome_desc").text("Select where we should keep your files:");
-          $('#div_install').addClass('animated slideInRight');
-          $('#div_install').show();
-          $('#btn_install_prev').fadeIn();
-          $('#btn_install').fadeIn();
-        });
-      });
-
-      //Previous buttons
-      $('#btn_install_prev').click(function(){
-          $('#welcome_header').fadeOut();
-          $('#welcome_desc').addClass('slideOutRight');
-          $('#div_install').addClass('slideOutRight');
-          $('#btn_install').fadeOut();
-          $('#btn_install_prev').fadeOut();
-          $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $('#btn_start').fadeIn();
-            $('#welcome_header').html("WELCOME TO");
-            $("#welcome_header").fadeIn();
-            $('#welcome_desc').removeClass('slideOutRight slideInRight');
-            $("#welcome_desc").addClass('slideInLeft');
-            $("#welcome_desc").text("Smart - Easy - Quick - Secure");
-            $('#div_install').hide();
-          });
-      });
-
-      $('#btn_ip_prev').click(function(){
-        $('#btn_ip').fadeOut();
-        $('#btn_ip_prev').fadeOut();
-        $('#div_install').removeClass('slideOutLeft slideInRight slideOutRight');
-        $('#div_ip').removeClass('slideInRight');
-        $('#div_ip').addClass('slideOutRight');
-        $('#welcome_desc').removeClass('slideInRight');
-        $("#welcome_desc").addClass('slideOutRight');
-        $('#div_ip').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-          $('#btn_install').fadeIn();
-          $('#btn_install_prev').fadeIn();
-          $('#welcome_desc').removeClass('slideOutLeft');
-          $('#div_install').addClass('slideInLeft');
-          $('#div_install').show();
-          $('#div_ip').hide();
+        // Install
+        $('#btn_start').click(function() {
+            $('#welcome_header').fadeOut();
+            $('#welcome_desc').addClass('animated slideOutLeft');
+            $('#btn_start').fadeOut();
+            $('#div_install').removeClass('slideOutRight');
+            $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $('#welcome_header').html("SETUP");
+                $("#welcome_header").fadeIn();
+                $('#welcome_desc').removeClass('slideOutLeft slideOutRight')
+                $("#welcome_desc").addClass('animated slideInRight');
+                $("#welcome_desc").text("Select where we should keep your files:");
+                $('#div_install').addClass('animated slideInRight');
+                $('#div_install').show();
+                $('#btn_install_prev').fadeIn();
+                $('#btn_install').fadeIn();
+            });
         });
 
-        $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-          $("#welcome_desc").removeClass('slideOutRight');
-          $('#welcome_desc').addClass('slideInLeft');
-          $("#welcome_desc").text("Select where we should keep your files:");
+        //Previous buttons
+        $('#btn_install_prev').click(function() {
+            $('#welcome_header').fadeOut();
+            $('#welcome_desc').addClass('slideOutRight');
+            $('#div_install').addClass('slideOutRight');
+            $('#btn_install').fadeOut();
+            $('#btn_install_prev').fadeOut();
+            $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $('#btn_start').fadeIn();
+                $('#welcome_header').html("WELCOME TO");
+                $("#welcome_header").fadeIn();
+                $('#welcome_desc').removeClass('slideOutRight slideInRight');
+                $("#welcome_desc").addClass('slideInLeft');
+                $("#welcome_desc").text("Smart - Easy - Quick - Secure");
+                $('#div_install').hide();
+            });
         });
-      });
 
-		function installDone() {
-			$('#btn_install').fadeOut();
-      $('#btn_install_prev').fadeOut();
-      $('#div_install').removeClass('slideOutLeft slideInRight slideOutRight');
-			$('#div_install').addClass('slideOutLeft');
-      $('#welcome_desc').addClass('slideOutLeft');
-      $('#div_install').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-        $('#div_install').hide();
-        $('#btn_ip').fadeIn();
-        $('#btn_ip_prev').fadeIn();
-        $('#div_ip').show();
-        $('#div_ip').removeClass('slideOutRight');
-        $('#div_ip').addClass('animated slideInRight');
-      });
+        $('#btn_ip_prev').click(function() {
+            $('#btn_ip').fadeOut();
+            $('#btn_ip_prev').fadeOut();
+            $('#div_install').removeClass('slideOutLeft slideInRight slideOutRight');
+            $('#div_ip').removeClass('slideInRight');
+            $('#div_ip').addClass('slideOutRight');
+            $('#welcome_desc').removeClass('slideInRight');
+            $("#welcome_desc").addClass('slideOutRight');
+            $('#div_ip').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $('#btn_install').fadeIn();
+                $('#btn_install_prev').fadeIn();
+                $('#welcome_desc').removeClass('slideOutLeft');
+                $('#div_install').addClass('slideInLeft');
+                $('#div_install').show();
+                $('#div_ip').hide();
+            });
 
-      $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-        $('#welcome_desc').removeClass('slideOutLeft')
-        $("#welcome_desc").addClass('animated slideInRight');
-        $("#welcome_desc").text("Enter Otak server IP:");
-      });
-		}
+            $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $("#welcome_desc").removeClass('slideOutRight');
+                $('#welcome_desc').addClass('slideInLeft');
+                $("#welcome_desc").text("Select where we should keep your files:");
+            });
+        });
 
-		// IP selection
-		document.getElementById('domainList').onclick = function(event) {
-			var target = getEventTarget(event);
-			input_IP.value = "Local: " + target.innerHTML;
-      $("#myModalLabel").text("Connect to: " + target.innerHTML);
-		};
+        function installDone() {
+            $('#btn_install').fadeOut();
+            $('#btn_install_prev').fadeOut();
+            $('#div_install').removeClass('slideOutLeft slideInRight slideOutRight');
+            $('#div_install').addClass('slideOutLeft');
+            $('#welcome_desc').addClass('slideOutLeft');
+            $('#div_install').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $('#div_install').hide();
+                $('#btn_ip').fadeIn();
+                $('#btn_ip_prev').fadeIn();
+                $('#div_ip').show();
+                $('#div_ip').removeClass('slideOutRight');
+                $('#div_ip').addClass('animated slideInRight');
+            });
 
-		function addDomain(info) {
-			$('#domainList').append('<li id='+ info + '><a href="#">' + info + '</a></li>');
-		}
+            $('#welcome_desc').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $('#welcome_desc').removeClass('slideOutLeft')
+                $("#welcome_desc").addClass('animated slideInRight');
+                $("#welcome_desc").text("Enter Otak server IP:");
+            });
+        }
 
-		function removeDomain(info) {
-			$("#" + info).remove();
-		}
+        // IP selection
+        document.getElementById('domainList').onclick = function(event) {
+            var target = getEventTarget(event);
+            input_IP.value = "Local: " + target.innerHTML;
+            $("#myModalLabel").text("Connect to: " + target.innerHTML);
+        };
 
-		function getEventTarget(e) {
-			e = e || window.event;
-			return e.target || e.srcElement;
-		}
-        </script>
+        function addDomain(info) {
+            $('#domainList').append('<li id=' + info + '><a href="#">' + info + '</a></li>');
+        }
+
+        function removeDomain(info) {
+            $("#" + info).remove();
+        }
+
+        function getEventTarget(e) {
+            e = e || window.event;
+            return e.target || e.srcElement;
+        }
+    </script>
 </body>
 
 </html>
