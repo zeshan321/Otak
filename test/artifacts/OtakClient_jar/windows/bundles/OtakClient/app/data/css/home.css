@@ -198,11 +198,8 @@ background: #40464b;
 padding-left:10px;
 }
 #options{
-
 padding-top: 0px;
 margin-top: 0px;
-
-
 }
 .icon{
   display: inline-block;
@@ -236,8 +233,6 @@ margin-top: 0px;
 
 .File-labels{
   color: #4c5358;
-
-
 }
 
 #line{
@@ -307,18 +302,7 @@ border: solid  4px #5cb85c;
 color:#5cb85c;
 }
 .row-centered{
-  background-color: #eeeff1;
-  color:#000000;
-
-}
-#btn-back,#btn-createdir,#btn-createfile{
-  border:solid  5px #eeeff1;
-
-}
-#btn-back:hover,#btn-createdir:hover,#btn-createfile:hover{
-  border:solid  5px #2c7aff;
-  color:#2c7aff;
-  margin: 0;
+  background-color: #40464b;
 }
 
 .well > a{
