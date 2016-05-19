@@ -15,6 +15,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import objects.FileObject;
+import objects.QueueObject;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,12 +35,13 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     public Stage stage;
+    public QueueManager queueManager;
+
 
     // Package local
     String currentDir = "";
     Config config;
     HashMap<String, List<FileObject>> filesMap = new HashMap<>();
-    List<String> filesDownloading = new ArrayList<>();
     ContextMenu contextMenu = new ContextMenu();
     @FXML
     AnchorPane anchorPane;
@@ -53,6 +55,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         config = Main.config;
+        queueManager = new QueueManager(this);
 
         // Load site
         webView.getEngine().setJavaScriptEnabled(true);
@@ -127,7 +130,7 @@ public class HomeController implements Initializable {
      *
      * @param script javascript string
      */
-    private void runScript(String script) {
+    public void runScript(String script) {
         Platform.runLater(() -> webView.getEngine().executeScript(script));
     }
 
@@ -196,47 +199,17 @@ public class HomeController implements Initializable {
                 }
             });
         } else {
-            // Download and limit threads
-            new Thread() {
-                @Override
-                public void run() {
-                    // Add files to queue
-                    for (String loc : files) {
-                        runScript("addFileProgress('" + loc + "','queue');");
-                    }
-
-                    int currentFile = -1;
-
-                    while (true) {
-                        if (threadsRunning <= connectionLimit) {
-                            if (currentFile == files.size() - 1) {
-                                break;
-                            }
-
-                            threadsRunning++;
-                            currentFile++;
-
-                            downloadFile(new File(config.getString("dir") + File.separator + files.get(currentFile)), files.get(currentFile), new TaskCallback() {
-                                @Override
-                                public void onComplete() {
-                                    threadsRunning--;
-                                }
-                            });
-                        }
-                    }
-                }
-            }.start();
+            for (String loc : files) {
+                queueManager.add(loc, new QueueObject(QueueObject.QueueType.DOWNLOAD, new File(config.getString("dir") + File.separator + loc)));
+            }
             return null;
         }
 
         return recursiveFileDownload(files, dirs);
     }
 
-    void downloadFile(File file, String loc, TaskCallback taskCallback) {
+    public void downloadFile(File file, String loc, TaskCallback taskCallback) {
         runScript("addFileProgress('" + loc + "','download');");
-
-        // Add to list
-        filesDownloading.add(loc);
 
         Parameters parameters = new Parameters();
         parameters.add("pass", config.getString("pass"));
@@ -247,9 +220,6 @@ public class HomeController implements Initializable {
             @Override
             public void onRequestComplete() {
                 runScript("removeFileProgress('" + loc + "');");
-
-                // Remove from list
-                filesDownloading.remove(loc);
 
                 taskCallback.onComplete();
             }
@@ -262,9 +232,6 @@ public class HomeController implements Initializable {
             @Override
             public void onRequestFailed() {
                 // Add to queue and try again later
-
-                // Remove from list
-                filesDownloading.remove(loc);
 
                 // Display error
                 runScript("addFileProgress('" + loc + "','error');");

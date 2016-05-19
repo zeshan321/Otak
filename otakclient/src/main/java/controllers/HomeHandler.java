@@ -1,6 +1,6 @@
 package controllers;
 
-import callback.TaskCallback;
+import objects.QueueObject;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
 import org.w3c.dom.Document;
@@ -118,6 +118,10 @@ public class HomeHandler {
                 homeController.currentDir = loc;
                 homeController.parseMap();
             } else {
+                if (homeController.queueManager.contains(loc)) {
+                    return;
+                }
+
                 File file = new File(config.getString("dir") + File.separator + loc);
                 if (file.exists()) {
                     try {
@@ -129,14 +133,7 @@ public class HomeHandler {
                 }
 
                 // Download file
-                if (!homeController.filesDownloading.contains(loc)) {
-                    homeController.downloadFile(file, loc, new TaskCallback() {
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-                }
+                 homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DOWNLOAD, file));
             }
         } else {
             homeController.contextMenu.hide();
