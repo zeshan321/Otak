@@ -9,6 +9,7 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
@@ -16,21 +17,22 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import objects.FileObject;
 import objects.QueueObject;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import requests.HTTPDownload;
 import requests.HTTPGet;
+import requests.HTTPUpload;
 import utils.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HomeController implements Initializable {
 
@@ -123,6 +125,54 @@ public class HomeController implements Initializable {
                 });
             }
         });
+
+        webView.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                success = true;
+                for (File file : db.getFiles()) {
+                    File newFile = new File(config.getString("dir") + File.separator + file.getName());
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (file.isDirectory()) {
+                                    newFile.mkdir();
+
+                                    FileUtils.copyDirectory(file, newFile);
+
+                                    Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
+                                    for (File files: filesList) {
+                                        String loc = fixPath(files.getAbsolutePath());
+                                        queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
+                                    }
+                                } else {
+                                    newFile.createNewFile();
+                                    FileUtils.copyFile(file, newFile);
+
+                                    // Add to queue
+                                    String loc = fixPath(file.getAbsolutePath());
+                                    queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+                }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
+
+    /**
+     * Fix string to stay consistent to server path
+     */
+    private String fixPath(String path) {
+        return path.replace(config.getString("dir"), "").replaceAll("\\\\", "/");
     }
 
     /**
@@ -182,6 +232,12 @@ public class HomeController implements Initializable {
         });
     }
 
+    /**
+     * Recursively get all files in list from directories
+     *
+     * @param files list of files
+     * @param dirs  list of directories
+     */
     List<FileObject> recursiveFileDownload(List<String> files, List<String> dirs) {
         String dir;
         if (dirs.size() > 0) {
@@ -233,6 +289,40 @@ public class HomeController implements Initializable {
             public void onRequestFailed() {
                 // Add to queue and try again later
 
+                // Display error
+                runScript("addFileProgress('" + loc + "','error');");
+
+                taskCallback.onComplete();
+            }
+        });
+    }
+
+    public void uploadFile(File file, String loc, TaskCallback taskCallback) {
+        runScript("addFileProgress('" + loc + "','upload');");
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", loc);
+
+        // Set file type
+        if (file.isDirectory()) {
+            parameters.add("type", "dir");
+        } else {
+            parameters.add("type", "file");
+        }
+
+        parameters.add("sender", config.getString("UUID"));
+
+        new HTTPUpload(config.getString("IP") + "/upload", parameters.toString()).sendPost(file, new HTTPCallback() {
+            @Override
+            public void onSuccess(String IP, String response) {
+                runScript("removeFileProgress('" + loc + "');");
+
+                taskCallback.onComplete();
+            }
+
+            @Override
+            public void onError() {
                 // Display error
                 runScript("addFileProgress('" + loc + "','error');");
 

@@ -45,7 +45,12 @@ public class QueueManager {
                                     break;
 
                                 case UPLOAD:
-
+                                    homeController.uploadFile(queueObject.file, loc, new TaskCallback() {
+                                        @Override
+                                        public void onComplete() {
+                                            currentThreads--;
+                                        }
+                                    });
                                     break;
                             }
                         }
