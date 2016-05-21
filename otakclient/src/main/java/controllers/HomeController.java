@@ -144,17 +144,25 @@ public class HomeController implements Initializable {
                                     FileUtils.copyDirectory(file, newFile);
 
                                     Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
-                                    for (File files: filesList) {
+                                    for (File files : filesList) {
                                         String loc = fixPath(files.getAbsolutePath());
-                                        queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
+
+                                        if (currentDir.equals("")) {
+                                            queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
+                                        } else {
+                                            queueManager.add(currentDir + "/" + loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
+                                        }
                                     }
                                 } else {
                                     newFile.createNewFile();
                                     FileUtils.copyFile(file, newFile);
 
                                     // Add to queue
-                                    String loc = fixPath(file.getAbsolutePath());
-                                    queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                    if (currentDir.equals("")) {
+                                        queueManager.add( file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                    } else {
+                                        queueManager.add(currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                    }
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -303,6 +311,7 @@ public class HomeController implements Initializable {
         Parameters parameters = new Parameters();
         parameters.add("pass", config.getString("pass"));
         parameters.add("file", loc);
+        parameters.add("sender", config.getString("UUID"));
 
         // Set file type
         if (file.isDirectory()) {
@@ -311,9 +320,33 @@ public class HomeController implements Initializable {
             parameters.add("type", "file");
         }
 
+        new HTTPUpload(config.getString("IP") + "/upload", parameters.toString()).sendPost(file, new HTTPCallback() {
+            @Override
+            public void onSuccess(String IP, String response) {
+                runScript("removeFileProgress('" + loc + "');");
+
+                taskCallback.onComplete();
+            }
+
+            @Override
+            public void onError() {
+                // Display error
+                runScript("addFileProgress('" + loc + "','error');");
+
+                taskCallback.onComplete();
+            }
+        });
+    }
+
+    public void createFolder(File file, String loc, TaskCallback taskCallback) {
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", loc);
+        parameters.add("type", "dir");
         parameters.add("sender", config.getString("UUID"));
 
-        new HTTPUpload(config.getString("IP") + "/upload", parameters.toString()).sendPost(file, new HTTPCallback() {
+        new HTTPGet(config.getString("IP") + "/upload", parameters.toString()).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
                 runScript("removeFileProgress('" + loc + "');");

@@ -24,13 +24,18 @@ public class QueueManager {
             @Override
             public void run() {
                 while (true) {
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     if (!(currentThreads >= maxThreads)) {
                         if (!(files.isEmpty())) {
-                            // Update counter
-                            currentThreads++;
-
                             String loc = files.firstKey();
                             QueueObject queueObject = files.get(loc);
+
+                            // Update counter
+                            currentThreads++;
 
                             // Remove from map
                             files.remove(loc);
@@ -45,12 +50,21 @@ public class QueueManager {
                                     break;
 
                                 case UPLOAD:
-                                    homeController.uploadFile(queueObject.file, loc, new TaskCallback() {
-                                        @Override
-                                        public void onComplete() {
-                                            currentThreads--;
-                                        }
-                                    });
+                                    if (queueObject.file.isDirectory()) {
+                                        homeController.createFolder(queueObject.file, loc, new TaskCallback() {
+                                            @Override
+                                            public void onComplete() {
+                                                currentThreads--;
+                                            }
+                                        });
+                                    } else {
+                                        homeController.uploadFile(queueObject.file, loc, new TaskCallback() {
+                                            @Override
+                                            public void onComplete() {
+                                                currentThreads--;
+                                            }
+                                        });
+                                    }
                                     break;
                             }
                         }

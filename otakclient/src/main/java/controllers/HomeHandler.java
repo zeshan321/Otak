@@ -1,8 +1,8 @@
 package controllers;
 
-import objects.QueueObject;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
+import objects.QueueObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 import utils.Config;
@@ -133,7 +133,7 @@ public class HomeHandler {
                 }
 
                 // Download file
-                 homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DOWNLOAD, file));
+                homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DOWNLOAD, file));
             }
         } else {
             homeController.contextMenu.hide();
