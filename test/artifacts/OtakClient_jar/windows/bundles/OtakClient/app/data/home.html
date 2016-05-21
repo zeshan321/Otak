@@ -109,6 +109,18 @@
 								  </div>
 								</div>
 
+                <div class="control-group">
+                  <!-- dlmeter -->
+                  <label class="control-label" for="email">Download Metering</label>
+                  <div class="controls">
+                    <div class="input-group">
+                      <input type="number" id="dllim" name="dir" class="input-xlarge" value="5" min="0" max="10">
+                      <br><label><input id="overridelim" onClick="warnLimit();" type="checkbox" aria-label="override"> Override Limit</label>
+                    </div>
+                    <p class="help-block">Limit the number of synchronous downloads</p>
+                  </div>
+                </div>
+
 								<div class="control-group">
 								  <!-- Auto sync -->
 								  <label class="control-label"  for="autoSync">Auto Sync</label>
@@ -137,7 +149,7 @@
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
+	  <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/file-functions.js"></script>
 </body>

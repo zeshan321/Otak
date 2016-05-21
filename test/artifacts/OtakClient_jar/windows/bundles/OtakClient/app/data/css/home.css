@@ -244,6 +244,17 @@ margin-top: 0px;
   padding-bottom: 20px;
 }
 
+.input-group > label > input {
+  position: relative;
+  vertical-align: middle;
+  bottom: 1px;
+  margin: 0;
+}
+
+.input-group > label {
+    font-size: 10px;
+}
+
 .input-xlarge{
   background-color: transparent;
   color: #4c5358;
@@ -319,6 +330,7 @@ color:#5cb85c;
   width: 100%;
   max-height: 120px;
   overflow-y: auto;
+  padding-top: 3px;
 }
 
 .table > tbody > tr > td{

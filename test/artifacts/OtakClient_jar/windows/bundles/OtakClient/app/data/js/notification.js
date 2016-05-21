@@ -34,3 +34,20 @@ function addNotification(type) {
     }
     showNotification();
 }
+
+//warning for limit
+function warnLimit(){
+  var checkbox = $("#overridelim");
+  var oldval
+  if(checkbox.is(':checked')){
+      $("#dllim").removeAttr("max");
+      checkbox.parent().parent().append("<span id='warnlim' style='color:#C9302C; font-size: 10px;'><br><i class='fa fa-exclamation-circle' aria-hidden='true'></i> \
+      Values greater than the recommended maximum may slow down the performance of Otak.</span>");
+  } else {
+      $("#dllim").attr("max", 10);
+      if($("#dllim").val() > 10){
+        $("#dllim").val(10);
+      }
+      checkbox.parent().parent().find("span").remove();
+  }
+}
