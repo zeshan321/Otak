@@ -9,10 +9,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
@@ -68,12 +65,7 @@ public class HTTPDownload {
                             DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, con.getContentLength(), callBack);
                             downloadCount.setListener(progressListener);
 
-                            IOUtils.copy(inputStream, downloadCount);
-                            downloadCount.flush();
-                            downloadCount.close();
-                            outputStream.flush();
-                            outputStream.close();
-                            inputStream.close();
+                            copySteam(inputStream, downloadCount);
                         } finally {
                             IOUtils.closeQuietly(inputStream);
                             IOUtils.closeQuietly(outputStream);
@@ -96,12 +88,7 @@ public class HTTPDownload {
                             DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, con.getContentLength(), callBack);
                             downloadCount.setListener(progressListener);
 
-                            IOUtils.copy(inputStream, downloadCount);
-                            downloadCount.flush();
-                            downloadCount.close();
-                            outputStream.flush();
-                            outputStream.close();
-                            inputStream.close();
+                            copySteam(inputStream, downloadCount);
                         } finally {
                             IOUtils.closeQuietly(inputStream);
                             IOUtils.closeQuietly(outputStream);
@@ -115,6 +102,24 @@ public class HTTPDownload {
                 }
             }
         }.start();
+    }
+
+    public void copySteam(InputStream inputStream, OutputStream outputStream) throws IOException {
+        try {
+            int len;
+            byte[] buffer = new byte[8192];
+            while ((len = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, len);
+            }
+
+            inputStream.close();
+
+            outputStream.flush();
+            outputStream.close();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(outputStream);
+        }
     }
 
     private static class ProgressListener implements ActionListener {

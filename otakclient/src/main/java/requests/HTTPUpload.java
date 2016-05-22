@@ -69,9 +69,7 @@ public class HTTPUpload {
                         GZIPOutputStream outputStream = new GZIPOutputStream(con.getOutputStream());
 
                         try {
-                            IOUtils.copy(fileInputStream, outputStream);
-                            outputStream.flush();
-                            outputStream.close();
+                            copySteam(fileInputStream, outputStream);
                         } finally {
                             IOUtils.closeQuietly(fileInputStream);
                             IOUtils.closeQuietly(outputStream);
@@ -103,10 +101,7 @@ public class HTTPUpload {
                         GZIPOutputStream outputStream = new GZIPOutputStream(con.getOutputStream());
 
                         try {
-                            IOUtils.copy(fileInputStream, outputStream);
-                            outputStream.flush();
-                            outputStream.close();
-                            fileInputStream.close();
+                            copySteam(fileInputStream, outputStream);
                         } finally {
                             IOUtils.closeQuietly(fileInputStream);
                             IOUtils.closeQuietly(outputStream);
@@ -132,5 +127,23 @@ public class HTTPUpload {
                 }
             }
         }.start();
+    }
+
+    public void copySteam(InputStream inputStream, OutputStream outputStream) throws IOException {
+        try {
+            int len;
+            byte[] buffer = new byte[8192];
+            while ((len = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, len);
+            }
+
+            inputStream.close();
+
+            outputStream.flush();
+            outputStream.close();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(outputStream);
+        }
     }
 }

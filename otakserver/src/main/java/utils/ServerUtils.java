@@ -30,6 +30,7 @@ public class ServerUtils {
 
     public void writeFile(HttpExchange httpExchange, File response) {
         try {
+            httpExchange.getResponseHeaders().add("Content-Disposition", "attachment; filename=" + response.getName());
             httpExchange.getResponseHeaders().set("Content-Encoding", "gzip");
             httpExchange.sendResponseHeaders(200, 0);
 
@@ -38,18 +39,25 @@ public class ServerUtils {
 
             copySteam(fileInputStream, outputStream);
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
     public void copySteam(InputStream inputStream, OutputStream outputStream) throws IOException {
         try {
-            IOUtils.copy(inputStream, outputStream);
+            int len;
+            byte[] buffer = new byte[8192];
+            while ((len = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, len);
+            }
+
+            inputStream.close();
 
             outputStream.flush();
             outputStream.close();
-            inputStream.close();
         } finally {
             IOUtils.closeQuietly(inputStream);
             IOUtils.closeQuietly(outputStream);
