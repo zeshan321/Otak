@@ -159,7 +159,7 @@ public class HomeController implements Initializable {
 
                                     // Add to queue
                                     if (currentDir.equals("")) {
-                                        queueManager.add( file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                        queueManager.add(file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
                                     } else {
                                         queueManager.add(currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
                                     }
@@ -221,6 +221,34 @@ public class HomeController implements Initializable {
         }
 
         parseMap();
+    }
+
+    private void addItem(FileObject fileObject) {
+        String path;
+        if (!fileObject.file.contains("/")) {
+            path = currentDir;
+        } else {
+            path = fileObject.file.substring(0, fileObject.file.lastIndexOf("/"));
+        }
+
+        List<FileObject> fileObjects = new ArrayList<>();
+        if (filesMap.containsKey(path)) {
+            fileObjects = filesMap.get(path);
+            fileObjects.add(fileObject);
+
+            filesMap.put(path, fileObjects);
+        } else {
+            fileObjects.add(fileObject);
+            filesMap.put(path, fileObjects);
+        }
+
+        if (currentDir.equals(path)) {
+            if (fileObject.isDir) {
+                runScript("addItem('" + fileObject.file + "', '" + FilenameUtils.getName(fileObject.file) + "', 'folder');");
+            } else {
+                runScript("addItem('" + fileObject.file + "', '" + FilenameUtils.getName(fileObject.file) + "', '" + FilenameUtils.getExtension(fileObject.file).toLowerCase() + "');");
+            }
+        }
     }
 
     /**
@@ -285,6 +313,9 @@ public class HomeController implements Initializable {
             public void onRequestComplete() {
                 runScript("removeFileProgress('" + loc + "');");
 
+                // Add to UI
+                addItem(new FileObject(loc, file.isDirectory(), file.lastModified()));
+
                 taskCallback.onComplete();
             }
 
@@ -325,6 +356,9 @@ public class HomeController implements Initializable {
             public void onSuccess(String IP, String response) {
                 runScript("removeFileProgress('" + loc + "');");
 
+                // Add to UI
+                addItem(new FileObject(loc, file.isDirectory(), file.lastModified()));
+
                 taskCallback.onComplete();
             }
 
@@ -350,6 +384,9 @@ public class HomeController implements Initializable {
             @Override
             public void onSuccess(String IP, String response) {
                 runScript("removeFileProgress('" + loc + "');");
+
+                // Add to UI
+                addItem(new FileObject(loc, file.isDirectory(), file.lastModified()));
 
                 taskCallback.onComplete();
             }
