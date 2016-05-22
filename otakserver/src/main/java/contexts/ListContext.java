@@ -35,11 +35,12 @@ public class ListContext implements HttpHandler {
 
         // Start file list
         JSONArray jsonArray = new JSONArray();
+        String dir = config.getString("dir").substring(0, config.getString("dir").lastIndexOf("/"));
 
-        Collection<File> filesList = FileUtils.listFilesAndDirs(new File(config.getString("dir")), TrueFileFilter.TRUE, TrueFileFilter.TRUE);
+        Collection<File> filesList = FileUtils.listFilesAndDirs(new File(dir), TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
         for (File fileIter : filesList) {
-            String fileName = fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/");
+            String fileName = fileIter.getAbsolutePath().replace(dir, "").replaceAll("\\\\", "/");
 
             if (!fileName.equals("")) {
                 if (fileIter.isDirectory()) {

@@ -7,28 +7,33 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPOutputStream;
 
 public class ServerUtils {
 
     public void writeResponse(HttpExchange httpExchange, String text) {
         try {
-            httpExchange.sendResponseHeaders(200, text.length());
+            httpExchange.getResponseHeaders().set("Content-Encoding", "gzip");
+            httpExchange.sendResponseHeaders(200, 0);
 
-            OutputStream os = httpExchange.getResponseBody();
+            GZIPOutputStream os = new GZIPOutputStream(httpExchange.getResponseBody());
             os.write(text.getBytes());
             os.flush();
             os.close();
+
+            httpExchange.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeFile(HttpExchange t, File response) {
+    public void writeFile(HttpExchange httpExchange, File response) {
         try {
-            t.sendResponseHeaders(200, response.length());
+            httpExchange.getResponseHeaders().set("Content-Encoding", "gzip");
+            httpExchange.sendResponseHeaders(200, 0);
 
-            OutputStream outputStream = t.getResponseBody();
+            GZIPOutputStream outputStream = new GZIPOutputStream(httpExchange.getResponseBody());
             FileInputStream fileInputStream = new FileInputStream(response);
 
             copySteam(fileInputStream, outputStream);

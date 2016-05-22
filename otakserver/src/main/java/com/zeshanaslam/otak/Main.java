@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Main {
 
     public static Config config;
-    public static HashMap<String, ClientObject> clients = new HashMap<>();
+    static HashMap<String, ClientObject> clients = new HashMap<>();
     static DatagramSocket serverSocket;
 
     public static void main(String args[]) throws Exception {

@@ -313,9 +313,6 @@ public class HomeController implements Initializable {
             public void onRequestComplete() {
                 runScript("removeFileProgress('" + loc + "');");
 
-                // Add to UI
-                addItem(new FileObject(loc, file.isDirectory(), file.lastModified()));
-
                 taskCallback.onComplete();
             }
 

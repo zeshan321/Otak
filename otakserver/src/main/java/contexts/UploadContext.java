@@ -10,8 +10,12 @@ import org.json.JSONObject;
 import utils.Config;
 import utils.ServerUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 public class UploadContext implements HttpHandler {
 
@@ -52,7 +56,7 @@ public class UploadContext implements HttpHandler {
                     file.delete();
                 }
 
-                InputStream inputStream = httpExchange.getRequestBody();
+                GZIPInputStream inputStream = new GZIPInputStream(httpExchange.getRequestBody());
                 OutputStream outputStream = new FileOutputStream(file);
 
                 server.copySteam(inputStream, outputStream);

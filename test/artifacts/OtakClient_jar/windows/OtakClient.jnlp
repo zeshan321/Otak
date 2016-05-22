@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OtakClient.jar" size="77262" download="eager" />
+    <jar href="OtakClient.jar" size="77457" download="eager" />
     <jar href="commons-io-2.4.jar" size="185140" download="eager" />
     <jar href="jmdns-3.4.1.jar" size="204950" download="eager" />
     <jar href="json-20160212.jar" size="49176" download="eager" />

@@ -11,6 +11,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class HTTPUpload {
 
@@ -59,11 +61,12 @@ public class HTTPUpload {
                         con.setSSLSocketFactory(sslContext.getSocketFactory());
 
                         con.setRequestMethod("POST");
+                        con.setRequestProperty("Content-Encoding", "gzip");
                         con.setRequestProperty("User-Agent", USER_AGENT);
 
                         con.setDoOutput(true);
                         FileInputStream fileInputStream = new FileInputStream(file);
-                        OutputStream outputStream = con.getOutputStream();
+                        GZIPOutputStream outputStream = new GZIPOutputStream(con.getOutputStream());
 
                         try {
                             IOUtils.copy(fileInputStream, outputStream);
@@ -75,7 +78,8 @@ public class HTTPUpload {
                         }
 
 
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
                         StringBuilder stringBuilder = new StringBuilder();
@@ -96,7 +100,7 @@ public class HTTPUpload {
 
                         con.setDoOutput(true);
                         FileInputStream fileInputStream = new FileInputStream(file);
-                        OutputStream outputStream = con.getOutputStream();
+                        GZIPOutputStream outputStream = new GZIPOutputStream(con.getOutputStream());
 
                         try {
                             IOUtils.copy(fileInputStream, outputStream);
@@ -108,7 +112,8 @@ public class HTTPUpload {
                             IOUtils.closeQuietly(outputStream);
                         }
 
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
                         StringBuilder stringBuilder = new StringBuilder();

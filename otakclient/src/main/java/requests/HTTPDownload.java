@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.zip.GZIPInputStream;
 
 public class HTTPDownload {
 
@@ -57,8 +58,9 @@ public class HTTPDownload {
                         HttpsURLConnection con = (HttpsURLConnection) urlObj.openConnection();
                         con.setSSLSocketFactory(sc.getSocketFactory());
                         con.setHostnameVerifier(new NullHostNameVerifier());
+                        con.setRequestProperty("Accept-Encoding", "gzip");
 
-                        InputStream inputStream = con.getInputStream();
+                        GZIPInputStream inputStream = new GZIPInputStream(con.getInputStream());
                         OutputStream outputStream = new FileOutputStream(file);
 
                         try {
@@ -84,7 +86,9 @@ public class HTTPDownload {
 
                         HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
 
-                        InputStream inputStream = con.getInputStream();
+                        con.setRequestProperty("Accept-Encoding", "gzip");
+
+                        GZIPInputStream inputStream = new GZIPInputStream(con.getInputStream());
                         OutputStream outputStream = new FileOutputStream(file);
 
                         try {

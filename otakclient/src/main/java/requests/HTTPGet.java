@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.zip.GZIPInputStream;
 
 public class HTTPGet {
 
@@ -56,10 +57,12 @@ public class HTTPGet {
                         con.setHostnameVerifier(new NullHostNameVerifier());
                         con.setSSLSocketFactory(sslContext.getSocketFactory());
 
+                        con.setRequestProperty("Accept-Encoding", "gzip");
                         con.setRequestMethod("GET");
                         con.setRequestProperty("User-Agent", USER_AGENT);
 
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
                         StringBuilder stringBuilder = new StringBuilder();
@@ -74,10 +77,12 @@ public class HTTPGet {
                         URL urlObj = new URL(url);
                         HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
 
+                        con.setRequestProperty("Accept-Encoding", "gzip");
                         con.setRequestMethod("GET");
                         con.setRequestProperty("User-Agent", USER_AGENT);
 
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
                         StringBuilder stringBuilder = new StringBuilder();
