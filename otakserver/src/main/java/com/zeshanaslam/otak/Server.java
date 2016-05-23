@@ -2,10 +2,7 @@ package com.zeshanaslam.otak;
 
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpsServer;
-import contexts.ConnectContext;
-import contexts.DownloadContext;
-import contexts.ListContext;
-import contexts.UploadContext;
+import contexts.*;
 import secure.TLSHandler;
 
 import javax.jmdns.JmDNS;
@@ -50,6 +47,7 @@ class Server {
                         server.createContext("/list", new ListContext());
                         server.createContext("/download", new DownloadContext());
                         server.createContext("/upload", new UploadContext());
+                        server.createContext("/stream", new StreamContext());
 
                         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
                         server.start();
@@ -80,6 +78,7 @@ class Server {
                         server.createContext("/list", new ListContext());
                         server.createContext("/download", new DownloadContext());
                         server.createContext("/upload", new UploadContext());
+                        server.createContext("/stream", new StreamContext());
 
                         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
                         server.start();
