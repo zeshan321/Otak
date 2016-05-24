@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -126,105 +127,59 @@ public class HomeController implements Initializable {
             }
         });
 
-        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
-            webView.setOnDragDropped(event -> {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasFiles()) {
-                    success = true;
-                    for (File file : db.getFiles()) {
-                        File newFile = new File(config.getString("dir") + File.separator + file.getName());
+        webView.setOnDragOver(event -> {
+            event.acceptTransferModes(TransferMode.ANY);
+            event.consume();
+        });
 
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if (file.isDirectory()) {
-                                        newFile.mkdir();
+        webView.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                success = true;
+                for (File file : db.getFiles()) {
+                    File newFile = new File(config.getString("dir") + File.separator + file.getName());
 
-                                        FileUtils.copyDirectory(file, newFile);
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (file.isDirectory()) {
+                                    newFile.mkdir();
 
-                                        Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
-                                        for (File files : filesList) {
-                                            String loc = fixPath(files.getAbsolutePath());
+                                    FileUtils.copyDirectory(file, newFile);
 
-                                            if (currentDir.equals("")) {
-                                                queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
-                                            } else {
-                                                queueManager.add(currentDir + "/" + loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
-                                            }
-                                        }
-                                    } else {
-                                        newFile.createNewFile();
-                                        FileUtils.copyFile(file, newFile);
+                                    Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
+                                    for (File files : filesList) {
+                                        String loc = fixPath(files.getAbsolutePath());
 
-                                        // Add to queue
                                         if (currentDir.equals("")) {
-                                            queueManager.add(file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                            queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
                                         } else {
-                                            queueManager.add(currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                                            queueManager.add(currentDir + "/" + loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
                                         }
                                     }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }.start();
-                    }
-                }
-                event.setDropCompleted(success);
-                event.consume();
-            });
-        } else {
-            webView.setOnDragOver(event -> {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasFiles()) {
-                    success = true;
-                    for (File file : db.getFiles()) {
-                        File newFile = new File(config.getString("dir") + File.separator + file.getName());
+                                } else {
+                                    newFile.createNewFile();
+                                    FileUtils.copyFile(file, newFile);
 
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if (file.isDirectory()) {
-                                        newFile.mkdir();
-
-                                        FileUtils.copyDirectory(file, newFile);
-
-                                        Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
-                                        for (File files : filesList) {
-                                            String loc = fixPath(files.getAbsolutePath());
-
-                                            if (currentDir.equals("")) {
-                                                queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
-                                            } else {
-                                                queueManager.add(currentDir + "/" + loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
-                                            }
-                                        }
+                                    // Add to queue
+                                    if (currentDir.equals("")) {
+                                        queueManager.add(file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
                                     } else {
-                                        newFile.createNewFile();
-                                        FileUtils.copyFile(file, newFile);
-
-                                        // Add to queue
-                                        if (currentDir.equals("")) {
-                                            queueManager.add(file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
-                                        } else {
-                                            queueManager.add(currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
-                                        }
+                                        queueManager.add(currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
                                     }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
                                 }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        }.start();
-                    }
+                        }
+                    }.start();
                 }
-                event.setDropCompleted(success);
-                event.consume();
-            });
-        }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
     }
 
     /**
