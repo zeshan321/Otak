@@ -78,65 +78,69 @@
 						  <p>Some content in menu 1.</p>
 						</div>
 						<div id="menu2" class="tab-pane">
-						    <fieldset>
-								<div id="legend">
-								  <legend class="">Settings</legend>
-								</div>
-								<div class="control-group">
-								  <!-- Server IP -->
-								  <label class="control-label" for="serverIP">Server IP</label>
-								  <div class="controls">
-									<input type="text" id="serverIP" name="serverIP" class="input-xlarge">
-									<p class="help-block">Otak server IP</p>
-								  </div>
-								</div>
-
-								<div class="control-group">
-								  <!-- Password-->
-								  <label class="control-label" for="password">Password</label>
-								  <div class="controls">
-									<input type="password" id="password" name="password" class="input-xlarge">
-									<p class="help-block">Otak server password</p>
-								  </div>
-								</div>
-
-								<div class="control-group">
-								  <!-- Dir -->
-								  <label class="control-label" for="email">Directory</label>
-								  <div class="controls">
-									<input onClick="home.dirChooser();" type="text" id="dir" name="dir" class="input-xlarge">
-									<p class="help-block">Directory path to store files</p>
-								  </div>
-								</div>
-
-                <div class="control-group">
-                  <!-- dlmeter -->
-                  <label class="control-label" for="email">Download Metering</label>
-                  <div class="controls">
-                    <div class="input-group">
-                      <input type="number" id="dllim" name="dir" class="input-xlarge" value="5" min="0" max="10">
-                      <br><label><input id="overridelim" onClick="warnLimit();" type="checkbox" aria-label="override"> Override Limit</label>
-                    </div>
-                    <p class="help-block">Limit the number of synchronous downloads</p>
-                  </div>
-                </div>
-
-								<div class="control-group">
-								  <!-- Auto sync -->
-								  <label class="control-label"  for="autoSync">Auto Sync</label>
-								  <div class="controls">
-									<input id="auto-sync" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-class="fast">
-									<p class="help-block">Automatically synchronize files from Otak server</p>
-								  </div>
-								</div>
-
-								<div class="control-group">
-								  <!-- Button -->
-								  <div class="controls">
-									<button onClick="home.settingsSave();" class="btn btn-success">Save</button>
-								  </div>
-								</div>
-							  </fieldset>
+							  <legend>Settings</legend>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                <tbody>
+                <tr class="slabel">
+  								<td style="width: 250px">
+  								  <!-- Server IP -->
+                    <label class="control-label" for="serverIP">Server IP
+  									<p class="help-block">Otak server IP</p></label>
+                  </td>
+                  <td style="float: right">
+                    <input type="text" id="serverIP" name="serverIP" class="input-xlarge">
+                  </td>
+                </tr>
+                <tr class="slabel">
+                  <td style="width: 250px">
+  								  <!-- Password-->
+  								  <label class="control-label" for="password">Password</label>
+  									<p class="help-block">Otak server password</p>
+                  </td>
+                  <td style="float: right">
+                      <input type="password" id="password" name="password" class="input-xlarge">
+                  </td>
+                </tr>
+                <tr class="slabel">
+                  <td style="width: 250px">
+  								  <!-- Dir -->
+  								  <label class="control-label" for="email">Directory</label>
+  									<p class="help-block">Directory path to store files</p>
+                  </td>
+                  <td style="float: right">
+                    <input onClick="home.dirChooser();" type="text" id="dir" name="dir" class="input-xlarge">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 250px">
+                    <!-- dlmeter -->
+                    <label class="control-label" for="email">Download Metering</label>
+                    <p class="help-block">Limit the number of synchronous downloads</p
+                      <br><label style="font-size: 10px;"><input id="overridelim" onClick="warnLimit();" type="checkbox" aria-label="override"> Override Limit</label>
+                  </td>
+                  <td style="float: right">
+                    <input type="number" id="dllim" oninput="checkLimit();" name="dir" class="input-xlarge" value="5" min="0" max="10">
+                  </td>
+                  </tr>
+                <tr>
+                  <td style="width: 250px">
+  								  <!-- Auto sync -->
+  								  <label class="control-label"  for="autoSync">Auto Sync</label>
+  									<p class="help-block">Automatically synchronize files from Otak server</p>
+                  </td>
+                  <td style="float: right">
+                    <input id="auto-sync" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-class="fast">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <button onClick="home.settingsSave();" class="btn btn-success">Save</button>
+                  </td>
+                </tr>
+              </tbody>
+              </table>
+            </div>
 						</div>
 					</div>
                 </div>

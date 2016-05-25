@@ -51,3 +51,12 @@ function warnLimit(){
       checkbox.parent().parent().find("span").remove();
   }
 }
+
+function checkLimit(){
+  var inputfield = $("#dllim");
+  if(inputfield.val() >= parseInt(inputfield.attr("max"))){
+    inputfield.val(inputfield.attr("max"));
+  } else if(inputfield.val() <= parseInt(inputfield.attr("min")) && inputfield.val().length > 0){
+    inputfield.val(inputfield.attr("min"));
+  }
+}

@@ -15,6 +15,14 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
+legend {
+  width: 100%;
+
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body
 {
   font-family: 'Montserrat', sans-serif;
@@ -182,6 +190,7 @@ background: #40464b;
   position: absolute;
   padding-left: 250px;
   padding-top: 20px;
+  /*width: 100%;*/
 }
 
 .vertical-align-center {
@@ -264,8 +273,13 @@ margin-top: 0px;
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: solid #4c5358 2px ;
-  width: 250px;
+  border-bottom: solid #333 1px ;
+  width: 300px;
+}
+
+.slabel{
+  width: 50px;
+  padding: 0;
 }
 
 .fast .toggle-group {
@@ -298,6 +312,7 @@ margin-top: 0px;
 
 .help-block{
   font-size: 10px;
+  font-weight: 300;
 }
 
 #btn-save{
@@ -333,7 +348,12 @@ color:#5cb85c;
   padding-top: 3px;
 }
 
+.table > tbody > tr {
+  border-bottom: solid #eee 1px;
+}
+
 .table > tbody > tr > td{
+  vertical-align: middle;
   border: none;
 }
 
