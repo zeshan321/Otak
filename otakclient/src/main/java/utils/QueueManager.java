@@ -10,6 +10,7 @@ public class QueueManager {
 
     private HomeController homeController;
     private TreeMap<String, QueueObject> files = new TreeMap<>();
+    private TreeMap<String, QueueObject> tasks = new TreeMap<>();
     private int currentThreads = 0;
     private int maxThreads = 0;
 
@@ -37,6 +38,9 @@ public class QueueManager {
                             // Update counter
                             currentThreads++;
 
+                            // Add task to list
+                            tasks.put(loc, queueObject);
+
                             // Remove from map
                             files.remove(loc);
                             switch (queueObject.type) {
@@ -45,6 +49,7 @@ public class QueueManager {
                                         @Override
                                         public void onComplete() {
                                             currentThreads--;
+                                            tasks.remove(loc);
                                         }
                                     });
                                     break;
@@ -55,6 +60,7 @@ public class QueueManager {
                                             @Override
                                             public void onComplete() {
                                                 currentThreads--;
+                                                tasks.remove(loc);
                                             }
                                         });
                                     } else {
@@ -62,6 +68,7 @@ public class QueueManager {
                                             @Override
                                             public void onComplete() {
                                                 currentThreads--;
+                                                tasks.remove(loc);
                                             }
                                         });
                                     }
@@ -84,6 +91,6 @@ public class QueueManager {
     }
 
     public boolean contains(String loc) {
-        return files.containsKey(loc);
+        return tasks.containsKey(loc);
     }
 }

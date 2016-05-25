@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="OtakClient.jnlp">
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="otakclient.jnlp">
   <information>
     <title>Otak Client</title>
     <vendor>Otak</vendor>
@@ -8,11 +8,11 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OtakClient.jar" size="80904" download="eager" />
     <jar href="commons-io-2.4.jar" size="185140" download="eager" />
     <jar href="jmdns-3.4.1.jar" size="204950" download="eager" />
     <jar href="json-20160212.jar" size="49176" download="eager" />
+    <jar href="otakclient.jar" size="82050" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="600" height="400" main-class="com.zeshanaslam.otak.Main"  name="OtakClient" />
-  <update check="always"/>
+  <jfx:javafx-desc  width="600" height="400" main-class="com.zeshanaslam.otak.Main"  name="otakclient" />
+  <update check="background"/>
 </jnlp>

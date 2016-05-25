@@ -139,10 +139,9 @@ public class HomeHandler {
                 homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DOWNLOAD, file));
             }
         } else {
+            System.out.println("Right");
             homeController.contextMenu.hide();
             homeController.contextMenu = new ContextMenu();
-
-            javafx.scene.control.MenuItem menuItem = new javafx.scene.control.MenuItem("Delete");
 
             if (type.equals("folder")) {
                 javafx.scene.control.MenuItem download = new javafx.scene.control.MenuItem("Download All");
@@ -174,7 +173,9 @@ public class HomeHandler {
                 }
             }
 
+            javafx.scene.control.MenuItem menuItem = new javafx.scene.control.MenuItem("Delete");
             homeController.contextMenu.getItems().add(menuItem);
+
             homeController.contextMenu.show(homeController.webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
         }
     }
