@@ -22,7 +22,6 @@ public class PlayerSelect {
                 OSType os = new OSType();
 
                 if (os.isMac()) {
-                    System.out.println("open -a \"Quicktime Player\" \"" + url + "\"");
                     CommandLine cmdLine = CommandLine.parse("open -a \"QuickTime Player\" \"" + url + "\"");
                     DefaultExecutor executor = new DefaultExecutor();
 
