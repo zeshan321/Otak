@@ -3,6 +3,7 @@ package controllers;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
 import objects.QueueObject;
+import org.apache.tika.Tika;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 import utils.Config;
@@ -154,9 +155,7 @@ public class HomeHandler {
 
                 homeController.contextMenu.getItems().add(download);
             } else {
-                System.out.println(0);
-                try {
-                    String mime = Files.probeContentType(Paths.get(loc));
+                    String mime = new Tika().detect(loc);
 
                     if (mime != null) {
                         if (mime.startsWith("video/") || mime.startsWith("audio/")) {
@@ -169,18 +168,12 @@ public class HomeHandler {
                             homeController.contextMenu.getItems().add(streamFile);
                         }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
 
-            System.out.println(1);
             javafx.scene.control.MenuItem menuItem = new javafx.scene.control.MenuItem("Delete");
             homeController.contextMenu.getItems().add(menuItem);
 
-            System.out.println(2);
             homeController.contextMenu.show(homeController.webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
-            System.out.println(3);
         }
     }
 }
