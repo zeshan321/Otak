@@ -28,6 +28,7 @@ import requests.HTTPDownload;
 import requests.HTTPGet;
 import requests.HTTPUpload;
 import utils.*;
+import views.StreamView;
 
 import java.io.File;
 import java.io.IOException;
@@ -147,8 +148,6 @@ public class HomeController implements Initializable {
                                 if (file.isDirectory()) {
                                     newFile.mkdir();
 
-                                    FileUtils.copyDirectory(file, newFile);
-
                                     Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
                                     for (File files : filesList) {
                                         String loc = fixPath(files.getAbsolutePath());
@@ -159,16 +158,18 @@ public class HomeController implements Initializable {
                                             queueManager.add(currentDir + "/" + loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
                                         }
                                     }
-                                } else {
-                                    newFile.createNewFile();
-                                    FileUtils.copyFile(file, newFile);
 
+                                    FileUtils.copyDirectory(file, newFile);
+                                } else {
                                     // Add to queue
                                     if (currentDir.equals("")) {
                                         queueManager.add(file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
                                     } else {
                                         queueManager.add(currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
                                     }
+
+                                    newFile.createNewFile();
+                                    FileUtils.copyFile(file, newFile);
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -402,5 +403,15 @@ public class HomeController implements Initializable {
                 taskCallback.onComplete();
             }
         });
+    }
+
+    public void streamFile(String loc, String type) {
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", loc);
+        parameters.add("type", type);
+
+        String url = config.getString("IP") + "/stream" + parameters.toString();
+        new StreamView(url).run();
     }
 }

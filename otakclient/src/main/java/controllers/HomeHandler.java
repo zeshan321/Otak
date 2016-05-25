@@ -3,6 +3,7 @@ package controllers;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
 import objects.QueueObject;
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 import utils.Config;
@@ -10,6 +11,8 @@ import utils.Config;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class HomeHandler {
@@ -153,6 +156,22 @@ public class HomeHandler {
                 });
 
                 homeController.contextMenu.getItems().add(download);
+            } else {
+                try {
+                    String mime = Files.probeContentType(Paths.get(loc));
+
+                    if (mime.startsWith("video/") || mime.startsWith("audio/")) {
+                        javafx.scene.control.MenuItem streamFile = new javafx.scene.control.MenuItem("Stream File");
+
+                        streamFile.setOnAction(event -> {
+                            homeController.streamFile(loc, mime);
+                        });
+
+                        homeController.contextMenu.getItems().add(streamFile);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             homeController.contextMenu.getItems().add(menuItem);

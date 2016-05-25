@@ -3,7 +3,7 @@
 <script>
     function launchApplication(jnlpfile) {
         dtjava.launch(            {
-                url : 'otakclient.jnlp'
+                url : 'OtakClient.jnlp'
             },
             {
                 javafx : '8.0+'
@@ -15,11 +15,11 @@
 </script>
 
 <script>
-    function javafxEmbedotakclient_id() {
+    function javafxEmbedOtakClient_id() {
         dtjava.embed(
             {
-                id : 'otakclient_id',
-                url : 'otakclient.jnlp',
+                id : 'OtakClient_id',
+                url : 'OtakClient.jnlp',
                 placeholder : 'javafx-app-placeholder',
                 width : '600',
                 height : '400'
@@ -31,12 +31,12 @@
         );
     }
     <!-- Embed FX application into web page once page is loaded -->
-    dtjava.addOnloadCallback(javafxEmbedotakclient_id);
+    dtjava.addOnloadCallback(javafxEmbedOtakClient_id);
 </script>
 
 </head><body>
-<h2>Test page for <b>otakclient</b></h2>
-  <b>Webstart:</b> <a href='otakclient.jnlp' onclick="return launchApplication('otakclient.jnlp');">click to launch this app as webstart</a><br><hr><br>
+<h2>Test page for <b>OtakClient</b></h2>
+  <b>Webstart:</b> <a href='OtakClient.jnlp' onclick="return launchApplication('OtakClient.jnlp');">click to launch this app as webstart</a><br><hr><br>
 
   <!-- Applet will be inserted here -->
   <div id='javafx-app-placeholder'></div>
