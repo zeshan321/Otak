@@ -3,7 +3,6 @@ package controllers;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
 import objects.QueueObject;
-import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 import utils.Config;
@@ -139,7 +138,6 @@ public class HomeHandler {
                 homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DOWNLOAD, file));
             }
         } else {
-            System.out.println("Right");
             homeController.contextMenu.hide();
             homeController.contextMenu = new ContextMenu();
 
@@ -156,27 +154,33 @@ public class HomeHandler {
 
                 homeController.contextMenu.getItems().add(download);
             } else {
+                System.out.println(0);
                 try {
                     String mime = Files.probeContentType(Paths.get(loc));
 
-                    if (mime.startsWith("video/") || mime.startsWith("audio/")) {
-                        javafx.scene.control.MenuItem streamFile = new javafx.scene.control.MenuItem("Stream File");
+                    if (mime != null) {
+                        if (mime.startsWith("video/") || mime.startsWith("audio/")) {
+                            javafx.scene.control.MenuItem streamFile = new javafx.scene.control.MenuItem("Stream File");
 
-                        streamFile.setOnAction(event -> {
-                            homeController.streamFile(loc, mime);
-                        });
+                            streamFile.setOnAction(event -> {
+                                homeController.streamFile(loc, mime);
+                            });
 
-                        homeController.contextMenu.getItems().add(streamFile);
+                            homeController.contextMenu.getItems().add(streamFile);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
+            System.out.println(1);
             javafx.scene.control.MenuItem menuItem = new javafx.scene.control.MenuItem("Delete");
             homeController.contextMenu.getItems().add(menuItem);
 
+            System.out.println(2);
             homeController.contextMenu.show(homeController.webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+            System.out.println(3);
         }
     }
 }
