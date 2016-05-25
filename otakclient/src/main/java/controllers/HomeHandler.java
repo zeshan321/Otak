@@ -11,8 +11,6 @@ import utils.Config;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class HomeHandler {
@@ -155,19 +153,19 @@ public class HomeHandler {
 
                 homeController.contextMenu.getItems().add(download);
             } else {
-                    String mime = new Tika().detect(loc);
+                String mime = new Tika().detect(loc);
 
-                    if (mime != null) {
-                        if (mime.startsWith("video/") || mime.startsWith("audio/")) {
-                            javafx.scene.control.MenuItem streamFile = new javafx.scene.control.MenuItem("Stream File");
+                if (mime != null) {
+                    if (mime.startsWith("video/") || mime.startsWith("audio/")) {
+                        javafx.scene.control.MenuItem streamFile = new javafx.scene.control.MenuItem("Stream File");
 
-                            streamFile.setOnAction(event -> {
-                                homeController.streamFile(loc, mime);
-                            });
+                        streamFile.setOnAction(event -> {
+                            homeController.streamFile(loc, mime);
+                        });
 
-                            homeController.contextMenu.getItems().add(streamFile);
-                        }
+                        homeController.contextMenu.getItems().add(streamFile);
                     }
+                }
             }
 
             javafx.scene.control.MenuItem menuItem = new javafx.scene.control.MenuItem("Delete");

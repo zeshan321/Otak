@@ -28,7 +28,6 @@ import requests.HTTPDownload;
 import requests.HTTPGet;
 import requests.HTTPUpload;
 import utils.*;
-import views.StreamView;
 
 import java.io.File;
 import java.io.IOException;
@@ -411,7 +410,6 @@ public class HomeController implements Initializable {
         parameters.add("file", loc);
         parameters.add("type", type);
 
-        String url = config.getString("IP") + "/stream" + parameters.toString();
-        new StreamView(url).run();
+        new PlayerSelect(config.getString("IP") + "/stream" + parameters.toString()).startPlayer();
     }
 }

@@ -3,6 +3,7 @@ package com.zeshanaslam.otak;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import utils.Config;
+import utils.OSType;
 import views.HomeView;
 import views.MainView;
 
@@ -12,7 +13,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         // Fix javafx windows pixelated fonts
-        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+        if (new OSType().isWindows()) {
             System.setProperty("prism.lcdtext", "false");
             System.setProperty("prism.text", "t2k");
         }

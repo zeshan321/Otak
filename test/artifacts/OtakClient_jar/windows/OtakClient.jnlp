@@ -8,10 +8,11 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="commons-exec-1.3.jar" size="54423" download="eager" />
     <jar href="commons-io-2.4.jar" size="185140" download="eager" />
     <jar href="jmdns-3.4.1.jar" size="204950" download="eager" />
     <jar href="json-20160212.jar" size="49176" download="eager" />
-    <jar href="otakclient.jar" size="81940" download="eager" />
+    <jar href="otakclient.jar" size="82831" download="eager" />
     <jar href="tika-core-1.13.jar" size="602274" download="eager" />
   </resources>
   <jfx:javafx-desc  width="600" height="400" main-class="com.zeshanaslam.otak.Main"  name="otakclient" />
