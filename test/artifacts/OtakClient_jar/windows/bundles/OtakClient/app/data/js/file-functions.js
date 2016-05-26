@@ -230,6 +230,15 @@ function addItem(loc, name, type) {
         case "pdf":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "pdf-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
+        case "css":
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "code-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            break;
+        case "html":
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "code-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            break;
+        case "js":
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "code-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            break;
 
         default:
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "file-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
