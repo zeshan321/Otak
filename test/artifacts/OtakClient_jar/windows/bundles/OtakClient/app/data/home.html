@@ -17,7 +17,7 @@
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <h5>
       <span class="fa fa-server"></span>
-      <span id="servername">Server_name</span>
+      <span id="servername">Server_Name</span>
       <inline class="right" id="updatedat">Status: <span id="server-status" class="label label-warning">Connecting...</span></inline>
     </h5>
   </nav>
@@ -25,12 +25,25 @@
     <!-- Home -->
     <div id="sidebar-wrapper" class="sidebar-toggle">
   		<ul class="sidebar-nav">
-	  		<button class="btn-panel" data-toggle="collapse" data-target="#panel"><img id="options" src="images/options.svg"></button>
+	  		<button class="btn-panel" data-toggle="collapse" data-target="#panel" data-toggle="tooltip" data-placement="bottom" title="Options"><img id="options" src="images/options.svg"></button>
   			<div id="panel" class="collapse ">
           <div class="row-centered">
-            <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop"></button>
-          	<button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop"></button>
-          	<button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop"></button>
+            
+            <div id="custom-search-input">
+                <div class="input-group col-md-3">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <img id="options" src="images/Search-icon.svg">
+                        </button>
+                    </span>
+                    <input type="text" class=" input-lg col-centered btn-search btn-drop" placeholder="Search" />
+                </div>
+            </div>
+          </div>
+          <div class="row-centered">
+            <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"></button>
+          	<button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"></button>
+          	<button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop"data-toggle="tooltip" data-placement="bottom"  title="Upload File"></button>
           </div>
   			</div>
   			<div onClick="home.onHome();" class="btn-home"><a href="#home" data-toggle="tab"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
@@ -124,17 +137,17 @@
                   </td>
                   </tr>
                 <tr>
-                  <td style="width: 250px">
+                  <td style="width: 290px">
   								  <!-- Auto sync -->
   								  <label class="control-label"  for="autoSync">Auto Sync</label>
   									<p class="help-block">Automatically synchronize files from Otak server</p>
                   </td>
                   <td style="float: right">
-                    <input id="auto-sync" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-class="fast">
+                    <input class="auto-sync" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-class="fast">
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="2"  style="align:center">
+                  <td colspan="2">
                     <button onClick="home.settingsSave();" id="btn-save"class="btn btn-success">Save</button>
                   </td>
                 </tr>

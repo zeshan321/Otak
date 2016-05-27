@@ -150,7 +150,7 @@ function addItem(loc, name, type) {
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "photo-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
         case "gif":
-            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "photo-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "gif-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
         case "jpeg":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "photo-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
@@ -237,6 +237,9 @@ function addItem(loc, name, type) {
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "code-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
         case "js":
+            $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "code-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
+            break;
+        case "py":
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "code-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
             break;
 
