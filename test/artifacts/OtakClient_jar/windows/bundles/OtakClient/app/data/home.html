@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/notification.css" rel="stylesheet">
@@ -14,164 +14,232 @@
 
 <body oncontextmenu="home.onClick('right', '', 'body'); return false;">
 
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <h5>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <h5>
       <span class="fa fa-server"></span>
       <span id="servername">Server_Name</span>
       <inline class="right" id="updatedat">Status: <span id="server-status" class="label label-warning">Connecting...</span></inline>
     </h5>
-  </nav>
-  <div id="wrapper">
-    <!-- Home -->
-    <div id="sidebar-wrapper" class="sidebar-toggle">
-  		<ul class="sidebar-nav">
-	  		<button class="btn-panel" data-toggle="collapse" data-target="#panel" data-toggle="tooltip" data-placement="bottom" title="Options"><img id="options" src="images/options.svg"></button>
-  			<div id="panel" class="collapse ">
-          <div class="row-centered">
-            
-            <div id="custom-search-input">
-                <div class="input-group col-md-3">
-                    <span class="input-group-btn">
+    </nav>
+    <div id="wrapper">
+        <!-- Home -->
+        <div id="sidebar-wrapper" class="sidebar-toggle">
+            <ul class="sidebar-nav">
+                <button class="btn-panel" data-toggle="collapse" data-target="#panel" data-toggle="tooltip" data-placement="bottom" title="Options"><img id="options" src="images/options.svg"></button>
+                <div id="panel" class="collapse ">
+                    <div class="row-centered">
+
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-3">
+                                <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="button">
                             <img id="options" src="images/Search-icon.svg">
                         </button>
                     </span>
-                    <input type="text" class=" input-lg col-centered btn-search btn-drop" placeholder="Search" />
+                                <input type="text" class=" input-lg col-centered btn-search btn-drop" placeholder="Search" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-centered">
+                        <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"></button>
+                        <button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"></button>
+                        <button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload File"></button>
+                    </div>
+                </div>
+                <div onClick="home.onHome();" class="btn-home">
+                    <a href="#home" data-toggle="tab"> <img src="images/Otak-logo-r.png" class="logo"></a>
+                </div>
+                <hr id="line">
+                <li id="home2">
+                    <a onClick="home.onHome();" href="#home" data-toggle="tab">Files</a>
+                </li>
+                <li>
+                    <a href="#menu1" data-toggle="tab">Devices</a>
+                </li>
+                <li>
+                    <a onClick="home.settingsClick();" href="#menu2" data-toggle="tab">Settings</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="tab-content window" id="windows">
+                            <div id="home" class="tab-pane in active">
+                                <div class="row" id="contents">
+
+                                </div>
+                                <div id="fsync" class="well">
+                                    <a href="#fsync" data-toggle="dropdown" aria-expanded="false"><span id="syncinfo">No downloads</span></a>
+                                    <div class="row">
+                                        <table id="synctable" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>File</th>
+                                                    <th style="text-align: right">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="filesinsync">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu1" class="tab-pane">
+                                <h3>Menu 1</h3>
+                                <p>Some content in menu 1.</p>
+                            </div>
+                            <div id="menu2" class="tab-pane">
+                                <legend>Settings</legend>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <tr class="slabel">
+                                                <td style="width: 250px">
+                                                    <!-- Server IP -->
+                                                    <label class="control-label" for="serverIP">Server IP
+  									<p class="help-block">Otak server IP</p></label>
+                                                </td>
+                                                <td style="float: right">
+                                                    <input type="text" id="serverIP" name="serverIP" class="input-xlarge">
+                                                </td>
+                                            </tr>
+                                            <tr class="slabel">
+                                                <td style="width: 250px">
+                                                    <!-- Password-->
+                                                    <label class="control-label" for="password">Password</label>
+                                                    <p class="help-block">Otak server password</p>
+                                                </td>
+                                                <td style="float: right">
+                                                    <input type="password" id="password" name="password" class="input-xlarge">
+                                                </td>
+                                            </tr>
+                                            <tr class="slabel">
+                                                <td style="width: 250px">
+                                                    <!-- Dir -->
+                                                    <label class="control-label" for="email">Directory</label>
+                                                    <p class="help-block">Directory path to store files</p>
+                                                </td>
+                                                <td style="float: right">
+                                                    <input onClick="home.dirChooser();" type="text" id="dir" name="dir" class="input-xlarge">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 250px">
+                                                    <!-- dlmeter -->
+                                                    <label class="control-label" for="email">Download Metering</label>
+                                                    <p class="help-block">Limit the number of synchronous downloads</p <br><label style="font-size: 10px;"><input id="overridelim" onClick="warnLimit();" type="checkbox" aria-label="override"> Override Limit</label>
+                                                </td>
+                                                <td style="float: right">
+                                                    <input type="number" id="dllim" oninput="checkLimit();" name="dir" class="input-xlarge" value="5" min="0" max="10">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 290px">
+                                                    <!-- Auto sync -->
+                                                    <label class="control-label" for="autoSync">Auto Sync</label>
+                                                    <p class="help-block">Automatically synchronize files from Otak server</p>
+                                                </td>
+                                                <td style="float: right">
+                                                    <input class="auto-sync" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-class="fast">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <button onClick="home.settingsSave();" id="btn-save" class="btn btn-success">Save</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
-          <div class="row-centered">
-            <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"></button>
-          	<button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"></button>
-          	<button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop"data-toggle="tooltip" data-placement="bottom"  title="Upload File"></button>
-          </div>
-  			</div>
-  			<div onClick="home.onHome();" class="btn-home"><a href="#home" data-toggle="tab"> <img src="images/Otak-logo-r.png" class="logo"></a></div>
-				<hr id="line">
-				<li id="home2">
-					<a onClick="home.onHome();" href="#home" data-toggle="tab">Files</a>
-				</li>
-				<li>
-					<a href="#menu1" data-toggle="tab">Devices</a>
-				</li>
-				<li>
-					<a onClick="home.settingsClick();" href="#menu2" data-toggle="tab">Settings</a>
-				</li>
-			</ul>
-	</div>
+        </div>
+        <!-- /#page-content-wrapper -->
+        <!-- Modal -->
+        <div id="playerSelect" class="modal fade" role="dialog">
+            <div class="modal-dialog">
 
-  <!-- Page Content -->
-    <div id="page-content-wrapper">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-					<div class="tab-content window" id="windows">
-						<div id="home" class="tab-pane in active">
-						  <div class="row" id="contents">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Select a Player</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+							<input id="stream-url" type="hidden" value=""/>
+                            <div onclick="startPlayer('VLC');" class="col-md-6" style="padding-bottom: 10px">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object" src="images/players/vlc.png" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>VLC</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div onclick="startPlayer('QuickTime');" class="col-md-6" style="padding-bottom: 10px">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object" src="images/players/quicktime.png" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>QuickTime</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div onclick="startPlayer('Otak');" class="col-md-6" style="padding-bottom: 10px">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEzLjQ2MDkzNzUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>Otak Player</h4>
+                                    </div>
+                                </div>
+                            </div>
 
-						  </div>
-							  <div id="fsync" class="well">
-								<a href="#fsync" data-toggle="dropdown" aria-expanded="false"><span id="syncinfo">No downloads</span></a>
-								<div class="row">
-								  <table id="synctable" class="table table-hover">
-									<thead>
-									  <tr>
-										<th>File</th>
-										<th style="text-align: right">Status</th>
-									  </tr>
-									</thead>
-									<tbody id="filesinsync">
-									</tbody>
-								  </table>
-								</div>
-							  </div>
-						</div>
-						<div id="menu1" class="tab-pane">
-						  <h3>Menu 1</h3>
-						  <p>Some content in menu 1.</p>
-						</div>
-						<div id="menu2" class="tab-pane">
-							  <legend>Settings</legend>
-                <div class="table-responsive">
-                <table class="table table-hover">
-                <tbody>
-                <tr class="slabel">
-  								<td style="width: 250px">
-  								  <!-- Server IP -->
-                    <label class="control-label" for="serverIP">Server IP
-  									<p class="help-block">Otak server IP</p></label>
-                  </td>
-                  <td style="float: right">
-                    <input type="text" id="serverIP" name="serverIP" class="input-xlarge">
-                  </td>
-                </tr>
-                <tr class="slabel">
-                  <td style="width: 250px">
-  								  <!-- Password-->
-  								  <label class="control-label" for="password">Password</label>
-  									<p class="help-block">Otak server password</p>
-                  </td>
-                  <td style="float: right">
-                      <input type="password" id="password" name="password" class="input-xlarge">
-                  </td>
-                </tr>
-                <tr class="slabel">
-                  <td style="width: 250px">
-  								  <!-- Dir -->
-  								  <label class="control-label" for="email">Directory</label>
-  									<p class="help-block">Directory path to store files</p>
-                  </td>
-                  <td style="float: right">
-                    <input onClick="home.dirChooser();" type="text" id="dir" name="dir" class="input-xlarge">
-                  </td>
-                </tr>
-                <tr>
-                  <td style="width: 250px">
-                    <!-- dlmeter -->
-                    <label class="control-label" for="email">Download Metering</label>
-                    <p class="help-block">Limit the number of synchronous downloads</p
-                      <br><label style="font-size: 10px;"><input id="overridelim" onClick="warnLimit();" type="checkbox" aria-label="override"> Override Limit</label>
-                  </td>
-                  <td style="float: right">
-                    <input type="number" id="dllim" oninput="checkLimit();" name="dir" class="input-xlarge" value="5" min="0" max="10">
-                  </td>
-                  </tr>
-                <tr>
-                  <td style="width: 290px">
-  								  <!-- Auto sync -->
-  								  <label class="control-label"  for="autoSync">Auto Sync</label>
-  									<p class="help-block">Automatically synchronize files from Otak server</p>
-                  </td>
-                  <td style="float: right">
-                    <input class="auto-sync" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-class="fast">
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <button onClick="home.settingsSave();" id="btn-save"class="btn btn-success">Save</button>
-                  </td>
-                </tr>
-              </tbody>
-              </table>
-            </div>
-						</div>
-					</div>
+                            <div onclick="startPlayer('Other');" class="col-md-6" style="padding-bottom: 10px">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEzLjQ2MDkzNzUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>Other</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /#page-content-wrapper -->
-  </div>
 
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	  <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/file-functions.js"></script>
 </body>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
 
 </html>

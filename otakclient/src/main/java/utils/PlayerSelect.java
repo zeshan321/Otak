@@ -2,7 +2,6 @@ package utils;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
-import views.StreamView;
 
 import java.io.IOException;
 
@@ -15,58 +14,66 @@ public class PlayerSelect {
         this.url = url;
     }
 
-    public void startPlayer() {
+    public void startVLC() {
         new Thread() {
             @Override
             public void run() {
                 OSType os = new OSType();
 
-                if (os.isMac()) {
-                    CommandLine cmdLine = CommandLine.parse("open -a \"QuickTime Player\" \"" + url + "\"");
-                    DefaultExecutor executor = new DefaultExecutor();
-
-                    try {
-                        if (executor.execute(cmdLine) == 0) {
-                            isRunning = true;
-                            return;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
                 if (os.isWindows()) {
-                    // 64 bit
-                    CommandLine cmdLine = CommandLine.parse("\"C:/Program Files/VideoLAN/VLC/VLC.exe\" \"" + url + "\"");
+                    CommandLine cmdLine = CommandLine.parse("'C:/Program Files/VideoLAN/VLC/VLC.exe' '" + url + "'");
                     DefaultExecutor executor = new DefaultExecutor();
                     try {
                         if (executor.execute(cmdLine) == 0) {
                             isRunning = true;
-                            return;
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    // 32 bit
-                    if (!isRunning) {
-                        cmdLine = CommandLine.parse("\"C:/Program Files (x86)/VideoLAN/VLC/VLC.exe\" \"" + url + "\"");
+                        cmdLine = CommandLine.parse("'C:/Program Files (x86)/VideoLAN/VLC/VLC.exe' '" + url + "'");
                         executor = new DefaultExecutor();
                         try {
                             if (executor.execute(cmdLine) == 0) {
                                 isRunning = true;
-                                return;
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                            this.interrupt();
                         }
+                    }
+                } else {
+                    CommandLine cmdLine = CommandLine.parse("../VLC.app/Contents/MacOS/VLC '" + url + "'");
+                    DefaultExecutor executor = new DefaultExecutor();
+                    try {
+                        if (executor.execute(cmdLine) == 0) {
+                            isRunning = true;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        this.interrupt();
                     }
                 }
 
-                // Use Otak Player if VLC or QuickTime are not found.
-                if (!isRunning) {
-                    new StreamView(url).run();
+                this.interrupt();
+            }
+        }.start();
+    }
+
+    public void startQuickTime() {
+        new Thread() {
+            @Override
+            public void run() {
+                CommandLine cmdLine = CommandLine.parse("open -a 'QuickTime Player' '" + url + "'");
+                DefaultExecutor executor = new DefaultExecutor();
+
+                try {
+                    if (executor.execute(cmdLine) == 0) {
+                        isRunning = true;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    this.interrupt();
                 }
+
+                this.interrupt();
             }
         }.start();
     }

@@ -1,5 +1,15 @@
 var filesQueue = 0;
 
+function openPlayerSelect(url) {
+	document.getElementById("stream-url").value = url;
+	
+	$('#playerSelect').modal('toggle');
+}
+
+function startPlayer(type) {
+	home.launchPlayer(document.getElementById("stream-url").value, type);
+}
+
 function serverStatus(type) {
     span = document.getElementById("server-status");
     switch (type) {

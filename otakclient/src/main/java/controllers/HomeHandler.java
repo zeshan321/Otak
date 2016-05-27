@@ -7,6 +7,8 @@ import org.apache.tika.Tika;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 import utils.Config;
+import utils.PlayerSelect;
+import views.StreamView;
 
 import java.awt.*;
 import java.io.File;
@@ -99,6 +101,23 @@ public class HomeHandler {
         }
     }
 
+    public void launchPlayer(String url, String player) {
+        switch(player) {
+            case "VLC":
+                new PlayerSelect(url).startVLC();
+                break;
+            case "QuickTime":
+                new PlayerSelect(url).startQuickTime();
+                break;
+            case "Otak":
+                new StreamView(url).run();
+                break;
+            case "Other":
+
+                break;
+        }
+    }
+
     /**
      * File click
      */
@@ -160,7 +179,7 @@ public class HomeHandler {
                         javafx.scene.control.MenuItem streamFile = new javafx.scene.control.MenuItem("Stream File");
 
                         streamFile.setOnAction(event -> {
-                            homeController.streamFile(loc, mime);
+                            homeController.playerSelect(loc, mime);
                         });
 
                         homeController.contextMenu.getItems().add(streamFile);

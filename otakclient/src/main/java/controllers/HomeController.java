@@ -404,12 +404,13 @@ public class HomeController implements Initializable {
         });
     }
 
-    public void streamFile(String loc, String type) {
+    public void playerSelect(String loc, String type) {
         Parameters parameters = new Parameters();
         parameters.add("pass", config.getString("pass"));
         parameters.add("file", loc);
         parameters.add("type", type);
 
-        new PlayerSelect(config.getString("IP") + "/stream" + parameters.toString()).startPlayer();
+        String url = config.getString("IP") + "/stream" + parameters.toString();
+        runScript("openPlayerSelect('" + url + "')");
     }
 }
