@@ -102,7 +102,7 @@ public class HomeHandler {
     }
 
     public void launchPlayer(String url, String player) {
-        switch(player) {
+        switch (player) {
             case "VLC":
                 new PlayerSelect(url).startVLC();
                 break;
@@ -189,7 +189,7 @@ public class HomeHandler {
 
             javafx.scene.control.MenuItem deleteItem = new javafx.scene.control.MenuItem("Delete");
 
-            deleteItem.setOnAction( event -> {
+            deleteItem.setOnAction(event -> {
                 homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DELETE, new File(config.getString("dir") + File.separator + loc)));
             });
 

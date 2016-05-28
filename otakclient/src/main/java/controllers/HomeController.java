@@ -24,7 +24,6 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
-import org.w3c.dom.html.HTMLElement;
 import requests.HTTPDownload;
 import requests.HTTPGet;
 import requests.HTTPUpload;
@@ -41,7 +40,6 @@ public class HomeController implements Initializable {
     public Stage stage;
     public QueueManager queueManager;
 
-
     // Package local
     String currentDir = "";
     Config config;
@@ -51,10 +49,6 @@ public class HomeController implements Initializable {
     AnchorPane anchorPane;
     @FXML
     WebView webView;
-
-    // Threads
-    private int connectionLimit = 5;
-    private int threadsRunning = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,8 +62,6 @@ public class HomeController implements Initializable {
         // Make web view responsive
         new ResponsiveWeb(anchorPane, webView).makeResponsive();
 
-        WebDispatcher webDispatcher = new WebDispatcher(webView.getEventDispatcher());
-
         // Hide context menu
         webView.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
@@ -81,9 +73,6 @@ public class HomeController implements Initializable {
         // Wait for UI to finish loading
         webView.getEngine().getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
-                // Dispatch web events
-                webView.setEventDispatcher(webDispatcher);
-
                 // Set servername
                 runScript("setServerName(\"" + config.getString("name") + "\");");
 
