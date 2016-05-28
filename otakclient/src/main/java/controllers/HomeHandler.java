@@ -187,8 +187,13 @@ public class HomeHandler {
                 }
             }
 
-            javafx.scene.control.MenuItem menuItem = new javafx.scene.control.MenuItem("Delete");
-            homeController.contextMenu.getItems().add(menuItem);
+            javafx.scene.control.MenuItem deleteItem = new javafx.scene.control.MenuItem("Delete");
+
+            deleteItem.setOnAction( event -> {
+                homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.DELETE, new File(config.getString("dir") + File.separator + loc)));
+            });
+
+            homeController.contextMenu.getItems().add(deleteItem);
 
             homeController.contextMenu.show(homeController.webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
         }

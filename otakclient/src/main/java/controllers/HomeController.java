@@ -257,6 +257,26 @@ public class HomeController implements Initializable {
         }
     }
 
+    private void removeItem(FileObject fileObject) {
+        String path;
+        if (!fileObject.file.contains("/")) {
+            path = currentDir;
+        } else {
+            path = fileObject.file.substring(0, fileObject.file.lastIndexOf("/"));
+        }
+
+        List<FileObject> files = filesMap.get(path);
+        Iterator<FileObject> iterator = files.iterator();
+        while (iterator.hasNext()) {
+            FileObject fileObject1 = iterator.next();
+            if (fileObject1.file.contains(fileObject.file)) {
+                iterator.remove();
+            }
+        }
+
+        filesMap.put(path, files);
+    }
+
     /**
      * Parse filesMap and display on UI
      */
@@ -376,6 +396,7 @@ public class HomeController implements Initializable {
     }
 
     public void createFolder(File file, String loc, TaskCallback taskCallback) {
+        runScript("addFileProgress('" + loc + "','upload');");
 
         Parameters parameters = new Parameters();
         parameters.add("pass", config.getString("pass"));
@@ -390,6 +411,37 @@ public class HomeController implements Initializable {
 
                 // Add to UI
                 addItem(new FileObject(loc, file.isDirectory(), file.lastModified()));
+
+                taskCallback.onComplete();
+            }
+
+            @Override
+            public void onError() {
+                // Display error
+                runScript("addFileProgress('" + loc + "','error');");
+
+                taskCallback.onComplete();
+            }
+        });
+    }
+
+    public void deleteFile(File file, String loc, TaskCallback taskCallback) {
+        runScript("addFileProgress('" + loc + "','delete');");
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", loc);
+        parameters.add("type", "delete");
+        parameters.add("sender", config.getString("UUID"));
+
+        new HTTPGet(config.getString("IP") + "/upload", parameters.toString()).sendGet(new HTTPCallback() {
+            @Override
+            public void onSuccess(String IP, String response) {
+                runScript("removeFileProgress('" + loc + "');");
+
+                // Remove from UI
+                runScript("removeItem('" + loc + "');");
+                removeItem(new FileObject(loc, file.isDirectory(), file.lastModified()));
 
                 taskCallback.onComplete();
             }

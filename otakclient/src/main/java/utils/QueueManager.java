@@ -3,7 +3,9 @@ package utils;
 import callback.TaskCallback;
 import controllers.HomeController;
 import objects.QueueObject;
+import org.apache.commons.io.FileUtils;
 
+import java.io.IOException;
 import java.util.TreeMap;
 
 public class QueueManager {
@@ -72,6 +74,26 @@ public class QueueManager {
                                             }
                                         });
                                     }
+                                    break;
+                                case DELETE:
+                                    homeController.deleteFile(queueObject.file, loc, new TaskCallback() {
+                                        @Override
+                                        public void onComplete() {
+                                            currentThreads--;
+                                            tasks.remove(loc);
+
+                                            // Remove local file
+                                            if (queueObject.file.isDirectory()) {
+                                                try {
+                                                    FileUtils.deleteDirectory(queueObject.file);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } else {
+                                                queueObject.file.delete();
+                                            }
+                                        }
+                                    });
                                     break;
                             }
                         }

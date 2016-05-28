@@ -55,6 +55,10 @@ function addFileProgress(file, status) {
 				span = "<span id='" + "sp" + filename+"' class='label label-success'>Downloading</span>";
 				break;
 				
+			case "delete":
+				span = "<span id='" + "sp" + filename+"' class='label label-success'>Deleting</span>";
+				break;
+				
 			case "queue":
 				span = "<span id='" + "sp" + filename+"' class='label label-warning'>In queue</span>";
 				break;
@@ -119,8 +123,9 @@ function updateSync() {
 	  syncinfo.text("Downloading: " + filesQueue + " files");
 	}
 }
-function removeItem(href) {
-	var item = $("div[href=\"" + href + "\"]");
+
+function removeItem(loc) {
+	var item = $("div[loc=\"" + loc + "\"]");
 	item.remove();
 }
 
