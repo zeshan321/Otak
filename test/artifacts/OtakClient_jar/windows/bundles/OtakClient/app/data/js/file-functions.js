@@ -261,4 +261,9 @@ function addItem(loc, name, type) {
         default:
             $("#contents").append("<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" + loc + "\" name=\"" + name + "\" type=\"" + type + "\"><img src=\"images\/" + "file-icon" + ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" + name + "\"> " + sort + "<\/span><\/div>");
     }
+	
+}
+
+function setServerName(name) {
+	document.getElementById("servername").textContent = name;
 }

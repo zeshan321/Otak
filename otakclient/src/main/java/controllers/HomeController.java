@@ -24,6 +24,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
+import org.w3c.dom.html.HTMLElement;
 import requests.HTTPDownload;
 import requests.HTTPGet;
 import requests.HTTPUpload;
@@ -83,6 +84,10 @@ public class HomeController implements Initializable {
                 // Dispatch web events
                 webView.setEventDispatcher(webDispatcher);
 
+                // Set servername
+                runScript("setServerName(\"" + config.getString("name") + "\");");
+
+                // Set JSObjects
                 Document doc = webView.getEngine().getDocument();
                 JSObject window = (JSObject) webView.getEngine().executeScript("window");
 

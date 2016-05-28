@@ -80,7 +80,11 @@ public class MainHandler {
         new HTTPGet(serverIP).sendGet(new HTTPCallback() {
             @Override
             public void onSuccess(String IP, String response) {
+                JSONObject jsonObject = new JSONObject(response);
+
                 config.set("IP", IP);
+                config.set("name", jsonObject.getString("name"));
+
                 mainController.runScript("$('#myModal').modal('toggle');");
             }
 
