@@ -429,3 +429,17 @@ color:white;
 	padding-bottom: 10px;
 	cursor: pointer;
 }
+.btn-default{
+  width: 100px;
+  border-radius: 0;
+  padding: 10px;
+  background-color: white;
+  color:#4D2C73;
+  border: solid  4px #4D2C73 ;
+
+}
+.btn-default:hover{
+background-color: #4D2C73;
+border: solid  4px #4D2C73;
+color:white;
+}
