@@ -421,3 +421,11 @@ color:white;
     font-size: 14px;
 }
 /* end of search bar*/
+#row-files {
+	cursor: pointer;
+}
+
+#playerimage {
+	padding-bottom: 10px;
+	cursor: pointer;
+}
