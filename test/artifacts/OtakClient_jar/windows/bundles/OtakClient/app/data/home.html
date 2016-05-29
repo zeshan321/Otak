@@ -28,22 +28,9 @@
                 <button class="btn-panel" data-toggle="collapse" data-target="#panel" data-toggle="tooltip" data-placement="bottom" title="Options"><img id="options" src="images/options.svg"></button>
                 <div id="panel" class="collapse ">
                     <div class="row-centered">
-
-                        <div id="custom-search-input">
-                            <div class="input-group col-md-3">
-                                <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button">
-                            <img id="options" src="images/Search-icon.svg">
-                        </button>
-                    </span>
-                                <input type="text" class=" input-lg col-centered btn-search btn-drop" placeholder="Search" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-centered">
-                        <button onClick="home.onBack();" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"><img id="options" src="images/back.svg"></button>
-                        <button id="btn-createdir" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"><img id="options" src="images/folder-icon2.svg"></button>
-                        <button id="btn-createfile" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload File"><img id="options" src="images/file-icon2.svg"></button>
+                        <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"></button>
+                        <button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"></button>
+                        <button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload File"></button>
                     </div>
                 </div>
                 <div onClick="home.onHome();" class="btn-home">
