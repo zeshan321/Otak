@@ -216,6 +216,7 @@ height:50px;
 #options{
 padding-top: 0px;
 margin-top: 0px;
+
 }
 .icon{
   display: inline-block;
@@ -299,7 +300,6 @@ margin-top: 0px;
   -webkit-transition-duration: 0.5s; /* Safari */
   transition-duration: 0.5s;
   outline: none;
-
 }
 .btn-drop:hover {
   color: #eee;
@@ -389,32 +389,20 @@ color:white;
   
 }
 /* search bar*/
-#custom-search-input{
-    padding: 0px;
-    border-left: solid 1px white;
-    border-radius: 0px;
-    background-color: #40464b;
-}
+
 
 #custom-search-input input{
-    border: 0;
     box-shadow: none;
-    width: 200px;
+    width: 250px;
     border-radius: 0px;
-    border-left: solid 1px #ccc;
-
+    border: 5px solid #EEEFF1;
+    box-shadow: 0px 0px 0px 5px #40464b inset;
+    background-color: #EEEFF1;
+    margin-left: 4px;
 }
-
-#custom-search-input button{
-    margin: 2px 0 0 0;
-    background: none;
-    box-shadow: none;
-    border: 0px;
-    color: #666666;
-    padding: 0 10px 0 10px;
-    border-right: solid 0px #ccc;
+#custom-search-input:hover input{
+  box-shadow: 0px 0px 0px 5px #604FFF inset;
 }
-
 
 
 #custom-search-input .glyphicon-search{
@@ -434,12 +422,46 @@ color:white;
   border-radius: 0;
   padding: 10px;
   background-color: white;
-  color:#4D2C73;
-  border: solid  4px #4D2C73 ;
+  color:#1C86FF;
+  border: solid  4px #1C86FF ;
 
 }
 .btn-default:hover{
-background-color: #4D2C73;
-border: solid  4px #4D2C73;
+background-color: #1C86FF;
+border: solid  4px #1C86FF;
 color:white;
+}
+
+.close{
+  color: #1459FF;
+  height: 15px;
+}
+.modal-content{
+  border-radius: 0px;
+  border: solid  10px #1C86FF;
+}
+#btn-options,#btn-options2,#btn-options3{
+  
+  box-shadow:
+   0px 0px 0px 5px #EEEFF1 inset,
+   0px 0px 0px 10px #40464b inset;
+  background-color: #EEEFF1;
+}
+#btn-options:hover{
+  box-shadow:
+   0px 0px 0px 5px #EEEFF1 inset,
+   0px 0px 0px 10px #67DCBD inset;
+  
+}
+#btn-options2:hover{
+  box-shadow:
+   0px 0px 0px 5px #EEEFF1 inset,
+   0px 0px 0px 10px #4389FF inset;
+  
+}
+#btn-options3:hover{
+  box-shadow:
+   0px 0px 0px 5px #EEEFF1 inset,
+   0px 0px 0px 10px #6953AC inset;
+  
 }
