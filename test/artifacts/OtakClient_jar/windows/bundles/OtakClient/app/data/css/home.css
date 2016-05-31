@@ -324,18 +324,10 @@ margin-top: 0px;
 
 #btn-save{
 width: 250px;
-border-radius: 0;
-padding: 10px;
-background-color: white;
-color:#5cb85c;
+color:white;
 border: solid  4px #5cb85c ;
 }
 
-#btn-save:hover{
-background-color: #5cb85c;
-border: solid  4px #5cb85c;
-color:white;
-}
 .row-centered{
   background-color: #40464b;
 }
@@ -416,6 +408,7 @@ color:white;
 #playerimage {
 	padding-bottom: 10px;
 	cursor: pointer;
+<<<<<<< HEAD
 }
 .btn-default{
   width: 100px;
@@ -465,3 +458,6 @@ color:white;
    0px 0px 0px 10px #6953AC inset;
   
 }
+=======
+}
+>>>>>>> origin/master

@@ -95,6 +95,15 @@ public class QueueManager {
                                         }
                                     });
                                     break;
+                                case TORRENT:
+                                    homeController.torrentFile(queueObject.file, loc, new TaskCallback() {
+                                        @Override
+                                        public void onComplete() {
+                                            currentThreads--;
+                                            tasks.remove(loc);
+                                        }
+                                    });
+                                    break;
                             }
                         }
                     }

@@ -62,6 +62,10 @@ function addFileProgress(file, status) {
 			case "queue":
 				span = "<span id='" + "sp" + filename+"' class='label label-warning'>In queue</span>";
 				break;
+				
+			case "torrent":
+				span = "<span id='" + "sp" + filename+"' class='label label-success'>Torrenting</span>";
+				break;
 		}
 		
 		$("#filesinsync").append("<tr id='tr" + filename + "'> \
@@ -99,6 +103,11 @@ function changeStatus(file, status) {
         case "queue":
 			span.className = "label label-warning";
             span.textContent = "In queue"
+            break;
+			
+        case "torrent":
+			span.className = "label label-success";
+            span.textContent = "Torrenting"
             break;
     }
 }
