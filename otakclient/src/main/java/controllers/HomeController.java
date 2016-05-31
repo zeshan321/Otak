@@ -353,6 +353,35 @@ public class HomeController implements Initializable {
         });
     }
 
+    public void torrentFile(File file, String loc, TaskCallback taskCallback) {
+        runScript("addFileProgress('" + loc + "','torrent');");
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+        parameters.add("file", loc);
+        parameters.add("sender", config.getString("UUID"));
+
+        new HTTPGet(config.getString("IP") + "/torrent", parameters.toString()).sendGet(new HTTPCallback() {
+            @Override
+            public void onSuccess(String IP, String response) {
+                runScript("removeFileProgress('" + loc + "');");
+
+                taskCallback.onComplete();
+            }
+
+            @Override
+            public void onError() {
+                // Add to queue and try again later
+
+                // Display error
+                runScript("addFileProgress('" + loc + "','error');");
+
+                taskCallback.onComplete();
+            }
+        });
+    }
+
+
     public void uploadFile(File file, String loc, TaskCallback taskCallback) {
         runScript("addFileProgress('" + loc + "','upload');");
 

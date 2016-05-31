@@ -35,7 +35,10 @@ public class ListContext implements HttpHandler {
 
         // Start file list
         JSONArray jsonArray = new JSONArray();
-        String dir = config.getString("dir").substring(0, config.getString("dir").lastIndexOf("/"));
+        String dir = config.getString("dir");
+        if (dir.endsWith("/")) {
+            dir = dir.substring(0, config.getString("dir").lastIndexOf("/"));
+        }
 
         Collection<File> filesList = FileUtils.listFilesAndDirs(new File(dir), TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 

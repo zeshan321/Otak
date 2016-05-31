@@ -185,6 +185,16 @@ public class HomeHandler {
                         homeController.contextMenu.getItems().add(streamFile);
                     }
                 }
+
+                if (loc.endsWith(".torrent")) {
+                    javafx.scene.control.MenuItem torrentFile = new javafx.scene.control.MenuItem("Torrent File");
+
+                    torrentFile.setOnAction(event -> {
+                        homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.TORRENT, new File(config.getString("dir") + File.separator + loc)));
+                    });
+
+                    homeController.contextMenu.getItems().add(torrentFile);
+                }
             }
 
             javafx.scene.control.MenuItem deleteItem = new javafx.scene.control.MenuItem("Delete");

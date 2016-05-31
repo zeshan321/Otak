@@ -48,6 +48,7 @@ class Server {
                         server.createContext("/download", new DownloadContext());
                         server.createContext("/upload", new UploadContext());
                         server.createContext("/stream", new StreamContext());
+                        server.createContext("/torrent", new TorrentContext());
 
                         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
                         server.start();
@@ -79,6 +80,7 @@ class Server {
                         server.createContext("/download", new DownloadContext());
                         server.createContext("/upload", new UploadContext());
                         server.createContext("/stream", new StreamContext());
+                        server.createContext("/torrent", new TorrentContext());
 
                         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
                         server.start();

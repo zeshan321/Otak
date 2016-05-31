@@ -13,6 +13,6 @@ public class QueueObject {
     }
 
     public enum QueueType {
-        DOWNLOAD, UPLOAD, DELETE
+        DOWNLOAD, UPLOAD, DELETE, TORRENT
     }
 }
