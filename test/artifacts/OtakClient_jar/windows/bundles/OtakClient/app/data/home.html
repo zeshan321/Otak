@@ -28,9 +28,17 @@
                 <button class="btn-panel" data-toggle="collapse" data-target="#panel" data-toggle="tooltip" data-placement="bottom" title="Options"><img id="options" src="images/Options/options.svg"></button>
                 <div id="panel" class="collapse ">
                     <div class="row-centered">
-                        <button onClick="home.onBack();" type="button" class="col-centered fa fa-chevron-left btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"></button>
-                        <button id="btn-createdir" type="button" class="col-centered fa fa-folder btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"></button>
-                        <button id="btn-createfile" type="button" class="col-centered fa fa-file btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload File"></button>
+                        <!-- Search Bar
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-3">
+                                <input type="text" class=" input-lg col-centered btn-search btn-drop" data-toggle="tooltip" data-placement="bottom" title="Search" placeholder="Search" />
+                            </div>
+                        </div>
+                        -->
+                        <button onClick="home.onBack();" id="btn-options" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"><img id="options" src="images/Options/back.svg"></button>
+                        <button id="btn-options2" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"><img id="options" src="images/Options/folder-icon2.svg"></button>
+                        <button id="btn-options3" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload File"><img id="options" src="images/Options/file-icon2.svg"></button>
+                        
                     </div>
                 </div>
                 <div onClick="home.onHome();" class="btn-home">
@@ -196,7 +204,7 @@
                                         </a>
                                     </div>
                                     <div class="media-body">
-                                        <h4>VLC</h4>
+                                        <h4>Otak Player</h4>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +223,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-close"  data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
