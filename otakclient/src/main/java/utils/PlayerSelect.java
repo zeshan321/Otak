@@ -64,9 +64,7 @@ public class PlayerSelect {
         new Thread() {
             @Override
             public void run() {
-                CommandLine cmdLine = CommandLine.parse("open");
-                cmdLine.addArgument("-a 'QuickTime Player'");
-                cmdLine.addArgument(url);
+                CommandLine cmdLine = CommandLine.parse("open -a 'QuickTime Player'");
                 DefaultExecutor executor = new DefaultExecutor();
 
                 try {
