@@ -62,7 +62,7 @@ public class PlayerSelect {
         new Thread() {
             @Override
             public void run() {
-                CommandLine cmdLine = CommandLine.parse("open -a QuickTime Player '" + url + "'");
+                CommandLine cmdLine = CommandLine.parse("open -a 'QuickTime Player' '" + url + "'");
                 DefaultExecutor executor = new DefaultExecutor();
 
                 try {
