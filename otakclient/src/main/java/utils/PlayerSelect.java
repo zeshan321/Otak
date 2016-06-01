@@ -40,7 +40,10 @@ public class PlayerSelect {
                         }
                     }
                 } else {
-                    CommandLine cmdLine = CommandLine.parse("../VLC.app/Contents/MacOS/VLC '" + url + "'");
+                    CommandLine cmdLine = CommandLine.parse("open");
+                    cmdLine.addArgument("-a 'VLC'");
+                    cmdLine.addArgument(url);
+
                     DefaultExecutor executor = new DefaultExecutor();
                     try {
                         if (executor.execute(cmdLine) == 0) {
@@ -61,7 +64,9 @@ public class PlayerSelect {
         new Thread() {
             @Override
             public void run() {
-                CommandLine cmdLine = CommandLine.parse("open -a 'QuickTime Player' '" + url + "'");
+                CommandLine cmdLine = CommandLine.parse("open");
+                cmdLine.addArgument("-a 'QuickTime Player'");
+                cmdLine.addArgument(url);
                 DefaultExecutor executor = new DefaultExecutor();
 
                 try {
