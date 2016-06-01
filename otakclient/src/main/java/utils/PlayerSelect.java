@@ -40,9 +40,7 @@ public class PlayerSelect {
                         }
                     }
                 } else {
-                    CommandLine cmdLine = CommandLine.parse("open");
-                    cmdLine.addArgument("-a 'VLC'");
-                    cmdLine.addArgument(url);
+                    CommandLine cmdLine = CommandLine.parse("open -a VLC '" + url + "'");
 
                     DefaultExecutor executor = new DefaultExecutor();
                     try {
@@ -64,7 +62,7 @@ public class PlayerSelect {
         new Thread() {
             @Override
             public void run() {
-                CommandLine cmdLine = CommandLine.parse("open -a 'QuickTime Player'");
+                CommandLine cmdLine = CommandLine.parse("open -a QuickTime Player '" + url + "'");
                 DefaultExecutor executor = new DefaultExecutor();
 
                 try {
