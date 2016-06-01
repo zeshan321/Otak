@@ -1,14 +1,10 @@
 package utils;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-
 import java.io.IOException;
 
 public class PlayerSelect {
 
-    String url;
-    boolean isRunning = false;
+    private String url;
 
     public PlayerSelect(String url) {
         this.url = url;
@@ -21,32 +17,29 @@ public class PlayerSelect {
                 OSType os = new OSType();
 
                 if (os.isWindows()) {
-                    CommandLine cmdLine = CommandLine.parse("'C:/Program Files/VideoLAN/VLC/VLC.exe' '" + url + "'");
-                    DefaultExecutor executor = new DefaultExecutor();
                     try {
-                        if (executor.execute(cmdLine) == 0) {
-                            isRunning = true;
-                        }
+                        String[] command = new String[]{
+                                "C:/Program Files/VideoLAN/VLC/VLC.exe",
+                                url
+                        };
+
+                        Runtime.getRuntime().exec(command);
                     } catch (IOException e) {
-                        cmdLine = CommandLine.parse("'C:/Program Files (x86)/VideoLAN/VLC/VLC.exe' '" + url + "'");
-                        executor = new DefaultExecutor();
                         try {
-                            if (executor.execute(cmdLine) == 0) {
-                                isRunning = true;
-                            }
+                            String[] command = new String[]{
+                                    "C:/Program Files (x86)/VideoLAN/VLC/VLC.exe",
+                                    url
+                            };
+
+                            Runtime.getRuntime().exec(command);
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             this.interrupt();
                         }
                     }
                 } else {
-                    CommandLine cmdLine = CommandLine.parse("open -a VLC '" + url + "'");
-
-                    DefaultExecutor executor = new DefaultExecutor();
                     try {
-                        if (executor.execute(cmdLine) == 0) {
-                            isRunning = true;
-                        }
+                        Runtime.getRuntime().exec("open -a VLC '" + url + "'");
                     } catch (IOException e) {
                         e.printStackTrace();
                         this.interrupt();
@@ -62,13 +55,14 @@ public class PlayerSelect {
         new Thread() {
             @Override
             public void run() {
-                CommandLine cmdLine = CommandLine.parse("open -a 'QuickTime Player' '" + url + "'");
-                DefaultExecutor executor = new DefaultExecutor();
-
                 try {
-                    if (executor.execute(cmdLine) == 0) {
-                        isRunning = true;
-                    }
+                    String[] command = new String[]{
+                            "open -a",
+                            "QuickTime Player",
+                            url
+                    };
+
+                    Runtime.getRuntime().exec(command);
                 } catch (IOException e) {
                     e.printStackTrace();
                     this.interrupt();
