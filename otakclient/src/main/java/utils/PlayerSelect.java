@@ -18,20 +18,12 @@ public class PlayerSelect {
 
                 if (os.isWindows()) {
                     try {
-                        String[] command = new String[]{
-                                "C:/Program Files/VideoLAN/VLC/VLC.exe",
-                                url
-                        };
-
-                        Runtime.getRuntime().exec(command);
+                        ProcessBuilder processBuilder = new ProcessBuilder("C:/Program Files/VideoLAN/VLC/VLC.exe", url);
+                        processBuilder.start();
                     } catch (IOException e) {
                         try {
-                            String[] command = new String[]{
-                                    "C:/Program Files (x86)/VideoLAN/VLC/VLC.exe",
-                                    url
-                            };
-
-                            Runtime.getRuntime().exec(command);
+                            ProcessBuilder processBuilder = new ProcessBuilder("C:/Program Files (x86)/VideoLAN/VLC/VLC.exe", url);
+                            processBuilder.start();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             this.interrupt();
@@ -39,7 +31,8 @@ public class PlayerSelect {
                     }
                 } else {
                     try {
-                        Runtime.getRuntime().exec("open -a VLC '" + url + "'");
+                        ProcessBuilder processBuilder = new ProcessBuilder("open", "-a", "VLC", url);
+                        processBuilder.start();
                     } catch (IOException e) {
                         e.printStackTrace();
                         this.interrupt();
@@ -56,13 +49,8 @@ public class PlayerSelect {
             @Override
             public void run() {
                 try {
-                    String[] command = new String[]{
-                            "open -a",
-                            "QuickTime Player",
-                            url
-                    };
-
-                    Runtime.getRuntime().exec(command);
+                    ProcessBuilder processBuilder = new ProcessBuilder("open", "-a", "QuickTime Player", url);
+                    processBuilder.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                     this.interrupt();
