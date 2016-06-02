@@ -36,9 +36,9 @@
                         </div>
                         -->
                         <button onClick="home.onBack();" id="btn-options" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Back"><img id="options" src="images/Options/back.svg"></button>
-                        <button id="btn-options2" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload Folder"><img id="options" src="images/Options/folder-icon2.svg"></button>
-                        <button id="btn-options3" type="button" class="col-centered btn-drop" data-toggle="tooltip" data-placement="bottom" title="Upload File"><img id="options" src="images/Options/file-icon2.svg"></button>
-                        
+                        <button id="btn-options2" type="button" class="col-centered btn-drop" data-toggle="modal" data-target=".upfolder"><img id="options" data-toggle="tooltip" data-placement="bottom" title="Upload Folder" src="images/Options/folder-icon2.svg"></button>
+                        <button id="btn-options3" type="button" class="col-centered btn-drop" data-toggle="modal" data-target=".upfile"><img id="options" data-toggle="tooltip" data-placement="bottom" title="Upload File" src="images/Options/file-icon2.svg"></button>
+
                     </div>
                 </div>
                 <div onClick="home.onHome();" class="btn-home">
@@ -64,6 +64,38 @@
                     <div class="col-lg-12">
                         <div class="tab-content window" id="windows">
                             <div id="home" class="tab-pane in active">
+                              <div class="modal fade upfolder" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content dragdrop">
+                                    <div style="border: 0.1em dashed #e3e3e3;" id="upfolderregion">
+                                      <i class="fa fa-folder-o" aria-hidden="true"></i><br>
+                                      <span>Drag & drop a folder or <br><button type="button" id="browsefolders" class="btn btn-default">Browse folders</button></span>
+                                    </div>
+                                    <div class="progress" style="margin-top: 30px;">
+                                      <div class="progress-bar" id="upfolderprog" role="progressbar" aria-valuenow="70"
+                                      aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                        70%
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal fade upfile" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content dragdrop">
+                                    <div style="border: 0.1em dashed #e3e3e3;" id="upfolderregion">
+                                      <i class="fa fa-file-o" aria-hidden="true"></i><br>
+                                      <span>Drag & drop a file or <br><button type="button" id="browsefiles" class="btn btn-default">Broswe files</button></span>
+                                    </div>
+                                    <div class="progress" style="margin-top: 30px;">
+                                      <div class="progress-bar" id="upfolderprog" role="progressbar" aria-valuenow="70"
+                                      aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                        70%
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                                 <div class="row" id="contents">
 
                                 </div>

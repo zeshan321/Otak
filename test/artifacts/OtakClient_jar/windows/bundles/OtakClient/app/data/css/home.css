@@ -386,7 +386,7 @@ button {
 }
 .modal-content{
   border-radius: 0px;
-  border: solid  10px #40464b;
+/*  border: solid  10px #40464b; either make this a new class or this is uncommented */
 }
 .btn-close{
   border-radius: 0;
@@ -400,10 +400,29 @@ button {
   color:#67DCBD;
 }
 .btn{
-   border-radius: 0; 
+   border-radius: 0;
 }
 label {
     padding: 10px;
+}
+
+.dragdrop > div > i {
+  font-size: 12em;
+}
+
+.dragdrop {
+  text-align: center;
+  color: #eee;
+  font-size: 50px;
+
+  height: 90%;
+
+  box-shadow: none;
+  background:
+
+  border-radius: 5px;
+
+  padding: 20px;
 }
 
 /* Search Bar
