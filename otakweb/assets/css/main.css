@@ -79,8 +79,9 @@ a:after {
 #btn-options:hover {
     box-shadow: 0 0 0 5px #40464b inset,0 0 0 10px #67DCBD inset;
 }
+
 #headerwrap {
-	background-color: #C3CDD1;
+	background-color: black;
 	padding-top: 60px;
 }
 
@@ -175,4 +176,20 @@ a:after {
 }
 .form-control{
     border-radius: 0px;
+}
+.super{
+    width: 50%;
+    background-color: #AFABB2;
+    height:500px;
+    margin-left: 0px;
+}
+
+.pine{
+    width: 50%;
+    background-color: #CCC8D1;
+    height:500px;
+    margin-right: 0px;
+}
+.pine-pic{
+    height: 100px;
 }
