@@ -71,8 +71,16 @@ a:after {
    Wrap Sections
    ========================================================================== */
 
+#btn-options,#btn-options2,#btn-options3 {
+    box-shadow: 0 0 0 5px #40464b inset,0 0 0 10px #40464b inset;
+    background-color: #40464b;
+}
+
+#btn-options:hover {
+    box-shadow: 0 0 0 5px #40464b inset,0 0 0 10px #67DCBD inset;
+}
 #headerwrap {
-	background-color: #34495e;
+	background-color: #C3CDD1;
 	padding-top: 60px;
 }
 
@@ -119,7 +127,7 @@ a:after {
 
 #showcase {
 	display: block;
-	background-color: #34495e;
+	background-color: #838F99;
 	padding-top: 50px;
 	padding-bottom: 50px;
 }
@@ -164,4 +172,7 @@ a:after {
 }
 .icon-bar{
     color:blue;
+}
+.form-control{
+    border-radius: 0px;
 }

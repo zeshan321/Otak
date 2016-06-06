@@ -245,6 +245,14 @@ function addItem(loc, name, type) {
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
                 name + "\"> " + sort + "<\/span><\/div>");
             break;
+        case "mkv":
+            $("#contents").append(
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                loc + "\" name=\"" + name + "\" type=\"" + type +
+                "\"><img src=\"images\/" + "video-icon" +
+                ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
+                name + "\"> " + sort + "<\/span><\/div>");
+            break;
         case "mp3":
             $("#contents").append(
                 "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
