@@ -250,9 +250,9 @@ public class HomeHandler {
             homeController.contextMenu.getItems().add(deleteItem);
 
             // Show in explore
-            File file = new File(config.getString("dir") + File.separator + loc.substring(0,loc.lastIndexOf("/")));
+            if (new File(config.getString("dir") + File.separator + loc).exists()) {
+                File file = new File(config.getString("dir") + File.separator +  loc.substring(0,loc.lastIndexOf("/")));
 
-            if (file.exists()) {
                 javafx.scene.control.MenuItem showItem = new javafx.scene.control.MenuItem("Show in folder");
 
                 showItem.setOnAction(event -> {

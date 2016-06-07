@@ -36,6 +36,7 @@ public class StreamContext implements HttpHandler
         String etag = Integer.toHexString((file.getAbsolutePath() + file.lastModified() + "" + file.length()).hashCode());
 
         httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        httpExchange.getResponseHeaders().set("Content-Disposition", "attachment; filename=" + file.getName());
 
         long startFrom = 0;
         long endAt = -1;
