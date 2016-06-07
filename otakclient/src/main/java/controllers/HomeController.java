@@ -179,7 +179,7 @@ public class HomeController implements Initializable {
     /**
      * Fix string to stay consistent to server path
      */
-    private String fixPath(String path) {
+    public String fixPath(String path) {
         return path.replace(config.getString("dir"), "").replaceAll("\\\\", "/");
     }
 

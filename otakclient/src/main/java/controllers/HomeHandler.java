@@ -2,7 +2,10 @@ package controllers;
 
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import objects.QueueObject;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.tika.Tika;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
@@ -14,6 +17,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class HomeHandler {
 
@@ -118,9 +123,47 @@ public class HomeHandler {
         }
     }
 
-    /**
-     * File click
-     */
+    public void uploadFiles() {
+        FileChooser fileChooser = new FileChooser();
+
+        List<File> list = fileChooser.showOpenMultipleDialog(homeController.stage);
+        if (list != null) {
+            for (File file : list) {
+                File newFile = new File(config.getString("dir") + File.separator + file.getName());
+
+                try {
+                    if (file.isDirectory()) {
+                        newFile.mkdir();
+
+                        Collection<File> filesList = FileUtils.listFilesAndDirs(newFile, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
+                        for (File files : filesList) {
+                            String loc = homeController.fixPath(files.getAbsolutePath());
+
+                            if (homeController.currentDir.equals("")) {
+                                homeController.queueManager.add(loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
+                            } else {
+                                homeController.queueManager.add(homeController.currentDir + "/" + loc, new QueueObject(QueueObject.QueueType.UPLOAD, files));
+                            }
+                        }
+
+                        FileUtils.copyDirectory(file, newFile);
+                    } else {
+                        // Add to queue
+                        if (homeController.currentDir.equals("")) {
+                            homeController.queueManager.add(file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                        } else {
+                            homeController.queueManager.add(homeController.currentDir + "/" + file.getName(), new QueueObject(QueueObject.QueueType.UPLOAD, newFile));
+                        }
+
+                        newFile.createNewFile();
+                        FileUtils.copyFile(file, newFile);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     /**
      * Runs on file clicks from UI
@@ -197,6 +240,7 @@ public class HomeHandler {
                 }
             }
 
+            // Delete file
             javafx.scene.control.MenuItem deleteItem = new javafx.scene.control.MenuItem("Delete");
 
             deleteItem.setOnAction(event -> {
@@ -204,6 +248,23 @@ public class HomeHandler {
             });
 
             homeController.contextMenu.getItems().add(deleteItem);
+
+            // Show in explore
+            File file = new File(config.getString("dir") + File.separator + loc.substring(0,loc.lastIndexOf("/")));
+
+            if (file.exists()) {
+                javafx.scene.control.MenuItem showItem = new javafx.scene.control.MenuItem("Show in folder");
+
+                showItem.setOnAction(event -> {
+                    try {
+                        Desktop.getDesktop().open(file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                homeController.contextMenu.getItems().add(showItem);
+            }
 
             homeController.contextMenu.show(homeController.webView, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
         }
