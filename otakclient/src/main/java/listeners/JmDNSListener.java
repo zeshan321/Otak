@@ -1,7 +1,7 @@
 package listeners;
 
-import callback.HTTPCallback;
-import callback.OtakServerFoundCallback;
+import callbacks.HTTPCallback;
+import callbacks.OtakServerFoundCallback;
 import objects.ServerObject;
 import org.json.JSONObject;
 import requests.HTTPGet;

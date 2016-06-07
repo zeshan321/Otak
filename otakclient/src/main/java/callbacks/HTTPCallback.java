@@ -1,4 +1,4 @@
-package callback;
+package callbacks;
 
 public abstract class HTTPCallback {
 

@@ -1,6 +1,6 @@
 package controllers;
 
-import callback.OtakServerFoundCallback;
+import callbacks.OtakServerFoundCallback;
 import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Worker.State;

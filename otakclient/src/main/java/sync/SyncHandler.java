@@ -1,8 +1,8 @@
 package sync;
 
-import callback.CompareCallback;
-import callback.DownloadCallback;
-import callback.HTTPCallback;
+import callbacks.CompareCallback;
+import callbacks.DownloadCallback;
+import callbacks.HTTPCallback;
 import com.zeshanaslam.otak.Main;
 import objects.FileObject;
 import org.apache.commons.io.monitor.FileAlterationListener;

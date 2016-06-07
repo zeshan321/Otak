@@ -1,6 +1,6 @@
 package utils;
 
-import callback.TaskCallback;
+import callbacks.TaskCallback;
 import controllers.HomeController;
 import objects.QueueObject;
 import org.apache.commons.io.FileUtils;

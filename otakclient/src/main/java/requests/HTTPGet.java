@@ -1,6 +1,6 @@
 package requests;
 
-import callback.HTTPCallback;
+import callbacks.HTTPCallback;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -52,16 +52,16 @@ public class HTTPGet {
                         SSLContext sslContext = SSLContext.getInstance("SSL");
                         sslContext.init(null, new TrustManager[]{trustManager}, null);
 
-                        HttpsURLConnection con = (HttpsURLConnection) urlObj.openConnection();
+                        HttpsURLConnection connection = (HttpsURLConnection) urlObj.openConnection();
 
-                        con.setHostnameVerifier(new NullHostNameVerifier());
-                        con.setSSLSocketFactory(sslContext.getSocketFactory());
+                        connection.setHostnameVerifier(new NullHostNameVerifier());
+                        connection.setSSLSocketFactory(sslContext.getSocketFactory());
 
-                        con.setRequestProperty("Accept-Encoding", "gzip");
-                        con.setRequestMethod("GET");
-                        con.setRequestProperty("User-Agent", USER_AGENT);
+                        connection.setRequestProperty("Accept-Encoding", "gzip");
+                        connection.setRequestMethod("GET");
+                        connection.setRequestProperty("User-Agent", USER_AGENT);
 
-                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(connection.getInputStream());
                         BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
@@ -75,13 +75,13 @@ public class HTTPGet {
                         callback.onSuccess(url, stringBuilder.toString());
                     } else {
                         URL urlObj = new URL(url);
-                        HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+                        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
-                        con.setRequestProperty("Accept-Encoding", "gzip");
-                        con.setRequestMethod("GET");
-                        con.setRequestProperty("User-Agent", USER_AGENT);
+                        connection.setRequestProperty("Accept-Encoding", "gzip");
+                        connection.setRequestMethod("GET");
+                        connection.setRequestProperty("User-Agent", USER_AGENT);
 
-                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(connection.getInputStream());
                         BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;

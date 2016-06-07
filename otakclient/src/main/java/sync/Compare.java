@@ -1,6 +1,6 @@
 package sync;
 
-import callback.CompareCallback;
+import callbacks.CompareCallback;
 import com.zeshanaslam.otak.Main;
 import objects.FileObject;
 import org.apache.commons.io.FileUtils;

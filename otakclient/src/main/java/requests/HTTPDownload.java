@@ -1,6 +1,6 @@
 package requests;
 
-import callback.DownloadCallback;
+import callbacks.DownloadCallback;
 import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -52,17 +52,17 @@ public class HTTPDownload {
                         SSLContext sc = SSLContext.getInstance("SSL");
                         sc.init(null, new TrustManager[]{trm}, null);
 
-                        HttpsURLConnection con = (HttpsURLConnection) urlObj.openConnection();
-                        con.setSSLSocketFactory(sc.getSocketFactory());
-                        con.setHostnameVerifier(new NullHostNameVerifier());
-                        con.setRequestProperty("Accept-Encoding", "gzip");
+                        HttpsURLConnection connection = (HttpsURLConnection) urlObj.openConnection();
+                        connection.setSSLSocketFactory(sc.getSocketFactory());
+                        connection.setHostnameVerifier(new NullHostNameVerifier());
+                        connection.setRequestProperty("Accept-Encoding", "gzip");
 
-                        GZIPInputStream inputStream = new GZIPInputStream(con.getInputStream());
+                        GZIPInputStream inputStream = new GZIPInputStream(connection.getInputStream());
                         OutputStream outputStream = new FileOutputStream(file);
 
                         try {
                             ProgressListener progressListener = new ProgressListener();
-                            DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, con.getContentLength(), callBack);
+                            DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, connection.getContentLength(), callBack);
                             downloadCount.setListener(progressListener);
 
                             copySteam(inputStream, downloadCount);
@@ -76,16 +76,16 @@ public class HTTPDownload {
                     } else {
                         URL urlObj = new URL(url);
 
-                        HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+                        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
-                        con.setRequestProperty("Accept-Encoding", "gzip");
+                        connection.setRequestProperty("Accept-Encoding", "gzip");
 
-                        GZIPInputStream inputStream = new GZIPInputStream(con.getInputStream());
+                        GZIPInputStream inputStream = new GZIPInputStream(connection.getInputStream());
                         OutputStream outputStream = new FileOutputStream(file);
 
                         try {
                             ProgressListener progressListener = new ProgressListener();
-                            DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, con.getContentLength(), callBack);
+                            DownloadOutputStream downloadCount = new DownloadOutputStream(outputStream, connection.getContentLength(), callBack);
                             downloadCount.setListener(progressListener);
 
                             copySteam(inputStream, downloadCount);

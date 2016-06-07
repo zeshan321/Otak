@@ -1,6 +1,6 @@
 package requests;
 
-import callback.HTTPCallback;
+import callbacks.HTTPCallback;
 import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -55,18 +55,18 @@ public class HTTPUpload {
                         SSLContext sslContext = SSLContext.getInstance("SSL");
                         sslContext.init(null, new TrustManager[]{trustManager}, null);
 
-                        HttpsURLConnection con = (HttpsURLConnection) urlObj.openConnection();
+                        HttpsURLConnection connection = (HttpsURLConnection) urlObj.openConnection();
 
-                        con.setHostnameVerifier(new NullHostNameVerifier());
-                        con.setSSLSocketFactory(sslContext.getSocketFactory());
+                        connection.setHostnameVerifier(new NullHostNameVerifier());
+                        connection.setSSLSocketFactory(sslContext.getSocketFactory());
 
-                        con.setRequestMethod("POST");
-                        con.setRequestProperty("Content-Encoding", "gzip");
-                        con.setRequestProperty("User-Agent", USER_AGENT);
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Content-Encoding", "gzip");
+                        connection.setRequestProperty("User-Agent", USER_AGENT);
 
-                        con.setDoOutput(true);
+                        connection.setDoOutput(true);
                         FileInputStream fileInputStream = new FileInputStream(file);
-                        GZIPOutputStream outputStream = new GZIPOutputStream(con.getOutputStream());
+                        GZIPOutputStream outputStream = new GZIPOutputStream(connection.getOutputStream());
 
                         try {
                             copySteam(fileInputStream, outputStream);
@@ -76,7 +76,7 @@ public class HTTPUpload {
                         }
 
 
-                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(connection.getInputStream());
                         BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
@@ -87,18 +87,19 @@ public class HTTPUpload {
                         }
                         in.close();
 
-                        IOUtils.closeQuietly(con.getInputStream());
+                        IOUtils.closeQuietly(connection.getInputStream());
                         callback.onSuccess(url, stringBuilder.toString());
                     } else {
                         URL urlObj = new URL(url);
-                        HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+                        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
-                        con.setRequestMethod("POST");
-                        con.setRequestProperty("User-Agent", USER_AGENT);
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Content-Encoding", "gzip");
+                        connection.setRequestProperty("User-Agent", USER_AGENT);
 
-                        con.setDoOutput(true);
+                        connection.setDoOutput(true);
                         FileInputStream fileInputStream = new FileInputStream(file);
-                        GZIPOutputStream outputStream = new GZIPOutputStream(con.getOutputStream());
+                        GZIPOutputStream outputStream = new GZIPOutputStream(connection.getOutputStream());
 
                         try {
                             copySteam(fileInputStream, outputStream);
@@ -107,7 +108,7 @@ public class HTTPUpload {
                             IOUtils.closeQuietly(outputStream);
                         }
 
-                        GZIPInputStream gzipInputStream = new GZIPInputStream(con.getInputStream());
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(connection.getInputStream());
                         BufferedReader in = new BufferedReader(new InputStreamReader(gzipInputStream));
 
                         String inputLine;
@@ -118,7 +119,7 @@ public class HTTPUpload {
                         }
                         in.close();
 
-                        IOUtils.closeQuietly(con.getInputStream());
+                        IOUtils.closeQuietly(connection.getInputStream());
                         callback.onSuccess(url, stringBuilder.toString());
                     }
                 } catch (Exception e) {

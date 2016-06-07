@@ -1,6 +1,6 @@
 package requests;
 
-import callback.DownloadCallback;
+import callbacks.DownloadCallback;
 import org.apache.commons.io.output.CountingOutputStream;
 
 import java.awt.event.ActionEvent;

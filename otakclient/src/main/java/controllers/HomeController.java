@@ -1,8 +1,9 @@
 package controllers;
 
-import callback.DownloadCallback;
-import callback.HTTPCallback;
-import callback.TaskCallback;
+import callbacks.DownloadCallback;
+import callbacks.HTTPCallback;
+import callbacks.NetworkChangeCallback;
+import callbacks.TaskCallback;
 import com.zeshanaslam.otak.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
@@ -89,38 +90,11 @@ public class HomeController implements Initializable {
                     loadFiles(data.getContent());
                 }
 
-                Parameters parameters = new Parameters();
-                parameters.add("pass", config.getString("pass"));
-
-                new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
-                    @Override
-                    public void onSuccess(String IP, String response) {
-                        // Server status offline
-                        runScript("serverStatus('online');");
-
-                        JSONObject jsonObject = new JSONObject(response);
-
-                        if (jsonObject.getBoolean("success")) {
-                            data.set(response);
-                            data.save();
-
-                            loadFiles(data.getContent());
-                        } else {
-                            if (data.getContent() != null) {
-                                loadFiles(data.getContent());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-                        // Server status offline
-                        runScript("serverStatus('offline');");
-                    }
-                });
+                connect();
             }
         });
 
+        // Drag and drop
         webView.setOnDragOver(event -> {
             event.acceptTransferModes(TransferMode.ANY);
             event.consume();
@@ -173,6 +147,28 @@ public class HomeController implements Initializable {
             }
             event.setDropCompleted(success);
             event.consume();
+        });
+
+        // Server status checker
+        new NetworkHandler(config.getString("IP")).run(new NetworkChangeCallback() {
+            @Override
+            public void onNetworkChange(NetworkType networkType) {
+                switch (networkType) {
+                    case ONLINE:
+                        runScript("serverStatus('online');");
+
+                        connect();
+                        break;
+
+                    case OFFLINE:
+                        runScript("serverStatus('offline');");
+                        break;
+
+                    case UNKNOWN:
+
+                        break;
+                }
+            }
         });
     }
 
@@ -487,5 +483,41 @@ public class HomeController implements Initializable {
 
         String url = config.getString("IP") + "/stream" + parameters.toString();
         runScript("openPlayerSelect('" + url + "')");
+    }
+
+    private void connect() {
+        // Load files
+        Data data = new Data();
+
+        Parameters parameters = new Parameters();
+        parameters.add("pass", config.getString("pass"));
+
+        new HTTPGet(config.getString("IP") + "/list", parameters.toString()).sendGet(new HTTPCallback() {
+            @Override
+            public void onSuccess(String IP, String response) {
+                // Server status offline
+                runScript("serverStatus('online');");
+
+                JSONObject jsonObject = new JSONObject(response);
+
+                if (jsonObject.getBoolean("success")) {
+                    data.set(response);
+                    data.save();
+
+                    loadFiles(data.getContent());
+                } else {
+                    if (data.getContent() != null) {
+                        loadFiles(data.getContent());
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+
+        // Start socket
+        
     }
 }
