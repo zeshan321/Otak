@@ -211,3 +211,7 @@ a:after {
 #banner{
     background: #FF1100;
 }
+#quote{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
