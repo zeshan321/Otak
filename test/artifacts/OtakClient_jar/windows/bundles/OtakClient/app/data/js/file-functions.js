@@ -159,7 +159,7 @@ function addItem(loc, name, type) {
             break;
         case "png":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "photo-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -167,7 +167,7 @@ function addItem(loc, name, type) {
             break;
         case "gif":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "gif-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -175,7 +175,7 @@ function addItem(loc, name, type) {
             break;
         case "jpeg":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "photo-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -183,7 +183,7 @@ function addItem(loc, name, type) {
             break;
         case "jpg":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "photo-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -191,7 +191,7 @@ function addItem(loc, name, type) {
             break;
         case "tiff":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "photo-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -199,7 +199,7 @@ function addItem(loc, name, type) {
             break;
         case "zip":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "zip-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -207,7 +207,7 @@ function addItem(loc, name, type) {
             break;
         case "tar":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "zip-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -215,7 +215,7 @@ function addItem(loc, name, type) {
             break;
         case "mp4":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "video-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -223,7 +223,7 @@ function addItem(loc, name, type) {
             break;
         case "avi":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "video-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -231,7 +231,7 @@ function addItem(loc, name, type) {
             break;
         case "mpg":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "video-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -239,7 +239,7 @@ function addItem(loc, name, type) {
             break;
         case "mov":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "video-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -247,7 +247,7 @@ function addItem(loc, name, type) {
             break;
         case "mkv":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "video-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -255,7 +255,7 @@ function addItem(loc, name, type) {
             break;
         case "mp3":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "music-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -263,7 +263,7 @@ function addItem(loc, name, type) {
             break;
         case "jar":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "java-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -271,7 +271,7 @@ function addItem(loc, name, type) {
             break;
         case "ai":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "illustrator-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -279,7 +279,7 @@ function addItem(loc, name, type) {
             break;
         case "psd":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "photoshop-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -287,7 +287,7 @@ function addItem(loc, name, type) {
             break;
         case "txt":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "word-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -295,7 +295,7 @@ function addItem(loc, name, type) {
             break;
         case "doc":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "word-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -303,7 +303,7 @@ function addItem(loc, name, type) {
             break;
         case "docx":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "word-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -311,7 +311,7 @@ function addItem(loc, name, type) {
             break;
         case "docs":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "word-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -319,7 +319,7 @@ function addItem(loc, name, type) {
             break;
         case "pages":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "word-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -327,7 +327,7 @@ function addItem(loc, name, type) {
             break;
         case "xls":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "excel-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -335,7 +335,7 @@ function addItem(loc, name, type) {
             break;
         case "numbers":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "excel-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -343,7 +343,7 @@ function addItem(loc, name, type) {
             break;
         case "xlsx":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "excel-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -351,7 +351,7 @@ function addItem(loc, name, type) {
             break;
         case "csv":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "excel-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -359,7 +359,7 @@ function addItem(loc, name, type) {
             break;
         case "ppt":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "presentation-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -367,7 +367,7 @@ function addItem(loc, name, type) {
             break;
         case "keynote":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "presentation-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -375,7 +375,7 @@ function addItem(loc, name, type) {
             break;
         case "pptm":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "presentation-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -383,7 +383,7 @@ function addItem(loc, name, type) {
             break;
         case "pdf":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "pdf-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -391,7 +391,7 @@ function addItem(loc, name, type) {
             break;
         case "css":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "code-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -399,7 +399,7 @@ function addItem(loc, name, type) {
             break;
         case "html":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "code-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -407,7 +407,7 @@ function addItem(loc, name, type) {
             break;
         case "js":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "code-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -415,7 +415,7 @@ function addItem(loc, name, type) {
             break;
         case "py":
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "code-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +
@@ -423,7 +423,7 @@ function addItem(loc, name, type) {
             break;
         default:
             $("#contents").append(
-                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
+                "<div id=\"row-files\" class=\"icon\" onClick=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" oncontextmenu=\"onRowClick(event);\" loc=\"" +
                 loc + "\" name=\"" + name + "\" type=\"" + type +
                 "\"><img src=\"images\/" + "file-icon" +
                 ".svg\"><\/img><br><span data-toggle=\"tooltip\" class=\"File-labels\" title=\"" +

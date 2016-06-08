@@ -32,7 +32,7 @@ import utils.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -40,6 +40,8 @@ public class HomeController implements Initializable {
 
     public Stage stage;
     public QueueManager queueManager;
+
+    private DatagramSocket clientSocket;
 
     // Package local
     String currentDir = "";
@@ -518,6 +520,86 @@ public class HomeController implements Initializable {
         });
 
         // Start socket
-        
+        if (clientSocket != null) {
+            clientSocket.disconnect();
+            clientSocket.close();
+        }
+
+        // Initialize socket
+        try {
+            clientSocket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        byte[] receiveData = new byte[1024];
+
+                        DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
+                        clientSocket.receive(packet);
+
+                        String update = new String(packet.getData());
+                        JSONObject json;
+
+                        if (update.startsWith("Download: ")) {
+                            json = new JSONObject(update.replace("Download: ", ""));
+                            System.out.println("Download: " + json);
+
+                            addItem(new FileObject(json.getString("file"), json.getBoolean("dir"), json.getLong("timestamp")));
+                        }
+
+                        if (update.startsWith("Delete: ")) {
+                            json = new JSONObject(update.replace("Delete: ", ""));
+                            System.out.println("Delete: " + json);
+
+                            QueueObject queueObject = new QueueObject(QueueObject.QueueType.DELETE, new File(config.getString("dir") + File.separator + json.getString("file")));
+
+                            // Remove from UI
+                            runScript("removeItem('" + json.getString("file") + "');");
+                            removeItem(new FileObject(json.getString("file"), queueObject.file.isDirectory(), queueObject.file.lastModified()));
+
+                            // Remove local file
+                            if (queueObject.file.isDirectory()) {
+                                try {
+                                    FileUtils.deleteDirectory(queueObject.file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                queueObject.file.delete();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        // Send server client UUID
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("UUID", config.getString("UUID"));
+        sendMessage("Ping: " + jsonObject);
+    }
+
+    /**
+     * Send message to server socket
+     */
+    private void sendMessage(String message) {
+        try {
+            URL url = new URL(config.getString("IP"));
+            InetAddress address = InetAddress.getByName(url.getHost());
+
+            byte buff[] = message.getBytes();
+            DatagramPacket packetSend = new DatagramPacket(buff, buff.length, address, url.getPort());
+
+            clientSocket.send(packetSend);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
