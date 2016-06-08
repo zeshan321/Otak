@@ -7,6 +7,7 @@ body {
     color: #555;
     padding-top: 50px;
 
+
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
 }
@@ -71,17 +72,15 @@ a:after {
    Wrap Sections
    ========================================================================== */
 
-#btn-options,#btn-options2,#btn-options3 {
-    box-shadow: 0 0 0 5px #40464b inset,0 0 0 10px #40464b inset;
-    background-color: #40464b;
-}
-
-#btn-options:hover {
-    box-shadow: 0 0 0 5px #40464b inset,0 0 0 10px #67DCBD inset;
-}
 
 #headerwrap {
-	background-color: black;
+	
+    background: #005FD9; /* For browsers that do not support gradients */    
+    background: -webkit-linear-gradient(60deg, #320082, #0095FF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(60deg, #320082, #0095FF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(60deg, #320082, #0095FF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(60deg, #320082, #0095FF); /* Standard syntax (must be last) */
+}
 	padding-top: 60px;
 }
 
@@ -170,6 +169,7 @@ a:after {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     filter: url(desaturate.svg#greyscale);
+    opacity: 0.3;
 }
 .icon-bar{
     color:blue;
@@ -179,17 +179,35 @@ a:after {
 }
 .super{
     width: 50%;
-    background-color: #AFABB2;
+    background-color: #CCC8D1;
+    box-shadow: 0 0 0 20px #CCC8D1 inset,0 0 0 40px #CCC8D1 inset;
     height:500px;
     margin-left: 0px;
 }
-
+.super:hover{
+    box-shadow: 0 0 0 20px #CCC8D1 inset,0 0 0 40px #7D06FF inset;
+    -webkit-transition-duration: .5s;
+}
 .pine{
     width: 50%;
     background-color: #CCC8D1;
+    box-shadow: 0 0 0 20px #CCC8D1 inset,0 0 0 40px #CCC8D1 inset;
     height:500px;
     margin-right: 0px;
+    
+}
+.pine:hover{
+    box-shadow: 0 0 0 20px #CCC8D1 inset,0 0 0 40px #006DFF inset;
+    -webkit-transition-duration: .5s;
 }
 .pine-pic{
-    height: 100px;
+    height: 400px;
+}
+
+.logo{
+    margin-top: 20px;
+    height: 5em;
+}
+#banner{
+    background: #FF1100;
 }
