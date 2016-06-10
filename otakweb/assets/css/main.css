@@ -215,3 +215,6 @@ a:after {
     margin-top: 50px;
     margin-bottom: 50px;
 }
+.Abstract h2{
+    line-height: 180%;
+}
