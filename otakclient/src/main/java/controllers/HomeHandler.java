@@ -1,21 +1,30 @@
 package controllers;
 
+import callbacks.ChromeCastCallback;
+import callbacks.OtakServerFoundCallback;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import listeners.ChromeDNSListener;
+import listeners.JmDNSListener;
 import objects.QueueObject;
+import objects.ServerObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.tika.Tika;
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
+import su.litvak.chromecast.api.v2.ChromeCast;
 import utils.Config;
 import utils.PlayerSelect;
 import views.StreamView;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -106,7 +115,7 @@ public class HomeHandler {
         }
     }
 
-    public void launchPlayer(String url, String player) {
+    public void launchPlayer(final String url, String player) {
         switch (player) {
             case "VLC":
                 new PlayerSelect(url).startVLC();
@@ -118,7 +127,27 @@ public class HomeHandler {
                 new StreamView(url).run();
                 break;
             case "Other":
+                try {
+                    JmDNS jmdns = JmDNS.create();
+                    jmdns.addServiceListener("_googlecast._tcp.local.", new ChromeDNSListener(new ChromeCastCallback() {
+                        @Override
+                        public void onFound(ServiceEvent event) {
+                            System.out.println("Found: " + event.getInfo().getName() + " " + event.getInfo().getURL().replace("http://", "").split(":")[0] + " port: " + Integer.valueOf(event.getInfo().getURL().replace("http://", "").split(":")[1]));
+                            ChromeCast chromecast = new ChromeCast(event.getInfo().getURL().replace("http://", "").split(":")[0], Integer.valueOf(event.getInfo().getURL().replace("http://", "").split(":")[1]));
+                            try {
+                                chromecast.connect();
+                                chromecast.load(url);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (GeneralSecurityException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }));
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

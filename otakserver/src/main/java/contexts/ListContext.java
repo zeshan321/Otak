@@ -44,11 +44,15 @@ public class ListContext implements HttpHandler {
         for (File fileIter : filesList) {
             String fileName = fileIter.getAbsolutePath().replace(config.getString("dir"), "").replaceAll("\\\\", "/");
 
+            if (!fileName.startsWith("/")) {
+                fileName = "/" + fileName;
+            }
+
             if (!fileIter.getAbsolutePath().equals(path.toAbsolutePath().toString())) {
                 if (fileIter.isDirectory()) {
-                    jsonArray.put(jsonOutput("/" + fileName, fileIter.lastModified(), true));
+                    jsonArray.put(jsonOutput(fileName, fileIter.lastModified(), true));
                 } else {
-                    jsonArray.put(jsonOutput("/" + fileName, fileIter.lastModified(), false));
+                    jsonArray.put(jsonOutput(fileName, fileIter.lastModified(), false));
                 }
             }
         }
