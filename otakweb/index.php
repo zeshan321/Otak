@@ -1,0 +1,313 @@
+<?php
+//if "email" variable is filled out, send email
+  if (isset($_REQUEST['Mail']))  {
+  
+  //Email information
+  $admin_email = "arslanazam1998@gmail.com";
+  $email = $_REQUEST['Mail'];
+  $subject = $_REQUEST['Name'];
+  $comment = $_REQUEST['Message'];
+  
+  //send email
+  mail($admin_email, "$subject", $comment, "From:" . $email);
+  
+  //Email response
+  echo "Thank you for contacting us!";
+  }
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Otak - Free Bootstrap 3 Theme">
+    <meta name="author" content="Alvarez.is - BlackTie.co">
+    <link rel="shortcut icon" href="assets/img/Otak-icon.svg">
+
+    <title>Otak</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+    
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/smoothscroll.js"></script>
+    
+
+  </head>
+
+  <body data-spy="scroll" data-offset="0" data-target="#navigation">
+
+    <!-- Fixed navbar -->
+	    <div id="navigation" class="navbar navbar-default navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#home"><b>Otak</b></a>
+	        </div>
+	        <div class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav">
+	            <li class="active"><a href="#home" class="smothscroll">Hello</a></li>
+	            <li><a href="#Abstract" class="smothScroll">Abstract</a></li>
+	            <li><a href="#work" class="smothscroll">Work</a></li>
+	            <li><a href="#desc" class="smothscroll">How it works</a></li>
+	            <li><a href="#design" class="smothScroll">Design</a></li>
+	            <li><a href="#showcase" class="smothScroll">Tech Specs</a></li>
+	            <li><a href="#contact" class="smothScroll">Q&A</a></li>
+	          </ul>
+	        </div><!--/.nav-collapse -->
+	      </div>
+
+	    </div>
+<section id="home" name="home"></section>
+	<div id="headerwrap">
+	    <div class="container">
+	    	<div class="row centered">
+	    		<div class="col-lg-12">
+					<img class="centered logo" src="assets/img/Otak-logo-r.png">
+					<h3>The Computer that Controls your Home</h3>
+					<br>
+	    		</div>
+	    		
+	    		<div class="col-lg-2 hidden-xs hidden-sm hidden-md">
+	    			<h5>Amazing Results</h5>
+	    			<p>Great <q>expanding</q> functionality</p>
+	    			<img class="hidden-xs hidden-sm hidden-md" src="assets/img/arrow1.png">
+	    		</div>
+	    		<div class="col-lg-8">
+	    			<img class="img-responsive" src="assets/img/Screen-Shot.png" alt="">
+	    		</div>
+	    		<div class="col-lg-2 hidden-xs hidden-sm hidden-md">
+	    			<br>
+	    			<img class="hidden-xs hidden-sm hidden-md" src="assets/img/arrow2.png">
+	    			<h5>Awesome Design</h5>
+	    			<p>Designed for simplicity</p>
+	    		</div>
+	    	</div>
+	    </div> <!--/ .container -->
+	</div><!--/ #headerwrap -->
+
+<section id="Abstract" name="Abstract"></section>	
+	<!-- FEATURES WRAP -->
+	<div id="features">
+		<div class="container">
+			<div class="row">
+				<h1 class="centered">Abstract</h1>
+				<br>
+				<br>
+				<!--
+				<div class="col-lg-6 centered">
+					<img class="centered" src="assets/img/mobile.svg" alt="">
+				</div>
+				-->
+				<div class="col-lg-12 centered Abstract">
+					
+		            
+		            <h2>Imagine if homes had computers that controlled them. Computers that acted like a brain. They could be able to do anything programably possible. They could make homes more intelligent by acting as a home server, a hub for devices to connect, a media center accessible anywhere. Plug in a hardrive and now your home has as much memory as you need. You would never have to rent from iCloud or Drobox again. </h2>
+		            
+				</div>
+			</div>
+		</div><!--/ .container -->
+	</div><!--/ #features -->
+
+<section id="work" name="work"></section>
+		<div id="banner">
+	    	<div class="row centered">
+	    		<div class="col-lg-12 ">
+	    		<br>
+	    		<br>
+					<h1 style="color:white "><b>Run it on anything from:</b></h1>
+					<h3>A Super Compuer to a Rasberrypi</h3>
+					<br>
+					<br>
+	    		</div>
+	    		
+	    		<div class="col-lg-6 super hidden-xs hidden-sm hidden-md">
+	    			<img class="hidden-xs hidden-sm hidden-md " src="assets/img/ibm-supercomputer.svg">
+	    		</div>
+	    		<div class="col-lg-6 pine hidden-xs hidden-sm hidden-md">
+	    			<br>
+	    			<img class="hidden-xs pine-pic" src="assets/img/pine_a64.svg">
+	    		</div>
+	    	</div>
+	   
+	</div><!--/ #headerwrap -->
+<section id="desc" name="desc"></section>
+
+	<div id="quote">
+	    <div class="container">
+	    	<div class="row centered">
+	    		<div class="col-lg-2">
+	    			<img class="hidden-xs hidden-sm hidden-md" src="assets/img/quote1.svg">
+	    		</div>
+	    		<div class="col-lg-8">
+	    			<h3>It's the solution to having limited space on cloud storage sites. Now you can own the storage instead of renting from Dopbox or One drive.</h3>
+	    		</div>
+	    		<div class="col-lg-2 ">
+	    			<br>
+	    			<img class="hidden-xs hidden-sm hidden-md" src="assets/img/quote2.svg">
+	    		</div>
+	    	</div>
+	    </div> <!--/ .container -->
+	</div><!--/ #headerwrap -->
+	<!-- INTRO WRAP -->
+	<div id="intro">
+		<div class="container">
+			<div class="row centered">
+			<h1 style="padding-bottom: 30px">What is it?</h1>
+				<div class="col-lg-4">
+					<img src="assets/img/brain.svg" alt="">
+
+					<h3>Memory</h3>
+					<p><b>Phase 1</b> is to give each and every home <b>memory</b>, The ability for your home to remember and work with all your files</p>
+				</div>
+				<div class="col-lg-4 desaturate">
+					<img src="assets/img/automation.svg"  alt="">
+					<h3>Automation</h3>
+					<p><b>Phase 2</b> is the ability to connect you homes smart devices to the computer such as speakers and printers allowing you to control you home from anywhere.</p>
+				</div>
+				<div class="col-lg-4 desaturate">
+					<img src="assets/img/mic.svg"  alt="">
+					<h3>Speech</h3>
+					<p><b>Phase 3</b> is to give you the ability to contorl your home through voice commands.like siri and Alexa </p>
+				</div>
+			</div>
+		<section id="design" name="design"></section>
+			<br>
+
+			<hr>
+
+	    </div> <!--/ .container -->
+	    <div class="container">
+			<div class="row centered">
+				<h1>Designed To Excel</h1>
+				<br>
+				<br>
+				<div class="col-lg-4">
+					<img src="assets/img/security.svg" alt="">
+					<h3>Security</h3>
+					<p>Nobody has a physical access to your data but yourself. All exchanges are fully encrypted.</p>
+				</div>
+				<div class="col-lg-4">
+					<img src="assets/img/simple.svg" alt="">
+					<h3>Simplicity</h3>
+					<p>Set it up in 3 steps and you're done. </p>
+				</div>
+				<div class="col-lg-4">
+					<img src="assets/img/img0004.svg" alt="">
+					<h3>API</h3>
+					<p>The current version of Lima will evolve to become the first unified storage service for modern operating systems.</p>
+				</div>
+				<div class="col-lg-4">
+					<img src="assets/img/wifi.svg" alt="">
+					<h3>Works over WiFi, Data or Offline</h3>
+					<p>Access your files anywhre in the world with Data or wifi.</p>
+				</div>
+				<div class="col-lg-4">
+					<img src="assets/img/sync.svg" alt="">
+					<h3>Auto Sync all your files</h3>
+					<p>Replicate all your files from one computer to the rest.</p>
+				</div>
+				<div class="col-lg-4">
+					<img src="assets/img/storage.svg" alt="">
+					<h3>No more size limits</h3>
+					<p>You can choose as much or as little storage Otak has. Just attach your usb or portable hardrives.</p>
+				</div>
+			</div>
+			<br>
+			<hr>
+	    </div> <!--/ .container -->
+	</div><!--/ #introwrap -->
+
+
+	
+	
+	<section id="showcase" name="showcase"></section>
+	<div id="showcase">
+		<div class="container">
+			<div class="row">
+				<h1 class="centered">Some Screenshots</h1>
+				<br>
+				<div class="col-lg-8 col-lg-offset-2">
+					<div id="carousel-example-generic" class="carousel slide">
+					  <!-- Indicators -->
+					  <ol class="carousel-indicators">
+					    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					  </ol>
+					
+					  <!-- Wrapper for slides -->
+					  <div class="carousel-inner">
+					    <div class="item active">
+					      <img src="assets/img/item-01.png" alt="">
+					    </div>
+					    <div class="item">
+					      <img src="assets/img/item-02.png" alt="">
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>	
+		</div><!-- /container -->
+	</div>	
+
+
+	<section id="contact" name="contact"></section>
+	<div id="footerwrap">
+		<div class="container">
+			<div class="col-lg-5">
+				<h3>Suggestions</h3>
+				<p><i>
+				To everybody in the Beta program:</i></p>
+				<q>Please drop us a suggestions or a feature you would like to  see Otak have. What would you like for Otak to do for you to love it!
+				</q>
+			</div>
+			
+			<div class="col-lg-7">
+				<h3>Drop Us A Line</h3>
+				<br>
+				<form role="form" action="#" method="post" enctype="plain"> 
+				  <div class="form-group">
+				    <label for="name1">Your Name</label>
+				    <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
+				  </div>
+				  <div class="form-group">
+				    <label for="email1">Email address</label>
+				    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
+				  </div>
+				  <div class="form-group">
+				  	<label>Your Text</label>
+				  	<textarea class="form-control" name="Message" rows="3"></textarea>
+				  </div>
+				  <br>
+				  <button type="submit" class="btn btn-large btn-success">SUBMIT</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/bootstrap.js"></script>
+	<script>
+	$('.carousel').carousel({
+	  interval: 3500
+	})
+	</script>
+  </body>
+</html>
